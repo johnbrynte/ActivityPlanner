@@ -3,7 +3,7 @@ ActivityPlanner
 
 Interaction programming project for the course [Interaction Programming at KTH](https://www.kth.se/social/course/DH2641/).
 
-# Project description
+## Project description
 
 The project is based on the following requirements (as specified [here](http://www.csc.kth.se/utbildning/kth/kurser/DH2641/iprog11/project.html)):
 
@@ -19,7 +19,7 @@ The project is based on the following requirements (as specified [here](http://w
 * **optional:** *mark weekends in the task planning chart and do not assume that a task is worked upon on a weeked (so if it reaches a Saturday, its duration is prolongued with at least two days)*
 * **optional:** *sort the table by clicking on any of its headings*
 
-# Video prototype
+## Video prototype
 
 A video prototype showing the interaction with the software:
 

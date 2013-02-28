@@ -4,7 +4,6 @@
  */
 package canvasTest;
 
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JComponent;

@@ -10,15 +10,10 @@ public class Task extends JComponent
 {
     private Activity task;
     private boolean  transparent = false;
-    private static Color    border      = null;
-    private static Color    tooEarly    = Color.GRAY;
-    private static Color    tooLate     = Color.GRAY;
-    private static Color    normal      = Color.GREEN;
-    
-    public Task(Activity task)
-    {
-        this.task = task;
-    }
+    private static Color border      = null;
+    private static Color tooEarly    = Color.GRAY;
+    private static Color tooLate     = Color.GRAY;
+    private static Color normal      = Color.GREEN;
     
     /**
      * Associates a certain activity in the Model to this component from witch
@@ -83,9 +78,6 @@ public class Task extends JComponent
     public void paint(Graphics g)
     {
         if (!this.transparent) {
-            double tw = this.getFont().getStringBounds(task.getCustomer(), null).getWidth();
-            double th = this.getFont().getStringBounds(task.getCustomer(), null).getHeight();
-
             // drawing the background
             // the activity start date must be modified during the drag so it
             // is available when dropping to paint the different backgrounds
@@ -102,27 +94,40 @@ public class Task extends JComponent
                 // check the remaining days
                 if (end.after(task.getLatestEndDate())) {
                     int diff2 = (int)((end.getTimeInMillis() - task.getLatestEndDate().getTimeInMillis())/(1000 * 60 * 60 * 24));
+                    
                     g.setColor(tooLate);
                     g.fillRect(dw * (task.getDateSpan() - diff2), 0, dw * diff2, this.getHeight());
+                    
+                    g.setColor(normal);
+                    g.fillRect(dw * diff1, 0, dw * (task.getDateSpan() - diff1 - diff2), this.getHeight());
                 }
                 else {
-                    
+                    g.setColor(normal);
+                    g.fillRect(dw * diff1, 0, dw * (task.getDateSpan() - diff1), this.getHeight());
                 }
-                
             }
             else {
                 // check the remaining days
                 if (end.after(task.getLatestEndDate())) {
+                    int diff2 = (int)((end.getTimeInMillis() - task.getLatestEndDate().getTimeInMillis())/(1000 * 60 * 60 * 24));
                     
+                    g.setColor(tooLate);
+                    g.fillRect(dw * (task.getDateSpan() - diff2), 0, dw * diff2, this.getHeight());
+                    
+                    g.setColor(normal);
+                    g.fillRect(0, 0, dw * (task.getDateSpan() - diff2), this.getHeight());
                 }
                 else {
-                    
+                    g.setColor(normal);
+                    g.fillRect(0, 0, this.getWidth(), this.getHeight());
                 }
             }
 
             // drawing the text centered
-            int ix = (int)((this.getWidth() - tw)/2);
-            int iy = (int)((this.getHeight() - th)/2);
+            double tw = this.getFont().getStringBounds(task.getCustomer(), null).getWidth();
+            double th = this.getFont().getStringBounds(task.getCustomer(), null).getHeight();
+            int    ix = (int)((this.getWidth() - tw)/2);
+            int    iy = (int)((this.getHeight() - th)/2);
             g.drawString(task.getCustomer(), ix, iy);
         }
 

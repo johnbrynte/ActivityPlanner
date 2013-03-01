@@ -72,7 +72,7 @@ public class Task extends JComponent
      * the outer border will be rendered. Useful when dragging.
      * @param b 
      */
-    public void setContentTrasnparent(boolean b)
+    public void setContentTransparent(boolean b)
     {
         this.transparent = b;
     }

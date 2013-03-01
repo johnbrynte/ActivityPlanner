@@ -18,6 +18,6 @@ public class customCanvas extends JComponent
     public void paint(Graphics g)
     {
         g.setColor(Color.RED);
-        g.fillRect(100, 100, 200, 200);
+        g.fillRect(0, 0, 200, 200);
     }
 }

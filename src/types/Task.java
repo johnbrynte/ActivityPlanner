@@ -1,41 +1,78 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package types;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
+import java.util.GregorianCalendar;
 import javax.swing.JComponent;
 import se.kth.csc.iprog.activityplanner.model.Activity;
 
-/**
- *
- * @author adur
- */
 public class Task extends JComponent
 {
     private Activity task;
-    private Color    border      = null;
     private boolean  transparent = false;
     
-    public Task(Activity task)
-    {
-        this.task = task;
-    }
+    private static Color border      = null;
+    private static Color tooEarly    = Color.GRAY;
+    private static Color tooLate     = Color.GRAY;
+    private static Color normal      = Color.GREEN;
     
+    private static final long MILIS_DAY = (1000 * 60 * 60 * 24);
+    
+    /**
+     * Associates a certain activity in the Model to this component from witch
+     * data will be gathered to render this object.
+     * @param task 
+     */
     public void setActivity(Activity task)
     {
         this.task = task;
     }
     
-    public void setBorderColor(Color c)
+    /**
+     * Set the border color for all instances of this custom JComponent.
+     * @param c 
+     */
+    public static void setBorderColor(Color c)
     {
-        this.border = c;
+        border = c;
     }
     
-    public void setContentTrasnparent(boolean b)
+    /**
+     * Set the rendering background color for when the starting date is
+     * previous to the earliest starting date specified in the activity.
+     * @param c 
+     */
+    public static void setEarlyColor(Color c)
+    {
+        tooEarly = c;
+    }
+    
+    /**
+     * Set the rendering background color for when the end date is
+     * later to the lates date specified in the activity.
+     * @param c 
+     */
+    public static void setLateColor(Color c)
+    {
+        tooLate = c;
+    }
+    
+    /**
+     * Set the rendering background color for when the activity period is
+     * between the earliest start and latest end.
+     * @param c 
+     */
+    public static void setNormalColor(Color c)
+    {
+        normal = c;
+    }
+    
+    /**
+     * Makes the component to be partially invisible. When set to true, only
+     * the outer border will be rendered. Useful when dragging.
+     * @param b 
+     */
+    public void setContentTransparent(boolean b)
     {
         this.transparent = b;
     }
@@ -44,15 +81,54 @@ public class Task extends JComponent
     public void paint(Graphics g)
     {
         if (!this.transparent) {
-            double tw = this.getFont().getStringBounds(task.getCustomer(), null).getWidth();
-            double th = this.getFont().getStringBounds(task.getCustomer(), null).getHeight();
-
             // drawing the background
-
+            int dw = this.getWidth()/task.getDateSpan();
+            GregorianCalendar end = task.getEndDate();
+            
+            if (task.getEarliestStartDate().after(task.getStartDate())) {
+                int diff1 = (int)( (task.getEarliestStartDate().getTimeInMillis() - task.getStartDate().getTimeInMillis())/MILIS_DAY);
+                
+                // paint with different color
+                g.setColor(tooEarly);
+                g.fillRect(0, 0, dw * diff1, this.getHeight());
+                
+                // check the remaining days
+                if (end.after(task.getLatestEndDate())) {
+                    int diff2 = (int)((end.getTimeInMillis() - task.getLatestEndDate().getTimeInMillis())/MILIS_DAY);
+                    
+                    g.setColor(tooLate);
+                    g.fillRect(dw * (task.getDateSpan() - diff2), 0, dw * diff2, this.getHeight());
+                    
+                    g.setColor(normal);
+                    g.fillRect(dw * diff1, 0, dw * (task.getDateSpan() - diff1 - diff2), this.getHeight());
+                }
+                else {
+                    g.setColor(normal);
+                    g.fillRect(dw * diff1, 0, dw * (task.getDateSpan() - diff1), this.getHeight());
+                }
+            }
+            else {
+                // check the remaining days
+                if (end.after(task.getLatestEndDate())) {
+                    int diff2 = (int)((end.getTimeInMillis() - task.getLatestEndDate().getTimeInMillis())/MILIS_DAY);
+                    
+                    g.setColor(tooLate);
+                    g.fillRect(dw * (task.getDateSpan() - diff2), 0, dw * diff2, this.getHeight());
+                    
+                    g.setColor(normal);
+                    g.fillRect(0, 0, dw * (task.getDateSpan() - diff2), this.getHeight());
+                }
+                else {
+                    g.setColor(normal);
+                    g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                }
+            }
 
             // drawing the text centered
-            int ix = (int)((this.getWidth() - tw)/2);
-            int iy = (int)((this.getHeight() - th)/2);
+            double tw = this.getFont().getStringBounds(task.getCustomer(), null).getWidth();
+            double th = this.getFont().getStringBounds(task.getCustomer(), null).getHeight();
+            int    ix = (int)((this.getWidth() - tw)/2);
+            int    iy = (int)((this.getHeight() - th)/2);
             g.drawString(task.getCustomer(), ix, iy);
         }
 

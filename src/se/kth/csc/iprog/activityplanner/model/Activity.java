@@ -11,7 +11,7 @@ public class Activity {
 	private GregorianCalendar latestEndDate;
 	private ActivityHolder productionLine;
 	
-	Activity(String customer,int dateSpan,GregorianCalendar earliestStartDate,GregorianCalendar latestEndDate,ActivityHolder productionLine)
+	public Activity(String customer,int dateSpan,GregorianCalendar earliestStartDate,GregorianCalendar latestEndDate,ActivityHolder productionLine)
 	{
 		this.customer=customer;
 		this.dateSpan=dateSpan;

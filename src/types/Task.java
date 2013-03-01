@@ -10,10 +10,13 @@ public class Task extends JComponent
 {
     private Activity task;
     private boolean  transparent = false;
+    
     private static Color border      = null;
     private static Color tooEarly    = Color.GRAY;
     private static Color tooLate     = Color.GRAY;
     private static Color normal      = Color.GREEN;
+    
+    private static final long MILIS_DAY = (1000 * 60 * 60 * 24);
     
     /**
      * Associates a certain activity in the Model to this component from witch
@@ -79,13 +82,11 @@ public class Task extends JComponent
     {
         if (!this.transparent) {
             // drawing the background
-            // the activity start date must be modified during the drag so it
-            // is available when dropping to paint the different backgrounds
             int dw = this.getWidth()/task.getDateSpan();
             GregorianCalendar end = task.getEndDate();
             
             if (task.getEarliestStartDate().after(task.getStartDate())) {
-                int diff1 = (int)( (task.getEarliestStartDate().getTimeInMillis() - task.getStartDate().getTimeInMillis()) / (1000 * 60 * 60 * 24) );
+                int diff1 = (int)( (task.getEarliestStartDate().getTimeInMillis() - task.getStartDate().getTimeInMillis())/MILIS_DAY);
                 
                 // paint with different color
                 g.setColor(tooEarly);
@@ -93,7 +94,7 @@ public class Task extends JComponent
                 
                 // check the remaining days
                 if (end.after(task.getLatestEndDate())) {
-                    int diff2 = (int)((end.getTimeInMillis() - task.getLatestEndDate().getTimeInMillis())/(1000 * 60 * 60 * 24));
+                    int diff2 = (int)((end.getTimeInMillis() - task.getLatestEndDate().getTimeInMillis())/MILIS_DAY);
                     
                     g.setColor(tooLate);
                     g.fillRect(dw * (task.getDateSpan() - diff2), 0, dw * diff2, this.getHeight());
@@ -109,7 +110,7 @@ public class Task extends JComponent
             else {
                 // check the remaining days
                 if (end.after(task.getLatestEndDate())) {
-                    int diff2 = (int)((end.getTimeInMillis() - task.getLatestEndDate().getTimeInMillis())/(1000 * 60 * 60 * 24));
+                    int diff2 = (int)((end.getTimeInMillis() - task.getLatestEndDate().getTimeInMillis())/MILIS_DAY);
                     
                     g.setColor(tooLate);
                     g.fillRect(dw * (task.getDateSpan() - diff2), 0, dw * diff2, this.getHeight());

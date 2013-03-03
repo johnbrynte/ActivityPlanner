@@ -30,17 +30,15 @@ public class PlanningTimeLine extends JPanel {
 	
 	private BufferedImage imageBuffer;
 	
-	public PlanningTimeLine() {
-		
-	}
-	
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
 		GregorianCalendar day = new GregorianCalendar();
+		day.setTimeInMillis(PlanningChart.startDate.getTimeInMillis());
 		Graphics bg = imageBuffer.getGraphics();
 		int year = -1;
+		int week = day.get(GregorianCalendar.WEEK_OF_YEAR);
 		int month = -1;
 		
 		bg.setColor(Color.white);
@@ -83,10 +81,21 @@ public class PlanningTimeLine extends JPanel {
 				}
 			}
 			// print day
-			if(i * PlanningChart.cellWidth > scrollX - PlanningChart.cellWidth) {
+			if(i * PlanningChart.cellWidth > scrollX - PlanningChart.cellWidth - 2) {
 				bg.setColor(Color.black);
 				bg.drawString(getDayName(day) + " " + day.get(GregorianCalendar.DATE),
 						i * PlanningChart.cellWidth - scrollX + MARGIN_X, DATE_Y);
+				
+				if(day.get(GregorianCalendar.WEEK_OF_YEAR) != week) {
+					week = day.get(GregorianCalendar.WEEK_OF_YEAR);
+					
+					bg.drawLine(
+							i * PlanningChart.cellWidth - scrollX, DATE_Y - TEXT_HEIGHT,
+							i * PlanningChart.cellWidth - scrollX, canvasSize.height);
+					bg.drawLine(
+							i * PlanningChart.cellWidth - scrollX + 1, DATE_Y - TEXT_HEIGHT,
+							i * PlanningChart.cellWidth - scrollX + 1, canvasSize.height);
+				}
 			}
 		}
 		

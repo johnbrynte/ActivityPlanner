@@ -28,30 +28,30 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jPanelLeft = new javax.swing.JPanel();
         jPanelLeftTop = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        jLabelLine1 = new javax.swing.JLabel();
+        jLabelLine2 = new javax.swing.JLabel();
+        jLabelLine3 = new javax.swing.JLabel();
+        jLabelLine4 = new javax.swing.JLabel();
+        jLabelPark = new javax.swing.JLabel();
         jPanelLeftBottom = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        jButtonAdd = new javax.swing.JButton();
+        jButtonRemove = new javax.swing.JButton();
         jPanelRight = new javax.swing.JPanel();
         jPanelRightTop = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
+        jPanelInsideScrollPane = new javax.swing.JPanel();
         jLayeredPane1 = new javax.swing.JLayeredPane();
-        jButton4 = new javax.swing.JButton();
+        jButtonFloating = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        jButton7 = new javax.swing.JButton();
-        jPanel7 = new javax.swing.JPanel();
-        jButton8 = new javax.swing.JButton();
+        jPanelTimeline = new javax.swing.JPanel();
+        jButtonTimeline = new javax.swing.JButton();
+        jPanelCanvas = new javax.swing.JPanel();
+        jButtonInsideCanvas = new javax.swing.JButton();
         jPanelRightBottom = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        jButtonTable = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(400, 400));
-        setPreferredSize(new java.awt.Dimension(600, 600));
+        setPreferredSize(new java.awt.Dimension(900, 600));
 
         jPanelLeft.setMinimumSize(new java.awt.Dimension(100, 100));
         jPanelLeft.setPreferredSize(new java.awt.Dimension(100, 577));
@@ -59,123 +59,123 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jPanelLeftTop.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("Line1");
-        jPanelLeftTop.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
+        jLabelLine1.setText("Line1");
+        jPanelLeftTop.add(jLabelLine1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
 
-        jLabel2.setText("Park");
-        jPanelLeftTop.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, -1, -1));
+        jLabelLine2.setText("Line2");
+        jPanelLeftTop.add(jLabelLine2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
 
-        jLabel3.setText("Line2");
-        jPanelLeftTop.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
+        jLabelLine3.setText("Line3");
+        jPanelLeftTop.add(jLabelLine3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, -1));
 
-        jLabel4.setText("Line4");
-        jPanelLeftTop.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, -1, -1));
+        jLabelLine4.setText("Line4");
+        jPanelLeftTop.add(jLabelLine4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, -1, -1));
 
-        jLabel5.setText("Line3");
-        jPanelLeftTop.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, -1));
+        jLabelPark.setText("Park");
+        jPanelLeftTop.add(jLabelPark, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, -1, -1));
 
         jPanelLeft.add(jPanelLeftTop);
 
         jPanelLeftBottom.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton5.setText("Remove");
-        jPanelLeftBottom.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 80, -1));
+        jButtonAdd.setText("Add");
+        jPanelLeftBottom.add(jButtonAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 80, -1));
 
-        jButton6.setText("Add");
-        jPanelLeftBottom.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 80, -1));
+        jButtonRemove.setText("Remove");
+        jPanelLeftBottom.add(jButtonRemove, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 80, -1));
 
         jPanelLeft.add(jPanelLeftBottom);
 
-        getContentPane().add(jPanelLeft, java.awt.BorderLayout.LINE_START);
+        getContentPane().add(jPanelLeft, java.awt.BorderLayout.WEST);
 
         jPanelRight.setLayout(new java.awt.GridLayout(0, 1));
 
         jPanelRightTop.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
-        jPanel1.setMinimumSize(new java.awt.Dimension(760, 210));
-        jPanel1.setPreferredSize(new java.awt.Dimension(760, 210));
+        jPanelInsideScrollPane.setMinimumSize(new java.awt.Dimension(760, 210));
+        jPanelInsideScrollPane.setPreferredSize(new java.awt.Dimension(760, 210));
 
         jLayeredPane1.setMinimumSize(new java.awt.Dimension(881, 100));
 
-        jButton4.setText("Activity number 1 (here you see the application of the layeredPanel)");
-        jButton4.setBounds(100, 130, 361, 23);
-        jLayeredPane1.add(jButton4, javax.swing.JLayeredPane.DRAG_LAYER);
+        jButtonFloating.setText("Activity number 1 (here you see the application of the layeredPanel)");
+        jButtonFloating.setBounds(100, 130, 361, 23);
+        jLayeredPane1.add(jButtonFloating, javax.swing.JLayeredPane.DRAG_LAYER);
 
         jPanel5.setLayout(new java.awt.BorderLayout());
 
-        jPanel6.setPreferredSize(new java.awt.Dimension(430, 50));
+        jPanelTimeline.setPreferredSize(new java.awt.Dimension(430, 50));
 
-        jButton7.setText("jButton7");
+        jButtonTimeline.setText("jButton7");
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE)
+        javax.swing.GroupLayout jPanelTimelineLayout = new javax.swing.GroupLayout(jPanelTimeline);
+        jPanelTimeline.setLayout(jPanelTimelineLayout);
+        jPanelTimelineLayout.setHorizontalGroup(
+            jPanelTimelineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTimelineLayout.createSequentialGroup()
+                .addComponent(jButtonTimeline, javax.swing.GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+        jPanelTimelineLayout.setVerticalGroup(
+            jPanelTimelineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jButtonTimeline, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
         );
 
-        jPanel5.add(jPanel6, java.awt.BorderLayout.NORTH);
+        jPanel5.add(jPanelTimeline, java.awt.BorderLayout.NORTH);
 
-        jPanel7.setPreferredSize(new java.awt.Dimension(430, 160));
+        jPanelCanvas.setPreferredSize(new java.awt.Dimension(430, 160));
 
-        jButton8.setText("jButton8");
+        jButtonInsideCanvas.setText("jButton8");
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelCanvasLayout = new javax.swing.GroupLayout(jPanelCanvas);
+        jPanelCanvas.setLayout(jPanelCanvasLayout);
+        jPanelCanvasLayout.setHorizontalGroup(
+            jPanelCanvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelCanvasLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonInsideCanvas, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(286, Short.MAX_VALUE))
         );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
+        jPanelCanvasLayout.setVerticalGroup(
+            jPanelCanvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelCanvasLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonInsideCanvas, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(43, Short.MAX_VALUE))
         );
 
-        jPanel5.add(jPanel7, java.awt.BorderLayout.CENTER);
+        jPanel5.add(jPanelCanvas, java.awt.BorderLayout.CENTER);
 
         jPanel5.setBounds(0, 0, 760, 210);
         jLayeredPane1.add(jPanel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelInsideScrollPaneLayout = new javax.swing.GroupLayout(jPanelInsideScrollPane);
+        jPanelInsideScrollPane.setLayout(jPanelInsideScrollPaneLayout);
+        jPanelInsideScrollPaneLayout.setHorizontalGroup(
+            jPanelInsideScrollPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelInsideScrollPaneLayout.createSequentialGroup()
                 .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 760, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanelInsideScrollPaneLayout.setVerticalGroup(
+            jPanelInsideScrollPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        jPanelRightTop.setViewportView(jPanel1);
+        jPanelRightTop.setViewportView(jPanelInsideScrollPane);
 
         jPanelRight.add(jPanelRightTop);
 
-        jButton2.setText("jButton2");
+        jButtonTable.setText("jButton2");
 
         javax.swing.GroupLayout jPanelRightBottomLayout = new javax.swing.GroupLayout(jPanelRightBottom);
         jPanelRightBottom.setLayout(jPanelRightBottomLayout);
         jPanelRightBottomLayout.setHorizontalGroup(
             jPanelRightBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
+            .addComponent(jButtonTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
         );
         jPanelRightBottomLayout.setVerticalGroup(
             jPanelRightBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+            .addComponent(jButtonTable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
         );
 
         jPanelRight.add(jPanelRightBottom);
@@ -220,27 +220,27 @@ public class NewJFrame extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JButton jButtonAdd;
+    private javax.swing.JButton jButtonFloating;
+    private javax.swing.JButton jButtonInsideCanvas;
+    private javax.swing.JButton jButtonRemove;
+    private javax.swing.JButton jButtonTable;
+    private javax.swing.JButton jButtonTimeline;
+    private javax.swing.JLabel jLabelLine1;
+    private javax.swing.JLabel jLabelLine2;
+    private javax.swing.JLabel jLabelLine3;
+    private javax.swing.JLabel jLabelLine4;
+    private javax.swing.JLabel jLabelPark;
     private javax.swing.JLayeredPane jLayeredPane1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanelCanvas;
+    private javax.swing.JPanel jPanelInsideScrollPane;
     private javax.swing.JPanel jPanelLeft;
     private javax.swing.JPanel jPanelLeftBottom;
     private javax.swing.JPanel jPanelLeftTop;
     private javax.swing.JPanel jPanelRight;
     private javax.swing.JPanel jPanelRightBottom;
     private javax.swing.JScrollPane jPanelRightTop;
+    private javax.swing.JPanel jPanelTimeline;
     // End of variables declaration//GEN-END:variables
 }

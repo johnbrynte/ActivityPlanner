@@ -8,10 +8,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JPanel;
 
-public class PlanningTimeLine extends JPanel {
+public class PlanningTimeLine extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1L;
 
@@ -30,12 +32,19 @@ public class PlanningTimeLine extends JPanel {
 	
 	private BufferedImage imageBuffer;
 	
+	public PlanningTimeLine(PlanningChartModel model) {
+		model.addObserver(this);
+	}
+	
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		GregorianCalendar day = new GregorianCalendar();
-		day.setTimeInMillis(PlanningChart.startDate.getTimeInMillis());
+		if(imageBuffer == null)
+			return;
+		
+		GregorianCalendar day = new GregorianCalendar(Locale.ITALY);
+		day.setTimeInMillis(PlanningChartModel.startDate.getTimeInMillis());
 		Graphics bg = imageBuffer.getGraphics();
 		int year = -1;
 		int week = day.get(GregorianCalendar.WEEK_OF_YEAR);
@@ -44,57 +53,57 @@ public class PlanningTimeLine extends JPanel {
 		bg.setColor(Color.white);
 		bg.fillRect(0, 0, canvasSize.width, canvasSize.height);
 		
-		for (int i = 0; i < PlanningChart.daysBetween; i++) {
-			day.setTimeInMillis(PlanningChart.startDate.getTimeInMillis() +
-					((long) i) * PlanningChart.DAY_IN_MILLIS);
+		for (int i = 0; i < PlanningChartModel.daysBetween; i++) {
+			day.setTimeInMillis(PlanningChartModel.startDate.getTimeInMillis() +
+					((long) i) * PlanningChartModel.DAY_IN_MILLIS);
 			
 			// print year
 			if(day.get(GregorianCalendar.YEAR) != year) {
 				year = day.get(GregorianCalendar.YEAR);
 				
-				if(i * PlanningChart.cellWidth < scrollX) {
+				if(i * PlanningChartModel.cellWidth < scrollX) {
 					clearBox(bg, 0, YEAR_Y - TEXT_HEIGHT);
 					bg.setColor(Color.black);
 					bg.drawString(Integer.toString(day.get(GregorianCalendar.YEAR)),
 							MARGIN_X, YEAR_Y);
 				} else {
-					clearBox(bg, i * PlanningChart.cellWidth - scrollX, YEAR_Y - TEXT_HEIGHT);
+					clearBox(bg, i * PlanningChartModel.cellWidth - scrollX, YEAR_Y - TEXT_HEIGHT);
 					bg.setColor(Color.black);
 					bg.drawString(Integer.toString(day.get(GregorianCalendar.YEAR)),
-							i * PlanningChart.cellWidth - scrollX + MARGIN_X, YEAR_Y);
+							i * PlanningChartModel.cellWidth - scrollX + MARGIN_X, YEAR_Y);
 				}
 			}
 			// print month
 			if(day.get(GregorianCalendar.MONTH) != month) {
 				month = day.get(GregorianCalendar.MONTH);
 				
-				if(i * PlanningChart.cellWidth < scrollX) {
+				if(i * PlanningChartModel.cellWidth < scrollX) {
 					clearBox(bg, 0, MONTH_Y - TEXT_HEIGHT);
 					bg.setColor(Color.black);
 					bg.drawString(getMonthName(day),
 							MARGIN_X, MONTH_Y);
 				} else {
-					clearBox(bg, i * PlanningChart.cellWidth - scrollX, MONTH_Y - TEXT_HEIGHT);
+					clearBox(bg, i * PlanningChartModel.cellWidth - scrollX, MONTH_Y - TEXT_HEIGHT);
 					bg.setColor(Color.black);
 					bg.drawString(getMonthName(day),
-							i * PlanningChart.cellWidth - scrollX + MARGIN_X, MONTH_Y);
+							i * PlanningChartModel.cellWidth - scrollX + MARGIN_X, MONTH_Y);
 				}
 			}
 			// print day
-			if(i * PlanningChart.cellWidth > scrollX - PlanningChart.cellWidth - 2) {
+			if(i * PlanningChartModel.cellWidth > scrollX - PlanningChartModel.cellWidth - 2) {
 				bg.setColor(Color.black);
 				bg.drawString(getDayName(day) + " " + day.get(GregorianCalendar.DATE),
-						i * PlanningChart.cellWidth - scrollX + MARGIN_X, DATE_Y);
+						i * PlanningChartModel.cellWidth - scrollX + MARGIN_X, DATE_Y);
 				
 				if(day.get(GregorianCalendar.WEEK_OF_YEAR) != week) {
 					week = day.get(GregorianCalendar.WEEK_OF_YEAR);
 					
 					bg.drawLine(
-							i * PlanningChart.cellWidth - scrollX, DATE_Y - TEXT_HEIGHT,
-							i * PlanningChart.cellWidth - scrollX, canvasSize.height);
+							i * PlanningChartModel.cellWidth - scrollX, DATE_Y - TEXT_HEIGHT,
+							i * PlanningChartModel.cellWidth - scrollX, canvasSize.height);
 					bg.drawLine(
-							i * PlanningChart.cellWidth - scrollX + 1, DATE_Y - TEXT_HEIGHT,
-							i * PlanningChart.cellWidth - scrollX + 1, canvasSize.height);
+							i * PlanningChartModel.cellWidth - scrollX + 1, DATE_Y - TEXT_HEIGHT,
+							i * PlanningChartModel.cellWidth - scrollX + 1, canvasSize.height);
 				}
 			}
 		}
@@ -106,15 +115,6 @@ public class PlanningTimeLine extends JPanel {
 		this.scrollX = scrollX;
 		
 		repaint();
-	}
-
-	public void notifySizeChange() {
-		imageBuffer = new BufferedImage(
-				PlanningChart.canvasSize.width, PlanningChart.canvasSize.height,
-				BufferedImage.TYPE_INT_ARGB);
-
-		canvasSize.width = PlanningChart.canvasSize.width;
-		setPreferredSize(canvasSize);
 	}
 	
 	private void clearBox(Graphics g, int x, int y) {
@@ -139,6 +139,16 @@ public class PlanningTimeLine extends JPanel {
 		} catch (Exception e) {
 			return "";
 		}
+	}
+
+	@Override
+	public void update(Observable model, Object data) {
+		imageBuffer = new BufferedImage(
+				PlanningChartModel.canvasSize.width, PlanningChartModel.canvasSize.height,
+				BufferedImage.TYPE_INT_ARGB);
+
+		canvasSize.width = PlanningChartModel.canvasSize.width;
+		setPreferredSize(canvasSize);
 	}
 
 }

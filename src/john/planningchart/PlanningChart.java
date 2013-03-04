@@ -3,111 +3,74 @@ package john.planningchart;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.ScrollPane;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.GregorianCalendar;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import types.Task;
 
-public class PlanningChart extends JPanel {
+public class PlanningChart extends JPanel implements Observer {
 	
 	private static final long serialVersionUID = 1L;
-
-	public static final int DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 	
-	private PlanningCanvas canvas;
 	private PlanningTimeLine timeLine;
+	private ChartView canvas;
+	private PlanningPark planningPark;
 	private JLayeredPane layeredPane;
-	private JScrollPane scrollPane;
-	
-	public static Dimension canvasSize = new Dimension();
-	public static int cellWidth = 50;
-	public static int cellHeight = 30;
-	public static int rows = 5;
+	private JScrollPane canvasScrollPane;
+	private JScrollPane parkScrollPane;
 
-	public static GregorianCalendar startDate;
-	public static GregorianCalendar endDate;
-	public static int daysBetween;
-	
-	public static void main(String[] args) {
-		JFrame window = new JFrame("Activity chart");
-		PlanningChart planningChart = new PlanningChart();
+	public PlanningChart(PlanningChartModel model) {
+		model.addObserver(this);
 		
-		window.add(planningChart, BorderLayout.CENTER);
-		
-		window.pack();
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setVisible(true);
-	}
-
-	public PlanningChart() {
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(600, 400));
 
-		timeLine = new PlanningTimeLine();
+		timeLine = new PlanningTimeLine(model);
 		add(timeLine, BorderLayout.NORTH);
 		
-		canvas = new PlanningCanvas();
-		layeredPane = new JLayeredPane();
-		layeredPane.add(canvas, new Integer(1));
-		
-		scrollPane = new JScrollPane(layeredPane);
-		scrollPane.setBorder(null);
-		scrollPane.getViewport().addChangeListener(new ChangeListener() {
-
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				timeLine.notifyScrollChange(scrollPane.getViewport().getViewPosition().x);
-			}
-
-		});
-		add(scrollPane, BorderLayout.CENTER);
+		canvas = new ChartView(model);
+		add(canvas, BorderLayout.CENTER);
 		
 		JButton task = new JButton("Task 1");
-		task.setSize(new Dimension(cellWidth * 3, cellHeight));
+		task.setSize(new Dimension(PlanningChartModel.cellWidth * 3, PlanningChartModel.cellHeight));
 		layeredPane.add(task, new Integer(2));
 		
 		task = new JButton("Task 2");
-		task.setLocation(cellWidth * 3, 0);
-		task.setSize(new Dimension(cellWidth * 4, cellHeight));
+		task.setLocation(PlanningChartModel.cellWidth * 3, 0);
+		task.setSize(new Dimension(PlanningChartModel.cellWidth * 4, PlanningChartModel.cellHeight));
 		layeredPane.add(task, new Integer(2));
 		
 		task = new JButton("Task 3");
-		task.setLocation(cellWidth * 2, cellHeight);
-		task.setSize(new Dimension(cellWidth * 6, cellHeight));
+		task.setLocation(PlanningChartModel.cellWidth * 2, PlanningChartModel.cellHeight);
+		task.setSize(new Dimension(PlanningChartModel.cellWidth * 6, PlanningChartModel.cellHeight));
 		layeredPane.add(task, new Integer(2));
 		
-		setDateLimits(
-				new GregorianCalendar(2012, 11, 20),
-				new GregorianCalendar(2013, 2, 10));
+		planningPark = new PlanningPark(model);
+		parkScrollPane = new JScrollPane(planningPark);
+		parkScrollPane.setBorder(null);
+		//parkScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		Dimension scrollBarSize = new Dimension(0, PlanningChartModel.cellHeight + 20);
+		parkScrollPane.setPreferredSize(scrollBarSize);
+		parkScrollPane.setMinimumSize(scrollBarSize);
+		add(parkScrollPane, BorderLayout.SOUTH);
 	}
-	
-	public void setDateLimits(GregorianCalendar cal1, GregorianCalendar cal2) {
-		startDate = cal1;
-		endDate = cal2;
-		daysBetween = (int) (
-				(endDate.getTimeInMillis() - startDate.getTimeInMillis()) / DAY_IN_MILLIS + 1);
-		canvasSize.width = cellWidth * daysBetween;
-		canvasSize.height = cellHeight * rows;
 
-		layeredPane.setPreferredSize(canvasSize);
-		canvas.notifySizeChange();
-		timeLine.notifySizeChange();
-	}
-	
-	public Point getAlignedCoordinates(Task task) {
-		return new Point(
-				(int) ((task.getLocation().x - getLocation().x +
-				scrollPane.getViewport().getViewPosition().x) / cellWidth),
-				
-				(int) ((task.getLocation().y - getLocation().y +
-				scrollPane.getViewport().getViewPosition().y) / cellHeight));
+	@Override
+	public void update(Observable model, Object data) {
+		layeredPane.setPreferredSize(PlanningChartModel.canvasSize);
 	}
 	
 }

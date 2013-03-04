@@ -16,12 +16,12 @@ public class ChartController implements MouseInputListener
         this.view = v;
     }
     
-    void startComm()
+    public void startComm()
     {
         communication = true;
     }
 
-    void endComm()
+    public void endComm()
     {
         communication = false;
     }
@@ -39,6 +39,8 @@ public class ChartController implements MouseInputListener
     @Override
     public void mouseReleased(MouseEvent e)
     {
+        int x = e.getX();
+        int y = e.getY();
         /*
         boolean result = view. ...
         if (result) {

@@ -1,5 +1,6 @@
-package mvc;
+package mvc.controllers;
 
+import mvc.*;
 import java.awt.event.MouseEvent;
 
 public class DnDController

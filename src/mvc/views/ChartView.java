@@ -1,4 +1,4 @@
-package mvc;
+package mvc.views;
 
 public class ChartView
 {

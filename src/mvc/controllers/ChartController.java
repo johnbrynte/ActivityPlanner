@@ -1,7 +1,8 @@
-package mvc;
+package mvc.controllers;
 
 import java.awt.event.MouseEvent;
 import javax.swing.event.MouseInputListener;
+import mvc.views.ChartView;
 
 public class ChartController implements MouseInputListener
 {

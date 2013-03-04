@@ -2,6 +2,19 @@ package types;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragGestureEvent;
+import java.awt.dnd.DragGestureListener;
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DragSourceDragEvent;
+import java.awt.dnd.DragSourceDropEvent;
+import java.awt.dnd.DragSourceEvent;
+import java.awt.dnd.DragSourceListener;
+import java.awt.dnd.InvalidDnDOperationException;
+import java.io.IOException;
 import java.util.GregorianCalendar;
 import javax.swing.JComponent;
 import se.kth.csc.iprog.activityplanner.model.Activity;
@@ -137,5 +150,11 @@ public class Task extends JComponent
         else                { g.setColor(Color.black); }
         g.drawRect(0, 0, this.getWidth(), this.getHeight());
     }
+ 
+    
+    /**************************************************************************/
+    /** DRAG AND DROP *********************************************************/
+    /**************************************************************************/
+    
     
 }

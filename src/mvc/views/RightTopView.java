@@ -4,7 +4,6 @@
  */
 package mvc.views;
 
-import views.*;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;

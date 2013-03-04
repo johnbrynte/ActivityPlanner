@@ -4,7 +4,6 @@
  */
 package mvc.views;
 
-import views.*;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;

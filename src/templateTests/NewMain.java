@@ -6,10 +6,10 @@ package templateTests;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import templateTests.views.LeftBottomView;
-import templateTests.views.LeftTopView;
-import templateTests.views.RightBottomView;
-import templateTests.views.RightTopView;
+import views.LeftBottomView;
+import views.LeftTopView;
+import views.RightBottomView;
+import views.RightTopView;
 
 /**
  *

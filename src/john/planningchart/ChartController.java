@@ -2,6 +2,7 @@ package john.planningchart;
 
 import java.awt.event.MouseEvent;
 
+import javax.swing.JScrollPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -12,11 +13,11 @@ import javax.swing.event.ChangeListener;
  */
 public class ChartController implements ChangeListener {
 
-	private ChartView view;
+	private PlanningView view;
 	
 	private int horizontalScroll;
 	
-	public ChartController(ChartView view) {
+	public ChartController(PlanningView view) {
 		this.view = view;
 		
 		horizontalScroll = 0;
@@ -24,11 +25,15 @@ public class ChartController implements ChangeListener {
 
 	@Override
 	public void stateChanged(ChangeEvent event) {
-		if(view.scrollPane.getViewport().getViewPosition().x != horizontalScroll) {
-			horizontalScroll = view.scrollPane.getViewport().getViewPosition().x;
+		JScrollPane chartView = view.chartView.getComponent();
+		
+		if(chartView.getViewport().getViewPosition().x != horizontalScroll) {
+			horizontalScroll = chartView.getViewport().getViewPosition().x;
 			
-			view.timeLine.notifyScrollChange(horizontalScroll);
+			view.timeLineView.notifyScrollChange(horizontalScroll);
 		}
+		
+		view.parkView.updateSize();
 	}
 	
 	public void dropEvent(MouseEvent event) {

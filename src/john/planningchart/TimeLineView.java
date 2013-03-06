@@ -1,7 +1,5 @@
 package john.planningchart;
 
-import javax.swing.JPanel;
-
 /**
  * The Time Line View displays a time line that corresponds
  * to the borders in the Chart View.
@@ -19,8 +17,8 @@ public class TimeLineView {
 	 * Returns this component.
 	 * @return this component.
 	 */
-	public JPanel getComponent() {
-		return (JPanel) timeLinePanel;
+	public TimeLinePanel getComponent() {
+		return timeLinePanel;
 	}
 	
 	/**
@@ -39,4 +37,5 @@ public class TimeLineView {
 	public void notifyScrollChange(int scrollX) {
 		timeLinePanel.setHorizontalScroll(scrollX);
 	}
+
 }

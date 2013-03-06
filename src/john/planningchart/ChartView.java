@@ -16,15 +16,12 @@ public class ChartView {
 	private JLayeredPane layeredPane;
 	private ChartController chartController;
 	private ChartCanvas chartCanvas;
+	private JScrollPane scrollPane;
 
-	public TimeLineView timeLine;
-	public JScrollPane scrollPane;
-
-	public ChartView(PlanningView view, TimeLineView timeLine) {
+	public ChartView(PlanningView view) {
 		this.view = view;
-		this.timeLine = timeLine;
 		
-		chartController = new ChartController(this);
+		chartController = new ChartController(view);
 		
 		chartCanvas = new ChartCanvas(view);
 		

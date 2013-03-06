@@ -19,9 +19,10 @@ public class PlanningView implements Observer {
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel planningPanel;
-	private TimeLineView timeLineView;
-	private ChartView chartView;
-	private ParkView parkView;
+	
+	public TimeLineView timeLineView;
+	public ChartView chartView;
+	public ParkView parkView;
 	
 	public Dimension canvasSize = new Dimension();
 	public int cellWidth = 50;
@@ -39,7 +40,7 @@ public class PlanningView implements Observer {
 		timeLineView = new TimeLineView(this);
 		planningPanel.add(timeLineView.getComponent(), BorderLayout.NORTH);
 		
-		chartView = new ChartView(this, timeLineView);
+		chartView = new ChartView(this);
 		planningPanel.add(chartView.getComponent(), BorderLayout.CENTER);
 		
 		parkView = new ParkView(model, this);

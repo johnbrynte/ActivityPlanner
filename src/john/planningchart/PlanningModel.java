@@ -1,7 +1,6 @@
 package john.planningchart;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.util.GregorianCalendar;
 import java.util.Observable;
@@ -9,30 +8,28 @@ import java.util.Observable;
 import javax.swing.JFrame;
 
 import types.Task;
-
-public class PlanningChartModel extends Observable {
-
-	public static final int DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
+/**
+ * The model of the planning area.
+ * @author John
+ */
+public class PlanningModel extends Observable {
 	
-	public static Dimension canvasSize = new Dimension();
-	public static int cellWidth = 50;
-	public static int cellHeight = 30;
-	public static int rows = 5;
-
-	public static GregorianCalendar startDate;
-	public static GregorianCalendar endDate;
-	public static int daysBetween;
+	private final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
+	
+	public GregorianCalendar startDate;
+	public GregorianCalendar endDate;
+	public int daysBetween;
 	
 	public static void main(String[] args) {
 		JFrame window = new JFrame("Activity chart");
-		PlanningChartModel model = new PlanningChartModel();
-		PlanningChart planningChart = new PlanningChart(model);
+		PlanningModel model = new PlanningModel();
+		PlanningView planningChart = new PlanningView(model);
 		
 		model.setDateLimits(
 				new GregorianCalendar(2012, 11, 20),
 				new GregorianCalendar(2013, 2, 10));
 		
-		window.add(planningChart, BorderLayout.CENTER);
+		window.add(planningChart.getComponent(), BorderLayout.CENTER);
 		
 		window.pack();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -48,8 +45,6 @@ public class PlanningChartModel extends Observable {
 		endDate = cal2;
 		daysBetween = (int) (
 				(endDate.getTimeInMillis() - startDate.getTimeInMillis()) / DAY_IN_MILLIS + 1);
-		canvasSize.width = cellWidth * daysBetween;
-		canvasSize.height = cellHeight * rows;
 
 		setChanged();
 		notifyObservers();

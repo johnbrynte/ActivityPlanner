@@ -35,15 +35,18 @@ public class TimeLinePanel extends JPanel {
 	private final int MARGIN_X = 4;
 	
 	private Dimension canvasSize = new Dimension(0, 52);
-	private GregorianCalendar startDate;
-	private int daysBetween;
 	private int scrollX;
 	
 	private PlanningView view;
 	private BufferedImage imageBuffer;
 	
+	// Local copies of the same fields in the Planning Model
+	private GregorianCalendar startDate;
+	private int daysBetween;
+	
 	public TimeLinePanel(PlanningView view) {
-		this.view = view;;
+		this.view = view;
+		startDate = new GregorianCalendar();
 	}
 	
 	@Override
@@ -178,7 +181,7 @@ public class TimeLinePanel extends JPanel {
 	 * @param model the planning model.
 	 */
 	public void updateView(PlanningModel model) {
-		startDate = model.startDate;
+		startDate.setTime(model.startDate.getTime());
 		daysBetween = model.daysBetween;
 		
 		imageBuffer = new BufferedImage(

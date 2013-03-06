@@ -1,6 +1,7 @@
 package john.planningchart;
 
 import java.awt.event.MouseEvent;
+import java.util.GregorianCalendar;
 
 import javax.swing.JScrollPane;
 import javax.swing.event.ChangeEvent;
@@ -14,11 +15,13 @@ import javax.swing.event.ChangeListener;
 public class ChartController implements ChangeListener {
 
 	private PlanningView view;
+	private PlanningModel model;
 	
 	private int horizontalScroll;
 	
-	public ChartController(PlanningView view) {
+	public ChartController(PlanningView view, PlanningModel model) {
 		this.view = view;
+		this.model = model;
 		
 		horizontalScroll = 0;
 	}
@@ -37,7 +40,15 @@ public class ChartController implements ChangeListener {
 	}
 	
 	public void dropEvent(MouseEvent event) {
+		/*Point p = new Point(
+				(int) ((task.getLocation().x - getLocation().x +
+				canvasScrollPane.getViewport().getViewPosition().x) / cellWidth),
+				
+				(int) ((task.getLocation().y - getLocation().y +
+				canvasScrollPane.getViewport().getViewPosition().y) / cellHeight));*/
+		GregorianCalendar date = new GregorianCalendar();
 		
+		model.placeTaskOnChart(event.getComponent(), date);
 	}
 
 }

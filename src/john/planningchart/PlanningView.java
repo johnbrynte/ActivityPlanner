@@ -2,6 +2,7 @@ package john.planningchart;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.GregorianCalendar;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -28,6 +29,8 @@ public class PlanningView implements Observer {
 	public int cellWidth = 50;
 	public int cellHeight = 30;
 	public int rows = 5;
+	
+	public GregorianCalendar startDate;
 
 	public PlanningView(PlanningModel model) {
 		model.addObserver(this);
@@ -35,12 +38,12 @@ public class PlanningView implements Observer {
 		planningPanel = new JPanel();
 		
 		planningPanel.setLayout(new BorderLayout());
-		planningPanel.setPreferredSize(new Dimension(600, 400));
+		planningPanel.setPreferredSize(new Dimension(800, 250));
 
 		timeLineView = new TimeLineView(this);
 		planningPanel.add(timeLineView.getComponent(), BorderLayout.NORTH);
 		
-		chartView = new ChartView(this);
+		chartView = new ChartView(this, model);
 		planningPanel.add(chartView.getComponent(), BorderLayout.CENTER);
 		
 		parkView = new ParkView(model, this);
@@ -53,6 +56,8 @@ public class PlanningView implements Observer {
 	@Override
 	public void update(Observable observable, Object data) {
 		PlanningModel model = (PlanningModel) observable;
+		
+		startDate = (GregorianCalendar) model.startDate.clone();
 		
 		canvasSize = new Dimension(
 				cellWidth * model.daysBetween,

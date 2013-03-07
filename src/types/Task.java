@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.util.GregorianCalendar;
 import javax.swing.JComponent;
 import se.kth.csc.iprog.activityplanner.model.Activity;
@@ -17,6 +18,7 @@ public class Task extends JComponent
     private static Color tooEarly    = Color.GRAY;
     private static Color tooLate     = Color.GRAY;
     private static Color normal      = Color.GREEN;
+    private static Color textC       = Color.BLACK;
     
     private static int tsize = 25;
     
@@ -71,6 +73,11 @@ public class Task extends JComponent
         normal = c;
     }
     
+    public static void setTextColor(Color c)
+    {
+        textC = c;
+    }
+    
     /**
      * Makes the component to be partially invisible. When set to true, only
      * the outer border will be rendered. Useful when dragging.
@@ -89,26 +96,26 @@ public class Task extends JComponent
             int dw = this.getWidth()/task.getDateSpan();
             GregorianCalendar end = task.getEndDate();
             
-            /*if (task.getEarliestStartDate().after(task.getStartDate())) {
+            if (task.getEarliestStartDate().after(task.getStartDate())) {
                 int diff1 = (int)( (task.getEarliestStartDate().getTimeInMillis() - task.getStartDate().getTimeInMillis())/MILIS_DAY);
                 
                 // paint with different color
                 g.setColor(tooEarly);
-                g.fillRect(0, 0, dw * diff1, this.getHeight());
+                g.fillRect(0, 0, dw * diff1, this.getHeight() - 1);
                 
                 // check the remaining days
                 if (end.after(task.getLatestEndDate())) {
                     int diff2 = (int)((end.getTimeInMillis() - task.getLatestEndDate().getTimeInMillis())/MILIS_DAY);
                     
                     g.setColor(tooLate);
-                    g.fillRect(dw * (task.getDateSpan() - diff2), 0, dw * diff2, this.getHeight());
+                    g.fillRect(dw * (task.getDateSpan() - diff2), 0, dw * diff2, this.getHeight() - 1);
                     
                     g.setColor(normal);
-                    g.fillRect(dw * diff1, 0, dw * (task.getDateSpan() - diff1 - diff2), this.getHeight());
+                    g.fillRect(dw * diff1, 0, dw * (task.getDateSpan() - diff1 - diff2), this.getHeight() - 1);
                 }
                 else {
                     g.setColor(normal);
-                    g.fillRect(dw * diff1, 0, dw * (task.getDateSpan() - diff1), this.getHeight());
+                    g.fillRect(dw * diff1, 0, dw * (task.getDateSpan() - diff1), this.getHeight() - 1);
                 }
             }
             else {
@@ -117,42 +124,42 @@ public class Task extends JComponent
                     int diff2 = (int)((end.getTimeInMillis() - task.getLatestEndDate().getTimeInMillis())/MILIS_DAY);
                     
                     g.setColor(tooLate);
-                    g.fillRect(dw * (task.getDateSpan() - diff2), 0, dw * diff2, this.getHeight());
+                    g.fillRect(dw * (task.getDateSpan() - diff2), 0, dw * diff2, this.getHeight() - 1);
                     
                     g.setColor(normal);
-                    g.fillRect(0, 0, dw * (task.getDateSpan() - diff2), this.getHeight());
+                    g.fillRect(0, 0, dw * (task.getDateSpan() - diff2), this.getHeight() - 1);
                 }
                 else {
                     g.setColor(normal);
-                    g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                    g.fillRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
                 }
-            }*/
+            }
 
             // getting font dimensions
-            Font font      = new Font("Helvetica", Font.PLAIN, tsize);
-            FontMetrics fm = g.getFontMetrics(font);
-            
-            int tw = fm.stringWidth(task.getCustomer());
-            int th = fm.getHeight();
+            g.setColor(textC);
+            Font font = new Font("Helvetica", Font.PLAIN, tsize);
+            g.setFont(font);
+            FontMetrics fm = g.getFontMetrics();
+            Rectangle2D r = fm.getStringBounds(task.getCustomer(), g);
             
             // adapting text size
-            while (this.getWidth() <= tw || this.getHeight() <= th) {
+            while (this.getWidth() <= r.getWidth() || this.getHeight() <= r.getHeight()) {
                 --tsize;
                 font = new Font("Helvetica", Font.PLAIN, tsize);
-                fm   = g.getFontMetrics(font);
-                tw   = fm.stringWidth(task.getCustomer());
-                th   = fm.getHeight();
+                g.setFont(font);
+                fm   = g.getFontMetrics();
+                r    = fm.getStringBounds(task.getCustomer(), g);
             }
             
             // drawing the text
-            int ix = (int)((this.getWidth() - tw)/2);
-            int iy = (int)((this.getHeight() - th)/2);
-            g.setFont(font);
+            int ix = (int)((this.getWidth() - r.getWidth())/2);
+            int iy = (int)((this.getHeight()/2) + (r.getHeight()/2));
+            
             g.drawString(task.getCustomer(), ix, iy);
             
             System.out.println("Text size: " + tsize);
-            System.out.println("Text width: " + tw);
-            System.out.println("Text height: " + th);
+            System.out.println("Text width: " + r.getWidth());
+            System.out.println("Text height: " + r.getHeight());
             System.out.println("Text draw init x: " + ix);
             System.out.println("Text draw init y: " + iy);
         }

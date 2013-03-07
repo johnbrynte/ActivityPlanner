@@ -60,10 +60,7 @@ public class aaa
         t            = new Task();
         t.setActivity(a);
         t.setBounds(50, 50, 200, 50);
-        Task.setEarlyColor(Color.red);
         Task.setBorderColor(Color.black);
-        Task.setLateColor(Color.GRAY);
-        Task.setNormalColor(Color.GREEN);
 
         fr.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 

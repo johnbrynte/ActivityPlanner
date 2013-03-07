@@ -59,7 +59,7 @@ public class aaa
         a            = new Activity("test", 3, calendar, calendar1, null);
         t            = new Task();
         t.setActivity(a);
-        t.setBounds(0, 0, 50, 200);
+        t.setBounds(50, 50, 200, 50);
         Task.setEarlyColor(Color.red);
         Task.setBorderColor(Color.black);
         Task.setLateColor(Color.GRAY);

@@ -15,13 +15,11 @@ import javax.swing.event.ChangeListener;
 public class ChartController implements ChangeListener {
 
 	private PlanningView view;
-	private PlanningModel model;
 	
 	private int horizontalScroll;
 	
-	public ChartController(PlanningView view, PlanningModel model) {
+	public ChartController(PlanningView view) {
 		this.view = view;
-		this.model = model;
 		
 		horizontalScroll = 0;
 	}
@@ -39,16 +37,21 @@ public class ChartController implements ChangeListener {
 		view.parkView.updateSize();
 	}
 	
+	/**
+	 * Calculates the date on which the drop event was fired
+	 * and asks the model to place the component (Task) on the Chart View.
+	 * @param event the mouse event that caused the drop event.
+	 */
 	public void dropEvent(MouseEvent event) {
-		/*Point p = new Point(
-				(int) ((task.getLocation().x - getLocation().x +
-				canvasScrollPane.getViewport().getViewPosition().x) / cellWidth),
-				
-				(int) ((task.getLocation().y - getLocation().y +
-				canvasScrollPane.getViewport().getViewPosition().y) / cellHeight));*/
-		GregorianCalendar date = new GregorianCalendar();
+		// using x position relative to the Chart View
+		int x = horizontalScroll + event.getX();
 		
-		model.placeTaskOnChart(event.getComponent(), date);
+		GregorianCalendar date = new GregorianCalendar();
+		date.setTimeInMillis(
+				view.startDate.getTimeInMillis() + view.DAY_IN_MILLIS * x / view.cellWidth);
+		
+		// TODO
+		//model.placeTaskOnChart(event.getComponent(), date);
 	}
 
 }

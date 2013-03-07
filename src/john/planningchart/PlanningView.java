@@ -3,8 +3,6 @@ package john.planningchart;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.GregorianCalendar;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JPanel;
 
@@ -15,9 +13,11 @@ import javax.swing.JPanel;
  *  
  * @author John
  */
-public class PlanningView implements Observer {
+public class PlanningView {
 	
 	private static final long serialVersionUID = 1L;
+	
+	public final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 	
 	private JPanel planningPanel;
 	
@@ -31,10 +31,10 @@ public class PlanningView implements Observer {
 	public int rows = 5;
 	
 	public GregorianCalendar startDate;
+	public GregorianCalendar endDate;
+	public int daysBetween;
 
 	public PlanningView(PlanningModel model) {
-		model.addObserver(this);
-		
 		planningPanel = new JPanel();
 		
 		planningPanel.setLayout(new BorderLayout());
@@ -43,7 +43,7 @@ public class PlanningView implements Observer {
 		timeLineView = new TimeLineView(this);
 		planningPanel.add(timeLineView.getComponent(), BorderLayout.NORTH);
 		
-		chartView = new ChartView(this, model);
+		chartView = new ChartView(this);
 		planningPanel.add(chartView.getComponent(), BorderLayout.CENTER);
 		
 		parkView = new ParkView(model, this);
@@ -51,20 +51,42 @@ public class PlanningView implements Observer {
 	}
 
 	/**
-	 * Updates the canvas size and notifies its child views.
+	 * Sets the start (left) and end (right) date limits in the Planning View.
+	 * @param start the leftmost date in the Planning View.
+	 * @param end the rightmost date in the Planning View.
 	 */
-	@Override
-	public void update(Observable observable, Object data) {
-		PlanningModel model = (PlanningModel) observable;
+	public void setDateLimits(GregorianCalendar start, GregorianCalendar end) {
+		startDate = (GregorianCalendar) start.clone();
+		endDate = (GregorianCalendar) end.clone();
+		daysBetween = (int) (
+				(endDate.getTimeInMillis() - startDate.getTimeInMillis()) / DAY_IN_MILLIS);
+
+		canvasSize = new Dimension(cellWidth * (daysBetween + 1), cellHeight * rows);
 		
-		startDate = (GregorianCalendar) model.startDate.clone();
-		
-		canvasSize = new Dimension(
-				cellWidth * model.daysBetween,
-				cellHeight * rows);
-		
-		timeLineView.updateView(model);
-		chartView.updateView(model);
+		timeLineView.updateView();
+		chartView.updateView();
+	}
+	
+	/**
+	 * Translates a calendar date to a position in the Chart View.
+	 * @param date the calendar date to translate. 
+	 * @return an int with the translated x position.
+	 */
+	public int getPositionFromDate(GregorianCalendar date) {
+		return (int) (cellWidth
+				* ((date.getTimeInMillis() - startDate.getTimeInMillis())
+						/ DAY_IN_MILLIS));
+	}
+	
+	/**
+	 * Translates a position in the Chart View to a calendar date.
+	 * @param date the x position to translate.
+	 * @return a GregorianCalendar with the translated date.
+	 */
+	public GregorianCalendar getDateFromPosition(int x) {
+		GregorianCalendar date = new GregorianCalendar();
+		date.setTimeInMillis(startDate.getTimeInMillis() + DAY_IN_MILLIS * x / cellWidth);
+		return date;
 	}
 	
 	/**

@@ -23,10 +23,9 @@ public class TimeLineView {
 	
 	/**
 	 * Updates this component.
-	 * @param model the planning model.
 	 */
-	public void updateView(PlanningModel model) {
-		timeLinePanel.updateView(model);
+	public void updateView() {
+		timeLinePanel.updateView();
 	}
 	
 	/**

@@ -2,13 +2,9 @@ package john.planningchart;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
-import java.util.GregorianCalendar;
 
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
-
-import se.kth.csc.iprog.activityplanner.model.Activity;
 
 /**
  * The Chart View is a scrollable area on which there
@@ -18,8 +14,6 @@ import se.kth.csc.iprog.activityplanner.model.Activity;
 public class ChartView {
 
 	private static final long serialVersionUID = 1L;
-	
-	private final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 	
 	private final Integer CANVAS_LAYER = 1;
 	private final Integer TASK_LAYER = 2;
@@ -32,15 +26,11 @@ public class ChartView {
 	private JScrollPane scrollPane;
 	private ChartLimiter earliestLimit;
 	private ChartLimiter latestLimit;
-	
-	// Local copy of the same field in the Planning Model
-	private GregorianCalendar startDate;
 
-	public ChartView(PlanningView view, PlanningModel model) {
+	public ChartView(PlanningView view) {
 		this.view = view;
-		startDate = new GregorianCalendar();
 		
-		chartController = new ChartController(view, model);
+		chartController = new ChartController(view);
 		
 		chartCanvas = new ChartCanvas(view);
 		
@@ -69,23 +59,21 @@ public class ChartView {
 	
 	/**
 	 * Updates the size and demands a repaint of the chart canvas.
-	 * @param model the planning model.
 	 */
-	public void updateView(PlanningModel model) {
-		startDate = (GregorianCalendar) model.startDate.clone();
-		
+	public void updateView() {
 		layeredPane.setPreferredSize(view.canvasSize);
-		chartCanvas.updateView(model);
-		earliestLimit.updateView(model);
-		latestLimit.updateView(model);
+		chartCanvas.updateView();
+		earliestLimit.updateView();
+		latestLimit.updateView();
 		
 		// Remove all tasks from the chart
 		Component[] placedTasks = layeredPane.getComponentsInLayer(TASK_LAYER);
 		for(Component c : placedTasks)
 			layeredPane.remove(c);
 		
+		/* TODO
 		Activity a;
-		int i = 0; //TODO
+		int i = 0;
 		
 		// Add the tasks from the model
 		for(Task t : model.chartTasks) {
@@ -95,22 +83,17 @@ public class ChartView {
 					view.cellWidth * a.getDateSpan(),
 					view.cellHeight));
 			t.setLocation(
-					getPositionFromDate(a.getEarliestStartDate()), view.cellHeight * (i++));
+					view.getPositionFromDate(
+							a.getEarliestStartDate()), view.cellHeight * (i++));
 			
 			layeredPane.add(t, TASK_LAYER);
 			
-			earliestLimit.setPositionFromDate(a.getEarliestStartDate());
-			latestLimit.setPositionFromDate(a.getLatestEndDate());
+			earliestLimit.setLocation(
+				view.getPositionFromDate(a.getEarliestStartDate()), 0);
+			latestLimit.setLocation(
+				view.getPositionFromDate(a.getLatestEndDate(), 0);
 		}
+		*/
 	}
-
-	/**
-	 * Translates a calendar date to a position in the Chart View.
-	 * @param date the calendar date to translate. 
-	 * @return an int with the translated x position.
-	 */
-	private int getPositionFromDate(GregorianCalendar date) {
-		return (int) (view.cellWidth
-				* ((date.getTimeInMillis() - startDate.getTimeInMillis()) / DAY_IN_MILLIS));
-	}
+	
 }

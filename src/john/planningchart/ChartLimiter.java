@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.GregorianCalendar;
 
 import javax.swing.JComponent;
 
@@ -17,14 +16,11 @@ public class ChartLimiter extends JComponent {
 
 	private static final long serialVersionUID = 1L;
 	
-	private final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
-	
 	private BufferedImage imageBuffer;
 	private PlanningView view;
 	
 	private Dimension canvasSize = new Dimension(2, 0);
 	private Color color;
-	private GregorianCalendar startDate;
 
 	public ChartLimiter(PlanningView view, Color color) {
 		this.view = view;
@@ -40,10 +36,8 @@ public class ChartLimiter extends JComponent {
 	
 	/**
 	 * Updates the size and redraws the chart canvas.
-	 * @param model the planning model.
 	 */
-	public void updateView(PlanningModel model) {
-		startDate = (GregorianCalendar) model.startDate.clone();
+	public void updateView() {
 		canvasSize.height = view.canvasSize.height;
 		
 		imageBuffer = new BufferedImage(
@@ -54,16 +48,6 @@ public class ChartLimiter extends JComponent {
 		
 		g.setColor(color);
 		g.fillRect(0, 0, canvasSize.width, canvasSize.height);
-	}
-	
-	/**
-	 * Translated the given date into coordinates on the Chart View.
-	 * @param date the date to be translated.
-	 */
-	public void setPositionFromDate(GregorianCalendar date) {
-		setLocation((int) (view.cellWidth
-				* (date.getTimeInMillis() - startDate.getTimeInMillis()) / DAY_IN_MILLIS),
-				0);
 	}
 	
 }

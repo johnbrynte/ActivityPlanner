@@ -16,8 +16,6 @@ import javax.swing.JPanel;
 public class ChartCanvas extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-
-	private final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 	
 	private PlanningView view;
 	private BufferedImage imageBuffer;
@@ -38,11 +36,11 @@ public class ChartCanvas extends JPanel {
 	 * Everything is drawn to a buffered image in order to prevent flickering. 
 	 * @param model the planning model.
 	 */
-	private  void drawBorders(PlanningModel model) {
+	private  void drawBorders() {
 		Graphics g = imageBuffer.getGraphics();
 		
 		GregorianCalendar day = new GregorianCalendar(Locale.ITALY);
-		day.setTimeInMillis(model.startDate.getTimeInMillis());
+		day.setTimeInMillis(view.startDate.getTimeInMillis());
 		int week = day.get(GregorianCalendar.WEEK_OF_YEAR);
 
 		g.setColor(Color.white);
@@ -57,9 +55,9 @@ public class ChartCanvas extends JPanel {
 		}
 		
 		// draw vertical lines
-		for (int i = 0; i < model.daysBetween; i++) {
-			day.setTimeInMillis(model.startDate.getTimeInMillis() +
-					((long) i) * DAY_IN_MILLIS);
+		for (int i = 0; i <= view.daysBetween; i++) {
+			day.setTimeInMillis(view.startDate.getTimeInMillis() +
+					((long) i) * view.DAY_IN_MILLIS);
 			
 			if(day.get(GregorianCalendar.WEEK_OF_YEAR) != week) {
 				week = day.get(GregorianCalendar.WEEK_OF_YEAR);
@@ -82,13 +80,12 @@ public class ChartCanvas extends JPanel {
 	
 	/**
 	 * Updates the size and redraws the chart canvas.
-	 * @param model the planning model.
 	 */
-	public void updateView(PlanningModel model) {
+	public void updateView() {
 		imageBuffer = new BufferedImage(
 				view.canvasSize.width, view.canvasSize.height, BufferedImage.TYPE_INT_RGB);
 		setSize(view.canvasSize);
 		
-		drawBorders(model);
+		drawBorders();
 	}
 }

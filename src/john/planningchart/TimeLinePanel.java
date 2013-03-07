@@ -23,7 +23,6 @@ public class TimeLinePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 	private final DateFormat MONTH_FORMAT = new SimpleDateFormat("MMMM", Locale.ENGLISH);
 	private final DateFormat DAY_FORMAT = new SimpleDateFormat("EEE", Locale.ENGLISH);
 	
@@ -40,13 +39,8 @@ public class TimeLinePanel extends JPanel {
 	private PlanningView view;
 	private BufferedImage imageBuffer;
 	
-	// Local copies of the same fields in the Planning Model
-	private GregorianCalendar startDate;
-	private int daysBetween;
-	
 	public TimeLinePanel(PlanningView view) {
 		this.view = view;
-		startDate = new GregorianCalendar();
 	}
 	
 	@Override
@@ -62,9 +56,12 @@ public class TimeLinePanel extends JPanel {
 	 * @param model the planning model.
 	 */
 	private void drawTimeLine() {
-		GregorianCalendar day = new GregorianCalendar(Locale.ITALY);
-		day.setTimeInMillis(startDate.getTimeInMillis());
 		Graphics bg = imageBuffer.getGraphics();
+		
+		// Create a calendar with weeks starting on a Monday
+		GregorianCalendar day = new GregorianCalendar(Locale.ITALY);
+		day.setTimeInMillis(view.startDate.getTimeInMillis());
+		
 		int year = -1;
 		int week = day.get(GregorianCalendar.WEEK_OF_YEAR);
 		int month = -1;
@@ -72,9 +69,9 @@ public class TimeLinePanel extends JPanel {
 		bg.setColor(Color.white);
 		bg.fillRect(0, 0, canvasSize.width, canvasSize.height);
 		
-		for (int i = 0; i < daysBetween; i++) {
-			day.setTimeInMillis(startDate.getTimeInMillis() +
-					((long) i) * DAY_IN_MILLIS);
+		for (int i = 0; i <= view.daysBetween; i++) {
+			day.setTimeInMillis(view.startDate.getTimeInMillis() +
+					((long) i) * view.DAY_IN_MILLIS);
 			
 			// print year
 			if(day.get(GregorianCalendar.YEAR) != year) {
@@ -178,12 +175,8 @@ public class TimeLinePanel extends JPanel {
 
 	/**
 	 * Updates the size and redraws the time line.
-	 * @param model the planning model.
 	 */
-	public void updateView(PlanningModel model) {
-		startDate.setTime(model.startDate.getTime());
-		daysBetween = model.daysBetween;
-		
+	public void updateView() {
 		imageBuffer = new BufferedImage(
 				view.canvasSize.width, view.canvasSize.height,
 				BufferedImage.TYPE_INT_ARGB);

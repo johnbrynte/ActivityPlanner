@@ -15,7 +15,7 @@ import se.kth.csc.iprog.activityplanner.model.Model;
  *
  * @author Álvaro
  */
-public class ActivityTableView extends javax.swing.JFrame implements Observer {
+public class ActivityTableView implements Observer {
     
     // Class Components
     
@@ -26,6 +26,8 @@ public class ActivityTableView extends javax.swing.JFrame implements Observer {
         JButton     buttonNew    = new JButton();
         JButton     buttonDelete = new JButton();
         JTable      activityTable;
+        
+        JPanel      root = new JPanel();
         
         // Model
         Model m = new Model();
@@ -138,51 +140,27 @@ public class ActivityTableView extends javax.swing.JFrame implements Observer {
     private void initComponents() {
 
         // Setting close operation
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         
         // Seting frame layout (BorderLayout)
-        getContentPane().setLayout(new BorderLayout());
+        //root.getContentPane().setLayout(new BorderLayout());
         
         // Setting the buttons and the table, and adding them to the frame
         setButtons();
-        getContentPane().add(panelButtons, BorderLayout.LINE_START);
+        root.add(panelButtons, BorderLayout.LINE_START);
         setTable();
-        getContentPane().add(panelTable, BorderLayout.CENTER);
+        root.add(panelTable, BorderLayout.CENTER);
             
         // Packing.
-        pack();
-    }                        
+        //pack();
+    }
+    
+    public JPanel getComponent()
+    {
+        return root;
+    }
 
-    // MAIN PROGRAM
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch ( ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ActivityTableView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            
-            @Override
-            public void run() {
-                new ActivityTableView().setVisible(true);
-            }
-            
-        });
-    }                 
-
+    
     @Override
     // OBERSERVER IMPLEMENTATION: We redraw the table.
     public void update(Observable o, Object arg) {

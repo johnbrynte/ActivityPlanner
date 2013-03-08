@@ -15,6 +15,13 @@ public class Model extends Observable
 		productionLines=new ArrayList<ActivityHolder>();
 		unscheduledActivities= new ActivityHolder(this,"Unscheduled");
 		allActivities = new ActivityHolder(this, "All Activities");
+                
+                GregorianCalendar todaysDay = new GregorianCalendar();
+                GregorianCalendar tomorrowsDay = new GregorianCalendar();;
+                tomorrowsDay.add(Calendar.DATE, 1);
+                
+                addActivity("A2", 10, todaysDay, tomorrowsDay);
+                addActivity("A1", 20, todaysDay, tomorrowsDay);
 	}
 	/*
 	 * Should be called when one of an activity's property has been changed.
@@ -232,7 +239,16 @@ public class Model extends Observable
 		activity.setCustomer(customer);
 		activityChanged(activity);
 	}
-	
+	public synchronized void setActivityStartDate(Activity activity, GregorianCalendar startDate)
+	{
+		activity.setStartDate(startDate);
+		activityChanged(activity);
+	}
+        public synchronized void setActivityProductionLine(Activity activity, ActivityHolder productionLine)
+	{
+		activity.setProductionLine(productionLine);
+		activityChanged(activity);
+	}
 	/*
 	 * Takes an activity away from its production line
 	 */
@@ -282,6 +298,38 @@ public class Model extends Observable
 		allActivities.removeActivity(activity);
 		notifyObservers();
 	}
+        
+        public Activity searchActivity(String name){
+        // Post: search an activity by name
+
+            Activity[] activities = allActivities.getActivities();
+            for (int i=0; i < activities.length; i++){
+
+                if (activities[i].getCustomer().equals(name)){
+
+                    return activities[i];
+                }
+            }
+
+            return null;
+
+        }
+        
+        public ActivityHolder searchProductionLine(String name){
+        // Post: search a productionLine by name
+
+            for (int i=0; i < productionLines.size(); i++){
+
+                if (productionLines.get(i).getName().equals(name)){
+
+                    return productionLines.get(i);
+                }
+            }
+
+            return null;
+
+        }
+        
 	public synchronized void printAllActivities()
 	{
 		System.out.println("---------------PRINTING ACTIVITIES----------");

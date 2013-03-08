@@ -15,8 +15,6 @@ import javax.swing.JPanel;
  */
 public class PlanningView {
 	
-	private static final long serialVersionUID = 1L;
-	
 	public final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 	
 	private JPanel planningPanel;
@@ -34,7 +32,7 @@ public class PlanningView {
 	public GregorianCalendar endDate;
 	public int daysBetween;
 
-	public PlanningView(PlanningModel model) {
+	public PlanningView() {
 		planningPanel = new JPanel();
 		
 		planningPanel.setLayout(new BorderLayout());
@@ -46,7 +44,7 @@ public class PlanningView {
 		chartView = new ChartView(this);
 		planningPanel.add(chartView.getComponent(), BorderLayout.CENTER);
 		
-		parkView = new ParkView(model, this);
+		parkView = new ParkView(this);
 		planningPanel.add(parkView.getComponent(), BorderLayout.SOUTH);
 	}
 

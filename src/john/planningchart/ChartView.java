@@ -12,8 +12,6 @@ import javax.swing.JScrollPane;
  * @author John
  */
 public class ChartView {
-
-	private static final long serialVersionUID = 1L;
 	
 	private final Integer CANVAS_LAYER = 1;
 	private final Integer TASK_LAYER = 2;

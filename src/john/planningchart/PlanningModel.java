@@ -24,8 +24,7 @@ public class PlanningModel extends Observable {
 	
 	public static void main(String[] args) {
 		JFrame window = new JFrame("Activity chart");
-		PlanningModel model = new PlanningModel();
-		PlanningView view = new PlanningView(model);
+		PlanningView view = new PlanningView();
 		
 		view.setDateLimits(
 				new GregorianCalendar(2012, 11, 25),

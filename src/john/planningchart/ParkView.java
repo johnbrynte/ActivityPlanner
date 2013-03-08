@@ -2,8 +2,6 @@ package john.planningchart;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -14,19 +12,15 @@ import javax.swing.JScrollPane;
  * 
  * @author John
  */
-public class ParkView implements Observer {
-
-	private static final long serialVersionUID = 1L;
+public class ParkView {
 
 	private Dimension canvasSize;
 	private JPanel parkPanel;
 	private JScrollPane scrollPane;
 	private PlanningView view;
 
-	public ParkView(PlanningModel model, PlanningView view) {
+	public ParkView(PlanningView view) {
 		this.view = view;
-
-		model.addObserver(this);
 
 		parkPanel = new JPanel();
 
@@ -47,12 +41,6 @@ public class ParkView implements Observer {
 		scrollPane.setBorder(null);
 		scrollPane.setPreferredSize(canvasSize);
 		scrollPane.setMinimumSize(canvasSize);
-	}
-
-	@Override
-	public void update(Observable observable, Object data) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/**

@@ -64,19 +64,24 @@ public class ActivityTableController implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 
-                String customerName = (String) tableView.activityTable.getModel().
-                        getValueAt(tableView.activityTable.getSelectedRow(), 0);
-                
-                // Search for the activity.
-                Activity activityToDelete = model.searchActivity(customerName);
-                
-                // If found, deletes it.
-                if (activityToDelete != null){
-                    model.removeActivity(activityToDelete);
+                if ((tableView.activityTable.getSelectedRowCount() > 0)){
+                    
+                    String customerName = (String) tableView.activityTable.getModel().
+                            getValueAt(tableView.activityTable.getSelectedRow(), 0);
+
+                    // Search for the activity.
+                    Activity activityToDelete = model.searchActivity(customerName);
+
+                    // If found, deletes it.
+                    if (activityToDelete != null){
+                        model.removeActivity(activityToDelete);
+                    }
+
+                    // The rows' listeners will be also updated, as the controler is
+                    // also a observer.
+                    
                 }
                 
-                // The rows' listeners will be also updated, as the controler is
-                // also a observer.
                 
             }
         });

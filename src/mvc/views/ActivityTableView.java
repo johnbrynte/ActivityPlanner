@@ -53,9 +53,8 @@ public class ActivityTableView implements Observer {
     // Set the panel with the buttons. Layout: Spring Layout
     private void setButtons(){
         
-        // Panel for the buttons. Layout: Box Layout
+        // Panel for the buttons. Layout: Grid Layout
         SpringLayout layoutPanelButtons = new SpringLayout();
-        panelButtons.setLayout(layoutPanelButtons);
         panelButtons.setLayout(layoutPanelButtons);
         panelButtons.setMinimumSize(new Dimension(80, 80)); // Set min width
         panelButtons.setMaximumSize(new Dimension(80, 80)); // Set max width
@@ -66,7 +65,8 @@ public class ActivityTableView implements Observer {
         buttonDelete.setText("Delete");
 
             // We set the new button width to the other button width.
-            buttonNew.setMaximumSize(buttonDelete.getMaximumSize());
+            buttonNew.setMinimumSize(buttonDelete.getMaximumSize());
+            buttonNew.setPreferredSize(buttonDelete.getMaximumSize());
 
         // Attachment to the JPanel 
         panelButtons.add(buttonNew);
@@ -74,9 +74,9 @@ public class ActivityTableView implements Observer {
         
         // Alingment of the buttons in the middle.
         layoutPanelButtons.putConstraint(SpringLayout.HORIZONTAL_CENTER, buttonNew, 0, SpringLayout.HORIZONTAL_CENTER, panelButtons);
-        layoutPanelButtons.putConstraint(SpringLayout.VERTICAL_CENTER, buttonNew, -15, SpringLayout.VERTICAL_CENTER, panelButtons);
+        layoutPanelButtons.putConstraint(SpringLayout.VERTICAL_CENTER, buttonNew, 35, SpringLayout.NORTH, panelButtons);
         layoutPanelButtons.putConstraint(SpringLayout.HORIZONTAL_CENTER, buttonDelete, 0, SpringLayout.HORIZONTAL_CENTER, panelButtons);
-        layoutPanelButtons.putConstraint(SpringLayout.VERTICAL_CENTER, buttonDelete, 15, SpringLayout.VERTICAL_CENTER, panelButtons);
+        layoutPanelButtons.putConstraint(SpringLayout.VERTICAL_CENTER, buttonDelete, 20, SpringLayout.SOUTH, buttonNew);
     }
     
     @SuppressWarnings("UnusedAssignment")
@@ -93,7 +93,7 @@ public class ActivityTableView implements Observer {
         ////////////////////////////////////////////////////////////////////////
         // Properties of the table.
             // Dimension
-            activityTable.setPreferredScrollableViewportSize(new Dimension(370,200));
+            activityTable.setPreferredScrollableViewportSize(new Dimension(500,100));
             activityTable.setShowVerticalLines(true);
             // Selection mode
             activityTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -140,12 +140,9 @@ public class ActivityTableView implements Observer {
 
     // Init Components                     
     private void initComponents() {
-
-        // Setting close operation
-        //setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         
         // Seting frame layout (BorderLayout)
-        //root.getContentPane().setLayout(new BorderLayout());
+        root.setLayout(new BorderLayout());
         
         // Setting the buttons and the table, and adding them to the frame
         setButtons();
@@ -153,8 +150,6 @@ public class ActivityTableView implements Observer {
         setTable();
         root.add(panelTable, BorderLayout.CENTER);
             
-        // Packing.
-        //pack();
     }
     
     public JPanel getComponent()
@@ -170,7 +165,14 @@ public class ActivityTableView implements Observer {
         // We refill the table with the data.
         ((ActivityTableModel) activityTable.getModel()).setData(m);
         
-        // We tell the visitor
-        ((AbstractTableModel) activityTable.getModel()).fireTableDataChanged();
+        // We tell the table that the data has been changed. We can't use 
+        // fireTableRowsInserted since we don't know the exact index.
+        try{
+            ((AbstractTableModel) activityTable.getModel()).fireTableDataChanged();
+        } catch (IndexOutOfBoundsException ex){
+            // This exception rises when you delete the last activity and the
+            // model gets empty.
+        }
+        
     }
 }

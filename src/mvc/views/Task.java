@@ -1,4 +1,4 @@
-package types;
+package mvc.views;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -7,7 +7,7 @@ import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.util.GregorianCalendar;
 import javax.swing.JComponent;
-import se.kth.csc.iprog.activityplanner.model.Activity;
+import mvc.model.Activity;
 
 public class Task extends JComponent
 {

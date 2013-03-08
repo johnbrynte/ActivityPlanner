@@ -1,4 +1,4 @@
-package se.kth.csc.iprog.activityplanner.model;
+package mvc.model;
 
 import java.util.*;
 

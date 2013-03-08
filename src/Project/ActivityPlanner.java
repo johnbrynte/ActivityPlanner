@@ -2,20 +2,20 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package templateTests;
+package Project;
 
 import java.util.GregorianCalendar;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import john.planningchart.PlanningView;
-import se.kth.csc.iprog.activityplanner.model.Model;
-import tableExample.ActivityTableView;
+import mvc.views.ActivityTableView;
+import mvc.views.PlanningView;
+import mvc.model.Model;
 
 /**
  *
  * @author David
  */
-public class View
+public class ActivityPlanner
 {
 
     private JPanel jPanelRight;
@@ -27,7 +27,7 @@ public class View
     
     private Model model;
     
-    public View(Model model)
+    public ActivityPlanner(Model model)
     {
         this.model = model;
         initViews();

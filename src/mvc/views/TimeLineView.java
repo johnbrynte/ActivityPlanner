@@ -1,4 +1,4 @@
-package john.planningchart;
+package mvc.views;
 
 /**
  * The Time Line View displays a time line that corresponds

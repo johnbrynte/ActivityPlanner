@@ -1,78 +1,61 @@
 package mvc.controllers;
 
-import java.awt.event.MouseEvent;
-import javax.swing.event.MouseInputListener;
+import mvc.views.PlanningView;
 import mvc.views.ChartView;
+import java.awt.event.MouseEvent;
+import java.util.GregorianCalendar;
 
-public class ChartController implements MouseInputListener
-{
-    private ChartView view;
-    private DnDController dnd;
-    private boolean communication = false;
-    
-    public ChartController(DnDController d, ChartView v)
-    {
-        this.dnd  = d;
-        this.view = v;
-    }
-    
-    public void startComm()
-    {
-        communication = true;
-    }
+import javax.swing.JScrollPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-    public void endComm()
-    {
-        communication = false;
-    }
+/**
+ * The Chart Controller listens to the scroll events of the
+ * Chart View and notifies the Time Line View.
+ * @author John
+ */
+public class ChartController implements ChangeListener {
 
-    @Override
-    public void mouseClicked(MouseEvent e)
-    {
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e)
-    {
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e)
-    {
-        int x = e.getX();
-        int y = e.getY();
-        /*
-        boolean result = view. ...
-        if (result) {
-            if (communication) { dnd.notifyDropResult(true); }
-            else { performDrop }
-        }
-        else {
-           if (communication) { dnd.notifyDropResult(false); }
-           else { cancelDrop }
-        }
-        */
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e)
-    {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e)
-    {
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e)
-    {
+	private PlanningView view;
+	private ChartView cv;
         
-    }
+	private int horizontalScroll;
+	
+	public ChartController(ChartView cv, PlanningView view) {
+		this.view = view;
+		this.cv   = cv;
+                cv.getComponent().getViewport().addChangeListener(this);
+		horizontalScroll = 0;
+	}
 
-    @Override
-    public void mouseMoved(MouseEvent e)
-    {
-    }
+	@Override
+	public void stateChanged(ChangeEvent event) {
+		JScrollPane chartView = view.chartView.getComponent();
+		
+		if(chartView.getViewport().getViewPosition().x != horizontalScroll) {
+			horizontalScroll = chartView.getViewport().getViewPosition().x;
+			
+			view.timeLineView.notifyScrollChange(horizontalScroll);
+		}
+		
+		view.parkView.updateSize();
+	}
+	
+	/**
+	 * Calculates the date on which the drop event was fired
+	 * and asks the model to place the component (Task) on the Chart View.
+	 * @param event the mouse event that caused the drop event.
+	 */
+	public void dropEvent(MouseEvent event) {
+		// using x position relative to the Chart View
+		int x = horizontalScroll + event.getX();
+		
+		GregorianCalendar date = new GregorianCalendar();
+		date.setTimeInMillis(
+				view.startDate.getTimeInMillis() + view.DAY_IN_MILLIS * x / view.cellWidth);
+		
+		// TODO
+		//model.placeTaskOnChart(event.getComponent(), date);
+	}
 
 }

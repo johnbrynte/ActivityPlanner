@@ -1,7 +1,6 @@
 package Project;
 
-import se.kth.csc.iprog.activityplanner.model.Model;
-import templateTests.View;
+import mvc.model.Model;
 
 public class Main
 {
@@ -12,7 +11,7 @@ public class Main
         Model m = new Model();
         
         // creating the GUI
-        new View(m);
+        new ActivityPlanner(m);
     }
     
 }

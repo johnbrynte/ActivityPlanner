@@ -2,14 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package tableExample;
+package mvc.views;
 
+import tableModels.ActivityTableModel;
+import mvc.controllers.ActivityTableController;
 import java.awt.*;
 import java.util.Observable;
 import javax.swing.*;
 import javax.swing.table.*;
 import java.util.Observer;
-import se.kth.csc.iprog.activityplanner.model.Model;
+import mvc.model.Model;
 
 /**
  *
@@ -23,9 +25,9 @@ public class ActivityTableView implements Observer {
         JPanel      panelButtons  = new JPanel();
         JScrollPane panelTable;
         // Buttons and table
-        JButton     buttonNew    = new JButton();
-        JButton     buttonDelete = new JButton();
-        JTable      activityTable;
+        public JButton     buttonNew    = new JButton();
+        public JButton     buttonDelete = new JButton();
+        public JTable      activityTable;
         
         JPanel      root = new JPanel();
         
@@ -82,7 +84,7 @@ public class ActivityTableView implements Observer {
     private void setTable(){
         
         // Creation of the table's model and fill it with the current data.
-        MyTableModel model = new MyTableModel(m);
+        ActivityTableModel model = new ActivityTableModel(m);
         model.setData(m);
         
         // Creation of the table
@@ -166,7 +168,7 @@ public class ActivityTableView implements Observer {
     public void update(Observable o, Object arg) {
         
         // We refill the table with the data.
-        ((MyTableModel) activityTable.getModel()).setData(m);
+        ((ActivityTableModel) activityTable.getModel()).setData(m);
         
         // We tell the visitor
         ((AbstractTableModel) activityTable.getModel()).fireTableDataChanged();

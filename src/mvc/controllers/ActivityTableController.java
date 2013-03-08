@@ -2,15 +2,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package tableExample;
+package mvc.controllers;
 
+import mvc.model.Model;
+import mvc.model.Activity;
 import java.util.*;
 import java.awt.event.*;
 
 import java.util.Observer;
 import java.util.Observable;
+import mvc.views.ActivityTableView;
 
-import se.kth.csc.iprog.activityplanner.model.*;
 
 /**
  *

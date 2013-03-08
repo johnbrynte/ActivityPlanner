@@ -1,4 +1,4 @@
-package john.planningchart;
+package mvc.views;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

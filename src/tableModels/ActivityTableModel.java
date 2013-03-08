@@ -1,24 +1,25 @@
-package tableExample;
+package tableModels;
 
+import mvc.model.Model;
+import mvc.model.Activity;
 import java.text.*;
 import java.util.*;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
-import se.kth.csc.iprog.activityplanner.model.*;
 
 /**
  *
  * @author Álvaro
  */
-public class MyTableModel extends AbstractTableModel {
+public class ActivityTableModel extends AbstractTableModel {
     
     String[] nomColum={"CUST.", "DURATION", "EARLIEST", "LATEST", "START", "END", "L"};
     ArrayList<ArrayList<Object>> data= new ArrayList();
     Model model;
     
-    public MyTableModel(Model m){
+    public ActivityTableModel(Model m){
         model = m;    
     }
 

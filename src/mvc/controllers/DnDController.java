@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 
 public class DnDController
 {
-    private ChartController cctrl;
+    private ChartControllerAdur cctrl;
     private ParkController pctrl;
     
     private boolean dragging = false;
@@ -13,7 +13,7 @@ public class DnDController
     public static final int DRAG    = 0;
     public static final int RELEASE = 1;
     
-    public DnDController(ChartController c, ParkController p)
+    public DnDController(ChartControllerAdur c, ParkController p)
     {
         this.cctrl = c;
         this.pctrl = p;

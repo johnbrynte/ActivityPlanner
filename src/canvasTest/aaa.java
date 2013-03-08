@@ -59,11 +59,8 @@ public class aaa
         a            = new Activity("test", 3, calendar, calendar1, null);
         t            = new Task();
         t.setActivity(a);
-        t.setBounds(0, 0, 50, 200);
-        Task.setEarlyColor(Color.red);
+        t.setBounds(50, 50, 200, 50);
         Task.setBorderColor(Color.black);
-        Task.setLateColor(Color.GRAY);
-        Task.setNormalColor(Color.GREEN);
 
         fr.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 

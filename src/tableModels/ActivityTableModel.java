@@ -73,7 +73,7 @@ public class ActivityTableModel extends AbstractTableModel {
                         break;
                     case 1:
                         // Date span
-                        model.setActivityDateSpan(foundActivity, (int) value);
+                        model.setActivityDateSpan(foundActivity, (Integer) value);
                         break;
                     case 2:
                         // Earliest date

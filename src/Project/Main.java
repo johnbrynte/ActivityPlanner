@@ -1,4 +1,4 @@
-package Project;
+package project;
 
 import mvc.model.Model;
 

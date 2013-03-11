@@ -1,8 +1,10 @@
 package mvc.views;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.util.GregorianCalendar;
+import javax.swing.BorderFactory;
 
 import javax.swing.JPanel;
 
@@ -20,6 +22,7 @@ public class PlanningView {
 	private JPanel planningPanel;
 	
 	public TimeLineView timeLineView;
+        public ProductionLineView productionLineView;
 	public ChartView chartView;
 	public ParkView parkView;
 	
@@ -36,16 +39,26 @@ public class PlanningView {
 		planningPanel = new JPanel();
 		
 		planningPanel.setLayout(new BorderLayout());
-		planningPanel.setPreferredSize(new Dimension(800, 250));
+                
+                JPanel rightPanel = new JPanel();
+                rightPanel.setLayout(new BorderLayout());
+                rightPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
 		timeLineView = new TimeLineView(this);
-		planningPanel.add(timeLineView.getComponent(), BorderLayout.NORTH);
-		
+		rightPanel.add(timeLineView.getComponent(), BorderLayout.NORTH);
+                
 		chartView = new ChartView(this);
-		planningPanel.add(chartView.getComponent(), BorderLayout.CENTER);
+		rightPanel.add(chartView.getComponent(), BorderLayout.CENTER);
 		
 		parkView = new ParkView(this);
-		planningPanel.add(parkView.getComponent(), BorderLayout.SOUTH);
+		rightPanel.add(parkView.getComponent(), BorderLayout.SOUTH);
+                
+                planningPanel.add(rightPanel, BorderLayout.CENTER);
+                
+                productionLineView = new ProductionLineView(this);
+                productionLineView.getComponent().setBorder(
+                        BorderFactory.createLineBorder(Color.black));
+                planningPanel.add(productionLineView.getComponent(), BorderLayout.LINE_START);
 	}
 
 	/**

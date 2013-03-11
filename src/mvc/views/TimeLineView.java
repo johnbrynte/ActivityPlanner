@@ -7,7 +7,7 @@ package mvc.views;
  */
 public class TimeLineView {
 
-	private TimeLinePanel timeLinePanel;
+	public TimeLinePanel timeLinePanel;
 	
 	public TimeLineView(PlanningView view) {
 		timeLinePanel = new TimeLinePanel(view);

@@ -33,11 +33,12 @@ public class TimeLinePanel extends JPanel {
 	private final int DATE_Y = 48;
 	private final int MARGIN_X = 4;
 	
-	private Dimension canvasSize = new Dimension(0, 52);
 	private int scrollX;
 	
 	private PlanningView view;
 	private BufferedImage imageBuffer;
+        
+        public Dimension canvasSize = new Dimension(0, 52);
 	
 	public TimeLinePanel(PlanningView view) {
 		this.view = view;

@@ -18,8 +18,7 @@ public class DnDController
         this.pctrl = p;
     }
     
-    public DnDController()
-    {}
+    public DnDController() {}
     
     public void setDnDSourceAndDestination(ChartController c, ParkController p)
     {
@@ -27,7 +26,7 @@ public class DnDController
         this.pctrl = p;
     }
     
-    public void transferDraggingEvent(MouseEvent e, int type)
+    public void transferDnDEvent(MouseEvent e, int type)
     {
         if (!dragging) {
             dragging = true;

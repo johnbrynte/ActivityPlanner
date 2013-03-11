@@ -23,39 +23,55 @@ public class ParkController implements MouseInputListener
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e)
+    {
+        
+    }
 
     @Override
     public void mousePressed(MouseEvent e)
     {
-        dragging = (Task)(e.getComponent());
-        System.out.println(dragging.toString());
+        // it is not necessary to get the component, but this is a test to
+        // check if the task JComponent can be gathered from the event.
+        // CANNOT be checked until the Parkview works with Tasks and the model.
+        
+        //dragging = (Task)(e.getComponent());
+        //System.out.println(dragging.toString());
     }
 
     @Override
     public void mouseReleased(MouseEvent e)
     {
         // detect whether the mouse is on the upper view
-        if (e.getY() < 0) { dnd.transferDraggingEvent(e, DnDController.RELEASE); }
+        if (e.getY() < 0) { dnd.transferDnDEvent(e, DnDController.RELEASE); }
         
         // whether the drop was succesful or not, the drag and drop is finished 
         dragging = null;
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e)
+    {
+        
+    }
 
     @Override
-    public void mouseExited(MouseEvent e) {}
+    public void mouseExited(MouseEvent e)
+    {
+        
+    }
 
     @Override
     public void mouseDragged(MouseEvent e)
     {
         // detect whether the mouse is on the upper view
-        if (e.getY() < 0) { dnd.transferDraggingEvent(e, DnDController.DRAG); }
+        if (e.getY() < 0) { dnd.transferDnDEvent(e, DnDController.DRAG); }
     }
 
     @Override
-    public void mouseMoved(MouseEvent e) {}
+    public void mouseMoved(MouseEvent e)
+    {
+        
+    }
     
 }

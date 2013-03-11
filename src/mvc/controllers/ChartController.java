@@ -37,7 +37,11 @@ public class ChartController implements ChangeListener, MouseInputListener {
             this.view  = view;
             this.cv    = cv;
             this.model = model;
-            if (cv != null) cv.getComponent().getViewport().addChangeListener(this);
+            if (cv != null) {
+                cv.getComponent().getViewport().addChangeListener(this);
+                cv.getComponent().getViewport().addMouseListener(this);
+                cv.getComponent().getViewport().addMouseMotionListener(this);
+            }
             horizontalScroll = 0;
     }
 
@@ -60,15 +64,15 @@ public class ChartController implements ChangeListener, MouseInputListener {
      * @param event the mouse event that caused the drop event.
      */
     public void dropEvent(MouseEvent event) {
-            // using x position relative to the Chart View
-            int x = horizontalScroll + event.getX();
+        // using x position relative to the Chart View
+        int x = horizontalScroll + event.getX();
 
-            GregorianCalendar date = new GregorianCalendar();
-            date.setTimeInMillis(
-                            view.startDate.getTimeInMillis() + view.DAY_IN_MILLIS * x / view.cellWidth);
+        GregorianCalendar date = new GregorianCalendar();
+        date.setTimeInMillis(
+                        view.startDate.getTimeInMillis() + view.DAY_IN_MILLIS * x / view.cellWidth);
 
-            // TODO
-            //model.placeTaskOnChart(event.getComponent(), date);
+        // TODO
+        //model.placeTaskOnChart(event.getComponent(), date);
     }
 
     public void startComm()
@@ -89,27 +93,32 @@ public class ChartController implements ChangeListener, MouseInputListener {
     @Override
     public void mousePressed(MouseEvent e)
     {
+        //System.out.println("pressed in chart view");
     }
 
     @Override
     public void mouseReleased(MouseEvent e)
     {
-        
+        //System.out.println("released in chart view");
     }
 
     @Override
     public void mouseEntered(MouseEvent e)
     {
+        //System.out.println("entered in chart view");
     }
 
     @Override
     public void mouseExited(MouseEvent e)
     {
+        //System.out.println("exited chart view");
     }
 
     @Override
     public void mouseDragged(MouseEvent e)
     {
+        //if (!communication) System.out.println("CHART - inside drag");
+        //else                System.out.println("CHART - outside drag");
     }
 
     @Override

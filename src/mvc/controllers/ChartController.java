@@ -8,21 +8,30 @@ import java.util.GregorianCalendar;
 import javax.swing.JScrollPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.MouseInputListener;
 
 /**
  * The Chart Controller listens to the scroll events of the
  * Chart View and notifies the Time Line View.
  * @author John
  */
-public class ChartController implements ChangeListener {
+public class ChartController implements ChangeListener, MouseInputListener {
 
 	private PlanningView view;
 	private ChartView cv;
         
+        private DnDController dnd;
+        
+        // this variable differentiates drag and drop between the park and chart
+        // views, or only inside the chart view. Communication means that there is
+        // an inter-view communication.
+        private boolean communication = false;
+        
 	private int horizontalScroll;
 	
-	public ChartController(ChartView cv, PlanningView view) {
-		this.view = view;
+	public ChartController(DnDController dnd, ChartView cv, PlanningView view) {
+		this.dnd  = dnd;
+                this.view = view;
 		this.cv   = cv;
                 cv.getComponent().getViewport().addChangeListener(this);
 		horizontalScroll = 0;
@@ -57,5 +66,51 @@ public class ChartController implements ChangeListener {
 		// TODO
 		//model.placeTaskOnChart(event.getComponent(), date);
 	}
+
+    public void startComm()
+    {
+        communication = true;
+    }
+
+    public void endComm()
+    {
+        communication = false;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e)
+    {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e)
+    {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e)
+    {
+        
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e)
+    {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e)
+    {
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e)
+    {
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e)
+    {
+    }
 
 }

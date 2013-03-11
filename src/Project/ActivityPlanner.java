@@ -9,6 +9,10 @@ import java.util.GregorianCalendar;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import mvc.controllers.ActivityTableController;
+import mvc.controllers.ChartController;
+import mvc.controllers.DnDController;
+import mvc.controllers.ParkController;
 import mvc.views.ActivityTableView;
 import mvc.views.PlanningView;
 import mvc.model.Model;
@@ -26,6 +30,11 @@ public class ActivityPlanner
     
     public PlanningView pv;
     public ActivityTableView tv;
+    
+    private ChartController         cc;
+    private ParkController          pc;
+    private DnDController           dnd;
+    private ActivityTableController atc;
     
     private Model model;
     

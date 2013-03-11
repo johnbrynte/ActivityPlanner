@@ -12,6 +12,7 @@ import mvc.model.Activity;
 public class Task extends JComponent
 {
     private Activity task;
+    private PlanningView view;
     private boolean  transparent = false;
     
     private static Color border      = null;
@@ -24,6 +25,10 @@ public class Task extends JComponent
     
     private static final long MILIS_DAY = (1000 * 60 * 60 * 24);
     
+    public Task(PlanningView view) {
+        this.view = view;
+    }
+    
     /**
      * Associates a certain activity in the Model to this component from witch
      * data will be gathered to render this object.
@@ -32,6 +37,10 @@ public class Task extends JComponent
     public void setActivity(Activity task)
     {
         this.task = task;
+    }
+    
+    public Activity getActivity() {
+        return task;
     }
     
     /**

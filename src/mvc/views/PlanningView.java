@@ -4,9 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.GregorianCalendar;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.BorderFactory;
 
 import javax.swing.JPanel;
+import mvc.model.Model;
 
 /**
  * The Planning View consists of three sub views:
@@ -15,50 +18,52 @@ import javax.swing.JPanel;
  *  
  * @author John
  */
-public class PlanningView {
+public class PlanningView implements Observer {
 	
 	public final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 	
 	private JPanel planningPanel;
 	
 	public TimeLineView timeLineView;
-        public ProductionLineView productionLineView;
+    public ProductionLineView productionLineView;
 	public ChartView chartView;
 	public ParkView parkView;
 	
 	public Dimension canvasSize = new Dimension();
 	public int cellWidth = 50;
 	public int cellHeight = 30;
-	public int rows = 5;
+    public int rows = 0;
 	
 	public GregorianCalendar startDate;
 	public GregorianCalendar endDate;
 	public int daysBetween;
 
-	public PlanningView() {
+	public PlanningView(Model model) {
+        model.addObserver(this);
+        
 		planningPanel = new JPanel();
 		
 		planningPanel.setLayout(new BorderLayout());
                 
-                JPanel rightPanel = new JPanel();
-                rightPanel.setLayout(new BorderLayout());
-                rightPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        JPanel rightPanel = new JPanel();
+        rightPanel.setLayout(new BorderLayout());
+        rightPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
 		timeLineView = new TimeLineView(this);
 		rightPanel.add(timeLineView.getComponent(), BorderLayout.NORTH);
                 
-		chartView = new ChartView(this);
+		chartView = new ChartView(model, this);
 		rightPanel.add(chartView.getComponent(), BorderLayout.CENTER);
 		
-		parkView = new ParkView(this);
+		parkView = new ParkView(model, this);
 		rightPanel.add(parkView.getComponent(), BorderLayout.SOUTH);
                 
-                planningPanel.add(rightPanel, BorderLayout.CENTER);
-                
-                productionLineView = new ProductionLineView(this);
-                productionLineView.getComponent().setBorder(
-                        BorderFactory.createLineBorder(Color.black));
-                planningPanel.add(productionLineView.getComponent(), BorderLayout.LINE_START);
+        planningPanel.add(rightPanel, BorderLayout.CENTER);
+
+        productionLineView = new ProductionLineView(model, this);
+        productionLineView.getComponent().setBorder(
+                BorderFactory.createLineBorder(Color.black));
+        planningPanel.add(productionLineView.getComponent(), BorderLayout.LINE_START);
 	}
 
 	/**
@@ -72,10 +77,12 @@ public class PlanningView {
 		daysBetween = (int) (
 				(endDate.getTimeInMillis() - startDate.getTimeInMillis()) / DAY_IN_MILLIS);
 
-		canvasSize = new Dimension(cellWidth * (daysBetween + 1), cellHeight * rows);
+		canvasSize.width = cellWidth * (daysBetween + 1);
 		
-		timeLineView.updateView();
-		chartView.updateView();
+        if(canvasSize.width > 0 && canvasSize.height > 0) {
+            timeLineView.updateView();
+            chartView.updateView();
+        }
 	}
 	
 	/**
@@ -107,5 +114,18 @@ public class PlanningView {
 	public JPanel getComponent() {
 		return planningPanel;
 	}
+
+    @Override
+    public void update(Observable o, Object arg) {
+        Model model = (Model) o;
+        
+        rows = model.getProductionLines().length;
+        canvasSize.height = cellHeight * rows;
+        
+        if(canvasSize.width > 0 && canvasSize.height > 0) {
+            timeLineView.updateView();
+            chartView.updateView();
+        }
+    }
 	
 }

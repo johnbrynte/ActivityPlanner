@@ -4,9 +4,7 @@
  */
 package project;
 
-import java.awt.Color;
 import java.util.GregorianCalendar;
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import mvc.controllers.ActivityTableController;
@@ -46,7 +44,7 @@ public class ActivityPlanner
     
     private void loadGUI()
     {
-        pv  = new PlanningView();
+        pv  = new PlanningView(model);
         tv  = new ActivityTableView();
 
         mainWindow = new JFrame();

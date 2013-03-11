@@ -38,7 +38,7 @@ public class TimeLinePanel extends JPanel {
 	private PlanningView view;
 	private BufferedImage imageBuffer;
         
-        public Dimension canvasSize = new Dimension(0, 52);
+    public Dimension canvasSize = new Dimension(0, 52);
 	
 	public TimeLinePanel(PlanningView view) {
 		this.view = view;
@@ -178,15 +178,14 @@ public class TimeLinePanel extends JPanel {
 	 * Updates the size and redraws the time line.
 	 */
 	public void updateView() {
-		imageBuffer = new BufferedImage(
-				view.canvasSize.width, view.canvasSize.height,
-				BufferedImage.TYPE_INT_ARGB);
+        canvasSize.width = view.canvasSize.width;
+        imageBuffer = new BufferedImage(
+                canvasSize.width, canvasSize.height,
+                BufferedImage.TYPE_INT_ARGB);
+        setPreferredSize(canvasSize);
 
-		canvasSize.width = view.canvasSize.width;
-		setPreferredSize(canvasSize);
-		
-		drawTimeLine();
-	}
+        drawTimeLine();
+    }
 
 	/**
 	 * Sets the current horizontal scroll.

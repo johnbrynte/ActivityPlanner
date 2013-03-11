@@ -15,11 +15,7 @@ public class ParkController implements MouseInputListener
     {
         this.dnd    = d;
         this.view   = v;
-        
-        view.task1.addMouseListener(this);
-        view.task1.addMouseMotionListener(this);
-        view.task2.addMouseListener(this);
-        view.task2.addMouseMotionListener(this);
+        view.parkController = this;
     }
 
     @Override

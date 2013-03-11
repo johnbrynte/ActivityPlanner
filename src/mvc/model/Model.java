@@ -245,7 +245,7 @@ public class Model extends Observable
 		activity.setStartDate(startDate);
 		activityChanged(activity);
 	}
-        public synchronized void setActivityProductionLine(Activity activity, ActivityHolder productionLine)
+    public synchronized void setActivityProductionLine(Activity activity, ActivityHolder productionLine)
 	{
 		activity.setProductionLine(productionLine);
 		activityChanged(activity);
@@ -300,36 +300,36 @@ public class Model extends Observable
 		notifyObservers();
 	}
         
-        public Activity searchActivity(String name){
-        // Post: search an activity by name
+    public Activity searchActivity(String name){
+    // Post: search an activity by name
 
-            Activity[] activities = allActivities.getActivities();
-            for (int i=0; i < activities.length; i++){
+        Activity[] activities = allActivities.getActivities();
+        for (int i=0; i < activities.length; i++){
 
-                if (activities[i].getCustomer().equals(name)){
+            if (activities[i].getCustomer().equals(name)){
 
-                    return activities[i];
-                }
+                return activities[i];
             }
-
-            return null;
-
         }
-        
-        public ActivityHolder searchProductionLine(String name){
-        // Post: search a productionLine by name
 
-            for (int i=0; i < productionLines.size(); i++){
+        return null;
 
-                if (productionLines.get(i).getName().equals(name)){
+    }
 
-                    return productionLines.get(i);
-                }
+    public ActivityHolder searchProductionLine(String name){
+    // Post: search a productionLine by name
+
+        for (int i=0; i < productionLines.size(); i++){
+
+            if (productionLines.get(i).getName().equals(name)){
+
+                return productionLines.get(i);
             }
-
-            return null;
-
         }
+
+        return null;
+
+    }
         
 	public synchronized void printAllActivities()
 	{

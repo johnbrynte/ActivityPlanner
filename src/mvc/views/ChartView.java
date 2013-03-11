@@ -2,16 +2,24 @@ package mvc.views;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.util.GregorianCalendar;
+import java.util.Observable;
+import java.util.Observer;
+import javax.swing.JButton;
 
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
+import mvc.model.Activity;
+import mvc.model.ActivityHolder;
+import mvc.model.Model;
 
 /**
  * The Chart View is a scrollable area on which there
  * can be placed instances of the Task object.
  * @author John
  */
-public class ChartView {
+public class ChartView implements Observer {
 	
 	private final Integer CANVAS_LAYER = 1;
 	private final Integer TASK_LAYER = 2;
@@ -24,8 +32,10 @@ public class ChartView {
 	private ChartLimiter earliestLimit;
 	private ChartLimiter latestLimit;
 
-	public ChartView(PlanningView view) {
+	public ChartView(Model model, PlanningView view) {
 		this.view = view;
+        
+        model.addObserver(this);
 			
 		chartCanvas = new ChartCanvas(view);
 		
@@ -64,30 +74,46 @@ public class ChartView {
 		Component[] placedTasks = layeredPane.getComponentsInLayer(TASK_LAYER);
 		for(Component c : placedTasks)
 			layeredPane.remove(c);
-		
-		/* TODO
-		Activity a;
-		int i = 0;
+	}
+
+    @Override
+    public void update(Observable o, Object arg) {
+        Model model = (Model) o;
+        
+        // Remove all tasks from the pane
+		Component[] tasks = layeredPane.getComponentsInLayer(TASK_LAYER);
+		for(Component c : tasks)
+			layeredPane.remove(c);
+        
+        ActivityHolder[] productionLines = model.getProductionLines();
+        Activity[] activities;
+        Dimension size;
+        Task task;
 		
 		// Add the tasks from the model
-		for(Task t : model.chartTasks) {
-			a = t.getActivity();
-			
-			t.setSize(new Dimension(
-					view.cellWidth * a.getDateSpan(),
-					view.cellHeight));
-			t.setLocation(
-					view.getPositionFromDate(
-							a.getEarliestStartDate()), view.cellHeight * (i++));
-			
-			layeredPane.add(t, TASK_LAYER);
-			
-			earliestLimit.setLocation(
-				view.getPositionFromDate(a.getEarliestStartDate()), 0);
-			latestLimit.setLocation(
-				view.getPositionFromDate(a.getLatestEndDate(), 0);
-		}
-		*/
-	}
+        for(int i = 0; i < productionLines.length; i ++) {
+            activities = productionLines[i].getActivities();
+            
+            for(Activity a : activities) {
+                task = new Task(view);
+                task.setActivity(a);
+
+                size = new Dimension(view.cellWidth * a.getDateSpan(), view.cellHeight);
+                
+                task.setSize(size);
+                task.setPreferredSize(size);
+                task.setLocation(
+                        view.getPositionFromDate(a.getStartDate()),
+                        view.cellHeight * i);
+                
+                layeredPane.add(task, TASK_LAYER);
+
+                earliestLimit.setLocation(
+                        view.getPositionFromDate(a.getEarliestStartDate()), 0);
+                latestLimit.setLocation(
+                        view.getPositionFromDate(a.getLatestEndDate()), 0);
+            }
+        }
+    }
 	
 }

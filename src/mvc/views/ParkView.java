@@ -1,51 +1,49 @@
 package mvc.views;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.util.GregorianCalendar;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import mvc.controllers.ParkController;
+import mvc.model.Activity;
+import mvc.model.ActivityHolder;
+import mvc.model.Model;
 
 /**
  * The Park View shows all tasks that can be placed on the Chart View.
  * 
  * @author John
  */
-public class ParkView implements Observer{
+public class ParkView implements Observer {
 
     private Dimension canvasSize;
     private JPanel parkPanel;
     private JScrollPane scrollPane;
     private PlanningView view;
     
-    public JButton task1;
-    public JButton task2;
+    public ParkController parkController;
 
-    public ParkView(PlanningView view) {
+    public ParkView(Model model, PlanningView view) {
             this.view = view;
+            
+            model.addObserver(this);
 
             parkPanel = new JPanel();
 
             parkPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-
-            task1 = new JButton("Task 4");
-            task1.setPreferredSize(new Dimension(view.cellWidth * 2, view.cellHeight));
-            parkPanel.add(task1);
-
-            task2 = new JButton("Task 5");
-            task2.setPreferredSize(new Dimension(view.cellWidth * 2, view.cellHeight));
-            parkPanel.add(task2);
-
-            canvasSize = new Dimension(view.cellWidth * 4, view.cellHeight);
+            
+            canvasSize = new Dimension(view.cellWidth, view.cellHeight);
             parkPanel.setPreferredSize(canvasSize);
-
+            
             scrollPane = new JScrollPane(parkPanel);
             scrollPane.setBorder(null);
             scrollPane.setPreferredSize(canvasSize);
-            scrollPane.setMinimumSize(canvasSize);
     }
 
     /**
@@ -74,8 +72,30 @@ public class ParkView implements Observer{
     @Override
     public void update(Observable o, Object arg)
     {
-        // if the drop event was succesful, the model will be changed and this
-        // method called. So this method must delete the moved activity.
+        Model model = (Model) o;
+        
+        Activity[] unscheduled = model.getUnscheduledActivities().getActivities();
+        
+        canvasSize = new Dimension(view.cellWidth * unscheduled.length, view.cellHeight);
+        
+        updateSize();
+        
+        // Remove all tasks from the panel
+		Component[] tasks = parkPanel.getComponents();
+		for(Component c : tasks)
+			parkPanel.remove(c);
+        
+        Task task;
+        
+        for(Activity a : unscheduled) {
+            task = new Task(null);
+            task.setSize(view.cellWidth * 2, view.cellHeight);
+            task.setActivity(a);
+            task.addMouseListener(parkController);
+            task.addMouseMotionListener(parkController);
+            parkPanel.add(task);
+        }
+        
     }
 
 }

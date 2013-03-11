@@ -41,14 +41,15 @@ public class ActivityPlanner
     public ActivityPlanner(Model model)
     {
         this.model = model;
-        initViews();
+        loadGUI();
     }
     
-    private void initViews()
+    private void loadGUI()
     {
+        pv  = new PlanningView();
+        tv  = new ActivityTableView();
+
         mainWindow = new JFrame();
-        pv = new PlanningView();
-        tv = new ActivityTableView();
         
         mainWindow.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         mainWindow.setMinimumSize(new java.awt.Dimension(400, 400));
@@ -65,6 +66,14 @@ public class ActivityPlanner
         
         mainWindow.getContentPane().add(jPanelRight, java.awt.BorderLayout.CENTER);
         mainWindow.pack();
+        
+        dnd = new DnDController();
+        cc  = new ChartController(model, dnd, pv.chartView, pv);
+        pc  = new ParkController(dnd, pv.parkView);
+        atc = new ActivityTableController(model, tv);
+        
+        dnd.setDnDSourceAndDestination(cc, pc);
+        
         mainWindow.setVisible(true);
     }
 }

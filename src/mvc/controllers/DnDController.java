@@ -18,6 +18,9 @@ public class DnDController
         this.pctrl = p;
     }
     
+    public DnDController()
+    {}
+    
     public void setDnDSourceAndDestination(ChartController c, ParkController p)
     {
         this.cctrl = c;
@@ -39,12 +42,5 @@ public class DnDController
             dragging = false;
             cctrl.endComm();
         }
-    }
-    
-    public void notifyDropResult(boolean result)
-    {
-        //pctrl.setDropResult(result);
-        //cctrl.endComm();
-        //dragging = false;
     }
 }

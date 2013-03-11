@@ -15,19 +15,11 @@ public class ParkController implements MouseInputListener
     {
         this.dnd    = d;
         this.view   = v;
-    }
-    
-    void setDropResult(boolean result)
-    {
-        // if it is true, the activity was dropped succesfully
-        if (result) {
-            
-        }
         
-        // else, set the dragging activity to null, but not delete it.
-        else {
-            // keep activity in park
-        }
+        view.task1.addMouseListener(this);
+        view.task1.addMouseMotionListener(this);
+        view.task2.addMouseListener(this);
+        view.task2.addMouseMotionListener(this);
     }
 
     @Override
@@ -37,6 +29,7 @@ public class ParkController implements MouseInputListener
     public void mousePressed(MouseEvent e)
     {
         dragging = (Task)(e.getComponent());
+        System.out.println(dragging.toString());
     }
 
     @Override
@@ -45,10 +38,8 @@ public class ParkController implements MouseInputListener
         // detect whether the mouse is on the upper view
         if (e.getY() < 0) { dnd.transferDraggingEvent(e, DnDController.RELEASE); }
         
-        // in case the mouse was in the upper view, await for the drop result,
-        // else, nothing must be done, so the selected activity for dragging
-        // must be set to null
-        else { dragging = null; }
+        // whether the drop was succesful or not, the drag and drop is finished 
+        dragging = null;
     }
 
     @Override

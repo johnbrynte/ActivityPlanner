@@ -20,6 +20,9 @@ public class ParkView implements Observer{
     private JPanel parkPanel;
     private JScrollPane scrollPane;
     private PlanningView view;
+    
+    public JButton task1;
+    public JButton task2;
 
     public ParkView(PlanningView view) {
             this.view = view;
@@ -28,13 +31,13 @@ public class ParkView implements Observer{
 
             parkPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
-            JButton task = new JButton("Task 4");
-            task.setPreferredSize(new Dimension(view.cellWidth * 2, view.cellHeight));
-            parkPanel.add(task);
+            task1 = new JButton("Task 4");
+            task1.setPreferredSize(new Dimension(view.cellWidth * 2, view.cellHeight));
+            parkPanel.add(task1);
 
-            task = new JButton("Task 5");
-            task.setPreferredSize(new Dimension(view.cellWidth * 2, view.cellHeight));
-            parkPanel.add(task);
+            task2 = new JButton("Task 5");
+            task2.setPreferredSize(new Dimension(view.cellWidth * 2, view.cellHeight));
+            parkPanel.add(task2);
 
             canvasSize = new Dimension(view.cellWidth * 4, view.cellHeight);
             parkPanel.setPreferredSize(canvasSize);

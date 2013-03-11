@@ -169,5 +169,11 @@ public class Task extends JComponent
         else                { g.setColor(Color.black); }
         g.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
     }
+
+    @Override
+    public String toString()
+    {
+        return task.getCustomer();
+    }
     
 }

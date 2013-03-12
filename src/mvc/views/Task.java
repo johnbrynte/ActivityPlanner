@@ -89,7 +89,7 @@ public class Task extends JComponent
     
     /**
      * Makes the component to be partially invisible. When set to true, only
-     * the outer border will be rendered. Useful when dragging.
+     * the outer border will be rendered. Useful to make a drag effect.
      * @param b 
      */
     public void setContentTransparent(boolean b)
@@ -165,14 +165,6 @@ public class Task extends JComponent
             int iy = (int)((this.getHeight()/2) + (r.getHeight()/4));
             
             g.drawString(task.getCustomer(), ix, iy);
-            
-            /*System.out.println("Text value: " + task.getCustomer());
-            System.out.println("Text size: " + tsize);
-            System.out.println("Text width: " + r.getWidth());
-            System.out.println("Text height: " + r.getHeight());
-            System.out.println("Text draw init x: " + ix);
-            System.out.println("Text draw init y: " + iy);
-            System.out.println("-----------------------------------");*/
         }
         
         // drawing the outer rectangle

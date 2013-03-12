@@ -162,7 +162,7 @@ public class Task extends JComponent
             
             // drawing the text
             int ix = (int)((this.getWidth() - r.getWidth())/2);
-            int iy = (int)((this.getHeight()/2) + (r.getHeight()/2));
+            int iy = (int)((this.getHeight()/2) + (r.getHeight()/4));
             
             g.drawString(task.getCustomer(), ix, iy);
             
@@ -180,7 +180,6 @@ public class Task extends JComponent
         else                { g.setColor(Color.black); }
         g.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
         
-        //System.out.println("Task " + this.toString() + " painted!");
     }
 
     @Override

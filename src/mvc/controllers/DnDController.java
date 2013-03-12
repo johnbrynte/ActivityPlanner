@@ -37,7 +37,8 @@ public class DnDController
             cctrl.mouseDragged(e);
         }
         else {
-            cctrl.dropEvent(e);
+            //cctrl.dropEvent(e);
+            cctrl.mouseReleased(e);
             dragging = false;
             cctrl.endComm();
         }

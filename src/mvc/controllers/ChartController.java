@@ -50,8 +50,8 @@ public class ChartController implements ChangeListener, MouseInputListener {
             cv.getComponent().getViewport().addMouseListener(this);
             cv.getComponent().getViewport().addMouseMotionListener(this);
         }
-        horizontalScroll = 0;
-        verticalScroll = 0;
+        horizontalScroll  = 0;
+        verticalScroll    = 0;
         chartCanvasHeight = cv.getComponent().getVisibleRect().height;
     }
 
@@ -88,7 +88,7 @@ public class ChartController implements ChangeListener, MouseInputListener {
             error = true;
         }
         
-        if (!error) {
+        if (!error && activity != null) {
             int x = event.getComponent().getLocation().x + event.getX();
 
             if(x > 0) {
@@ -109,6 +109,9 @@ public class ChartController implements ChangeListener, MouseInputListener {
                     model.reschedule(activity, productionLines[y], date);
                 }
             }
+        }
+        else {
+            resetDnD();
         }
     }
 
@@ -131,9 +134,8 @@ public class ChartController implements ChangeListener, MouseInputListener {
     @Override
     public void mouseReleased(MouseEvent e)
     {
+        resetDnD();
         dropEvent(e);
-        cv.updateDragTask(null);
-        dragTaskSet = false;
     }
 
     @Override
@@ -145,48 +147,64 @@ public class ChartController implements ChangeListener, MouseInputListener {
     @Override
     public void mouseDragged(MouseEvent e)
     {
-        Activity activity = null;
-        boolean error = false;
-        
-        try {
-            activity = ((Task) e.getComponent()).getActivity();
-        } catch (java.lang.ClassCastException err) {
-            error = true;
-        }
-        
-        // for the moment, limited only to activities we bring from park view to
-        // chart view.
-        if (!error && communication) {
-            if (!dragTaskSet) {
-                dragActivity = new Activity("DnD", activity.getDateSpan(), activity.getEarliestStartDate(), activity.getLatestEndDate(), activity.getProductionLine());
-                dragTaskSet = true;
-            }
-
-            int x = e.getComponent().getLocation().x + e.getX();
-            if(x > 0) {
-                if (communication) x += horizontalScroll;
-
-                GregorianCalendar date = new GregorianCalendar();
-                date.setTimeInMillis(
-                        view.startDate.getTimeInMillis() + view.DAY_IN_MILLIS
-                        * ((long) x / view.cellWidth));
-
-                int y;
-                if (communication) y = (chartCanvasHeight + verticalScroll + e.getY()) / view.cellHeight;
-                else               y = (e.getComponent().getLocation().y + e.getY()) / view.cellHeight;
-
-                ActivityHolder[] productionLines = model.getProductionLines();
-
-                if(y >= 0 && y < productionLines.length) {
-                    dragActivity.setStartDate(date);
-                    dragActivity.setProductionLine(productionLines[y]);
-                    cv.updateDragTask(dragActivity);
-                }
-            }
-        }
+        doDnD(e);
     }
 
     @Override
     public void mouseMoved(MouseEvent e){}
 
+    private void resetDnD()
+    {
+        dragActivity = null;
+        cv.updateDragTask(null);
+        dragTaskSet = false;
+    }
+    
+    private void doDnD(MouseEvent e)
+    {
+        if (communication) {
+            Activity activity = null;
+            boolean error = false;
+
+            try {
+                activity = ((Task) e.getComponent()).getActivity();
+            } catch (java.lang.ClassCastException err) {
+                error = true;
+            }
+
+            // for the moment, limited only to activities we bring from park view to
+            // chart view.
+            if (!error && activity != null) {
+
+                if (!dragTaskSet) {
+                    dragActivity = new Activity("DnD", activity.getDateSpan(), activity.getEarliestStartDate(), activity.getLatestEndDate(), activity.getProductionLine());
+
+                    dragTaskSet  = true;
+                }
+
+                int x = e.getComponent().getLocation().x + e.getX();
+                if(x > 0) {
+                    if (communication) x += horizontalScroll;
+
+                    GregorianCalendar date = new GregorianCalendar();
+                    date.setTimeInMillis(view.startDate.getTimeInMillis() + view.DAY_IN_MILLIS * ((long) x / view.cellWidth));
+
+                    int y;
+                    if (communication) y = (chartCanvasHeight + verticalScroll + e.getY()) / view.cellHeight;
+                    else               y = (e.getComponent().getLocation().y + e.getY()) / view.cellHeight;
+
+                    ActivityHolder[] productionLines = model.getProductionLines();
+
+                    if(y >= 0 && y < productionLines.length) {
+                        dragActivity.setStartDate(date);
+                        dragActivity.setProductionLine(productionLines[y]);
+                        cv.updateDragTask(dragActivity);
+                    }
+                }
+            }
+            else {
+                resetDnD();
+            }
+        }
+    }
 }

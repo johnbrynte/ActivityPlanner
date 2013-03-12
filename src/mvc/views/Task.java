@@ -1,6 +1,7 @@
 package mvc.views;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -25,9 +26,8 @@ public class Task extends JComponent
     
     private static final long MILIS_DAY = (1000 * 60 * 60 * 24);
     
-    public Task(PlanningView view) {
-        this.view = view;
-    }
+    public Task()
+    {}
     
     /**
      * Associates a certain activity in the Model to this component from witch
@@ -179,5 +179,4 @@ public class Task extends JComponent
     {
         return task.getCustomer();
     }
-    
 }

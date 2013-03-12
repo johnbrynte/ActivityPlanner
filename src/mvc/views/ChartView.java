@@ -25,7 +25,7 @@ public class ChartView implements Observer {
 	
     //private Integer CANVAS_LAYER     = new Integer(0);
     private Integer TASK_LAYER       = new Integer(10);
-    private Integer DND_EFFECT_LAYER = new Integer(15);
+    private Integer DND_EFFECT_LAYER = new Integer(5);
     private Integer DATE_LIMIT_LAYER = new Integer(20);
 
     private PlanningView view;
@@ -107,13 +107,13 @@ public class ChartView implements Observer {
         for(int i = 0; i < productionLines.length; i ++) {
             activities = productionLines[i].getActivities();
             
-            // getting in which production line must the dnd effect auxiliar task must go
+            // getting in which production line must the dnd effect auxiliar task go
             if (dragTask != null && productionLines[i].getName().equals(dragTask.getProductionLine().getName())) {
                 dragProdLine = i;
             }
             
             for(Activity a : activities) {
-                task = new Task(null);
+                task = new Task();
                 task.setBounds(view.getPositionFromDate(a.getStartDate()), view.cellHeight * i, view.cellWidth * a.getDateSpan(), view.cellHeight);
                 task.setActivity(a);
                 task.addMouseListener(chartController);
@@ -130,7 +130,7 @@ public class ChartView implements Observer {
         }
         
         if (dragTask != null) {
-            task = new Task(null);
+            task = new Task();
             task.setBounds(view.getPositionFromDate(dragTask.getStartDate()), view.cellHeight * dragProdLine, view.cellWidth * dragTask.getDateSpan(), view.cellHeight);
             task.setContentTransparent(true);
             task.setVisible(true);

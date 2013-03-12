@@ -90,7 +90,7 @@ public class ParkView implements Observer {
         
         for(int i = 0; i < unscheduled.length; ++i) {
             Activity a = unscheduled[i];
-            task = new Task(null);
+            task = new Task();
             task.setBounds(view.cellWidth * 2 * i, 0, view.cellWidth * 2, view.cellHeight);
             task.setActivity(a);
             task.addMouseListener(parkController);

@@ -68,6 +68,8 @@ public class ActivityPlanner
         dnd = new DnDController();
         cc  = new ChartController(model, dnd, pv.chartView, pv);
         pc  = new ParkController(dnd, pv.parkView);
+        pv.parkView.parkController   = pc;
+        pv.chartView.chartController = cc;
         atc = new ActivityTableController(model, tv);
         
         dnd.setDnDSourceAndDestination(cc, pc);

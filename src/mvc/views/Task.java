@@ -21,7 +21,7 @@ public class Task extends JComponent
     private static Color normal      = Color.GREEN;
     private static Color textC       = Color.BLACK;
     
-    private int tsize = 25;
+    private static int tsize = 25;
     
     private static final long MILIS_DAY = (1000 * 60 * 60 * 24);
     
@@ -166,13 +166,13 @@ public class Task extends JComponent
             
             g.drawString(task.getCustomer(), ix, iy);
             
-            System.out.println("Text value: " + task.getCustomer());
+            /*System.out.println("Text value: " + task.getCustomer());
             System.out.println("Text size: " + tsize);
             System.out.println("Text width: " + r.getWidth());
             System.out.println("Text height: " + r.getHeight());
             System.out.println("Text draw init x: " + ix);
             System.out.println("Text draw init y: " + iy);
-            System.out.println("-----------------------------------");
+            System.out.println("-----------------------------------");*/
         }
         
         // drawing the outer rectangle

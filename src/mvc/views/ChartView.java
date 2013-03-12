@@ -10,6 +10,7 @@ import javax.swing.JButton;
 
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
+import mvc.controllers.ChartController;
 import mvc.model.Activity;
 import mvc.model.ActivityHolder;
 import mvc.model.Model;
@@ -31,11 +32,11 @@ public class ChartView implements Observer {
 	private JScrollPane scrollPane;
 	private ChartLimiter earliestLimit;
 	private ChartLimiter latestLimit;
+        
+        public ChartController chartController;
 
 	public ChartView(Model model, PlanningView view) {
 		this.view = view;
-        
-        model.addObserver(this);
 			
 		chartCanvas = new ChartCanvas(view);
 		
@@ -51,6 +52,8 @@ public class ChartView implements Observer {
 		
 		layeredPane.add(earliestLimit, DATE_LIMIT_LAYER);
 		layeredPane.add(latestLimit, DATE_LIMIT_LAYER);
+                
+                model.addObserver(this);
 	}
 	
 	/**
@@ -95,10 +98,8 @@ public class ChartView implements Observer {
             activities = productionLines[i].getActivities();
             
             for(Activity a : activities) {
-                task = new Task(view);
-                task.setActivity(a);
-
-                size = new Dimension(view.cellWidth * a.getDateSpan(), view.cellHeight);
+                task = new Task(null);
+                //size = new Dimension(view.cellWidth * a.getDateSpan(), view.cellHeight);
                 
                 /*task.setSize(size);
                 task.setPreferredSize(size);
@@ -106,15 +107,20 @@ public class ChartView implements Observer {
                         view.getPositionFromDate(a.getStartDate()),
                         view.cellHeight * i);*/
                 task.setBounds(view.getPositionFromDate(a.getStartDate()), view.cellHeight * i, view.cellWidth * a.getDateSpan(), view.cellHeight);
+                task.setActivity(a);
+                task.addMouseListener(chartController);
+                task.addMouseMotionListener(chartController);
                 task.setVisible(true);
                 
-                layeredPane.add(task, TASK_LAYER);
+                layeredPane.add(task, new Integer(2));
 
                 earliestLimit.setLocation(
                         view.getPositionFromDate(a.getEarliestStartDate()), 0);
                 latestLimit.setLocation(
                         view.getPositionFromDate(a.getLatestEndDate()), 0);
             }
+            
+            scrollPane.repaint();
             layeredPane.repaint();
         }
     }

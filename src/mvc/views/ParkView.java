@@ -97,9 +97,9 @@ public class ParkView implements Observer {
             task.addMouseMotionListener(parkController);
             task.setVisible(true);
             parkPanel.add(task);
-            parkPanel.repaint();
         }
         
+        parkPanel.repaint();
     }
 
 }

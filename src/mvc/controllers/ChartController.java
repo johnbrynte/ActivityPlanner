@@ -79,24 +79,25 @@ public class ChartController implements ChangeListener, MouseInputListener {
         int x = event.getComponent().getLocation().x + event.getX();
 
         if(x > 0) {
-            x += horizontalScroll;
+            if (communication) x += horizontalScroll;
+
             GregorianCalendar date = new GregorianCalendar();
             date.setTimeInMillis(
                     view.startDate.getTimeInMillis() + view.DAY_IN_MILLIS
                     * ((long) x / view.cellWidth));
 
-            int y = (chartCanvasHeight + verticalScroll + event.getY()) / view.cellHeight;
+            int y;
+            if (communication) y = (chartCanvasHeight + verticalScroll + event.getY()) / view.cellHeight;
+            else               y = (event.getComponent().getLocation().y + event.getY()) / view.cellHeight;
 
             ActivityHolder[] productionLines = model.getProductionLines();
             Activity activity;
 
-            System.out.println("x index: " + (x / view.cellWidth));
-            System.out.println("y index: " + y);
+            //System.out.println("x index: " + (x / view.cellWidth));
+            //System.out.println("y index: " + y);
 
             if(y >= 0 && y < productionLines.length) {
                 activity = ((Task) event.getComponent()).getActivity();
-                
-                //model.removeActivity(((Task) event.getComponent()).getActivity());
                 model.reschedule(activity, productionLines[y], date);
             }
         }
@@ -113,46 +114,31 @@ public class ChartController implements ChangeListener, MouseInputListener {
     }
 
     @Override
-    public void mouseClicked(MouseEvent e)
-    {
-    }
+    public void mouseClicked(MouseEvent e){}
 
     @Override
-    public void mousePressed(MouseEvent e)
-    {
-        //System.out.println("pressed in chart view");
-    }
+    public void mousePressed(MouseEvent e){}
 
     @Override
     public void mouseReleased(MouseEvent e)
     {
-        //System.out.println("released in chart view");
+        dropEvent(e);
     }
 
     @Override
-    public void mouseEntered(MouseEvent e)
-    {
-        //System.out.println("entered in chart view");
-    }
+    public void mouseEntered(MouseEvent e){}
 
     @Override
-    public void mouseExited(MouseEvent e)
-    {
-        //System.out.println("exited chart view");
-    }
+    public void mouseExited(MouseEvent e){}
 
     @Override
     public void mouseDragged(MouseEvent e)
     {
         //System.out.println("x: " + (e.getComponent().getLocation().x + e.getX()));
         //System.out.println("y: " + ((int) ((chartCanvasHeight + e.getY()) / view.cellHeight)));
-        //if (!communication) System.out.println("CHART - inside drag");
-        //else                System.out.println("CHART - outside drag");
     }
 
     @Override
-    public void mouseMoved(MouseEvent e)
-    {
-    }
+    public void mouseMoved(MouseEvent e){}
 
 }

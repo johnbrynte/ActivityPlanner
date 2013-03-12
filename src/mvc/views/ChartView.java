@@ -22,9 +22,9 @@ import mvc.model.Model;
  */
 public class ChartView implements Observer {
 	
-	private final Integer CANVAS_LAYER = 1;
-	private final Integer TASK_LAYER = 2;
-	private final Integer DATE_LIMIT_LAYER = 3;
+	private final int CANVAS_LAYER     = 0;
+	private final int TASK_LAYER       = 1;
+	private final int DATE_LIMIT_LAYER = 2;
 	
 	private PlanningView view;
 	private JLayeredPane layeredPane;
@@ -34,9 +34,12 @@ public class ChartView implements Observer {
 	private ChartLimiter latestLimit;
         
         public ChartController chartController;
+        
+        private Model model;
 
 	public ChartView(Model model, PlanningView view) {
-		this.view = view;
+		this.view  = view;
+                this.model = model;
 			
 		chartCanvas = new ChartCanvas(view);
 		
@@ -45,13 +48,13 @@ public class ChartView implements Observer {
 		scrollPane = new JScrollPane(layeredPane);
 		scrollPane.setBorder(null);
 		
-		layeredPane.add(chartCanvas, CANVAS_LAYER);
+		layeredPane.add(chartCanvas, new Integer(0));
 		
 		earliestLimit = new ChartLimiter(view, new Color(0,0,255));
 		latestLimit = new ChartLimiter(view, new Color(255,0,0));
 		
-		layeredPane.add(earliestLimit, DATE_LIMIT_LAYER);
-		layeredPane.add(latestLimit, DATE_LIMIT_LAYER);
+		layeredPane.add(earliestLimit, new Integer(4));
+		layeredPane.add(latestLimit, new Integer(4));
                 
                 model.addObserver(this);
 	}
@@ -81,8 +84,6 @@ public class ChartView implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        Model model = (Model) o;
-        
         // Remove all tasks from the pane
 		Component[] tasks = layeredPane.getComponentsInLayer(TASK_LAYER);
 		for(Component c : tasks)

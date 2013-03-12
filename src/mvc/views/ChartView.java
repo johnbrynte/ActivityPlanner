@@ -100,11 +100,13 @@ public class ChartView implements Observer {
 
                 size = new Dimension(view.cellWidth * a.getDateSpan(), view.cellHeight);
                 
-                task.setSize(size);
+                /*task.setSize(size);
                 task.setPreferredSize(size);
                 task.setLocation(
                         view.getPositionFromDate(a.getStartDate()),
-                        view.cellHeight * i);
+                        view.cellHeight * i);*/
+                task.setBounds(view.getPositionFromDate(a.getStartDate()), view.cellHeight * i, view.cellWidth * a.getDateSpan(), view.cellHeight);
+                task.setVisible(true);
                 
                 layeredPane.add(task, TASK_LAYER);
 
@@ -113,6 +115,7 @@ public class ChartView implements Observer {
                 latestLimit.setLocation(
                         view.getPositionFromDate(a.getLatestEndDate()), 0);
             }
+            layeredPane.repaint();
         }
     }
 	

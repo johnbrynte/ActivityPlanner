@@ -75,7 +75,7 @@ public class ParkView implements Observer {
         Model model = (Model) o;
         
         Activity[] unscheduled = model.getUnscheduledActivities().getActivities();
-        
+        //System.out.println("Number of unscheduled activities: " + unscheduled.length);
         canvasSize = new Dimension(view.cellWidth * unscheduled.length, view.cellHeight);
         
         updateSize();
@@ -87,13 +87,17 @@ public class ParkView implements Observer {
         
         Task task;
         
-        for(Activity a : unscheduled) {
+        for(int i = 0; i < unscheduled.length; ++i) {
+            Activity a = unscheduled[i];
             task = new Task(null);
-            task.setSize(view.cellWidth * 2, view.cellHeight);
+            task.setBounds(view.cellWidth * 2 * i, 0, view.cellWidth * 2, view.cellHeight);
             task.setActivity(a);
             task.addMouseListener(parkController);
             task.addMouseMotionListener(parkController);
+            task.setVisible(true);
             parkPanel.add(task);
+            parkPanel.repaint();
+            //System.out.println("NEW unsch task: " + task.toString() + ". Size [" + task.getWidth() + "," + task.getHeight() + "] - location [" + task.getLocation().x + "," + task.getLocation().y + "]");
         }
         
     }

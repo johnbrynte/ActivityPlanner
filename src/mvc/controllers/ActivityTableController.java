@@ -4,13 +4,11 @@
  */
 package mvc.controllers;
 
-import mvc.model.Model;
-import mvc.model.Activity;
 import java.util.*;
 import java.awt.event.*;
 
-import java.util.Observer;
-import java.util.Observable;
+import mvc.model.Model;
+import mvc.model.Activity;
 import mvc.views.ActivityTableView;
 
 
@@ -18,7 +16,7 @@ import mvc.views.ActivityTableView;
  *
  * @author Álvaro
  */
-public class ActivityTableController implements Observer {
+public class ActivityTableController {
     
     private int nameActivityCounter;
     
@@ -32,9 +30,6 @@ public class ActivityTableController implements Observer {
         
         this.model = activityModel;
         this.tableView = activityTableView;
-        
-        // Adds itself as a observer.
-        model.addObserver(this);
         
         ////////////////////////////////////////////////////////////////////////
         // Listeners' assignment to the buttons.
@@ -52,9 +47,6 @@ public class ActivityTableController implements Observer {
                 
                 nameActivityCounter++;
                 model.addActivity("Cust_" + nameActivityCounter, 1, todaysDay, nextWeekDay);
-                
-                // The rows' listeners will be also updated, as the controler is
-                // also a observer.
                 
             }
         });
@@ -105,14 +97,6 @@ public class ActivityTableController implements Observer {
            
        });
        /////////////////////////////////////////////////////////////////////////
-        
-    }
-    
-    @Override
-    public void update(Observable o, Object arg) {
-        
-        // We add the listeners to the cells. Since the view has been registeres
-        // first as an observer, we're sure that we have all the cells.
         
     }
     

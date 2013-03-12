@@ -16,13 +16,6 @@ public class Model extends Observable
 		unscheduledActivities= new ActivityHolder(this,"Unscheduled");
 		allActivities = new ActivityHolder(this, "All Activities");
                 
-                /* ADDING SOME DATA FOR TESTING
-                GregorianCalendar todaysDay = new GregorianCalendar();
-                GregorianCalendar tomorrowsDay = new GregorianCalendar();;
-                tomorrowsDay.add(Calendar.DATE, 1);
-                
-                addActivity("A2", 10, todaysDay, tomorrowsDay);
-                addActivity("A1", 20, todaysDay, tomorrowsDay);*/
 	}
 	/*
 	 * Should be called when one of an activity's property has been changed.
@@ -346,6 +339,8 @@ public class Model extends Observable
 		System.out.println("\n");
 		allActivities.printAllActivities();
 	}
+        
+        @Override
 	public synchronized void notifyObservers()
 	{
 		setChanged();

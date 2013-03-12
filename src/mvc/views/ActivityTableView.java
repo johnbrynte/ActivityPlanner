@@ -4,14 +4,15 @@
  */
 package mvc.views;
 
-import tableModels.ActivityTableModel;
-import mvc.controllers.ActivityTableController;
 import java.awt.*;
-import java.util.Observable;
 import javax.swing.*;
 import javax.swing.table.*;
 import java.util.Observer;
+import java.util.Observable;
+
 import mvc.model.Model;
+import tableModels.ActivityTableModel;
+import mvc.controllers.ActivityTableController;
 
 /**
  *
@@ -32,21 +33,21 @@ public class ActivityTableView implements Observer {
         JPanel      root = new JPanel();
         
         // Model
-        Model m = new Model();
+        Model model;
         ActivityTableController contrl;
 
     // Constructor
     @SuppressWarnings("LeakingThisInConstructor")
-    public ActivityTableView() {
+    public ActivityTableView(Model model) {
         
-        // Adds itself as a observer.
-        m.addObserver(this);
+        // Sets the model
+        this.model = model;
         
         // Init the components
         initComponents();
         
-        // PUT AFTER IN THE SUPER_CONTROLLER
-        contrl = new ActivityTableController(m, this);
+        // Adds itself as a observer.
+        model.addObserver(this);
         
     }
     
@@ -84,11 +85,11 @@ public class ActivityTableView implements Observer {
     private void setTable(){
         
         // Creation of the table's model and fill it with the current data.
-        ActivityTableModel model = new ActivityTableModel(m);
-        model.setData(m);
+        ActivityTableModel tableModel = new ActivityTableModel(model);
+        tableModel.setData(model);
         
         // Creation of the table
-        activityTable = new JTable(model);
+        activityTable = new JTable(tableModel);
         
         ////////////////////////////////////////////////////////////////////////
         // Properties of the table.
@@ -163,7 +164,7 @@ public class ActivityTableView implements Observer {
     public void update(Observable o, Object arg) {
         
         // We refill the table with the data.
-        ((ActivityTableModel) activityTable.getModel()).setData(m);
+        ((ActivityTableModel) activityTable.getModel()).setData(model);
         
         // We tell the table that the data has been changed. We can't use 
         // fireTableRowsInserted since we don't know the exact index.

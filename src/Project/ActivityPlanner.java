@@ -45,7 +45,7 @@ public class ActivityPlanner
     private void loadGUI()
     {
         pv  = new PlanningView(model);
-        tv  = new ActivityTableView();
+        tv  = new ActivityTableView(model);
 
         mainWindow = new JFrame();
         

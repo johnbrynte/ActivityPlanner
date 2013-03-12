@@ -22,9 +22,9 @@ import mvc.model.Model;
  */
 public class ChartView implements Observer {
 	
-	private final int CANVAS_LAYER     = 0;
-	private final int TASK_LAYER       = 1;
-	private final int DATE_LIMIT_LAYER = 2;
+	//private Integer CANVAS_LAYER     = new Integer(0);
+	private Integer TASK_LAYER       = new Integer(10);
+	private Integer DATE_LIMIT_LAYER = new Integer(20);
 	
 	private PlanningView view;
 	private JLayeredPane layeredPane;
@@ -48,13 +48,13 @@ public class ChartView implements Observer {
 		scrollPane = new JScrollPane(layeredPane);
 		scrollPane.setBorder(null);
 		
-		layeredPane.add(chartCanvas, new Integer(0));
+		layeredPane.add(chartCanvas, JLayeredPane.FRAME_CONTENT_LAYER);
 		
 		earliestLimit = new ChartLimiter(view, new Color(0,0,255));
 		latestLimit = new ChartLimiter(view, new Color(255,0,0));
 		
-		layeredPane.add(earliestLimit, new Integer(4));
-		layeredPane.add(latestLimit, new Integer(4));
+		layeredPane.add(earliestLimit, DATE_LIMIT_LAYER);
+		layeredPane.add(latestLimit, DATE_LIMIT_LAYER);
                 
                 model.addObserver(this);
 	}
@@ -77,7 +77,7 @@ public class ChartView implements Observer {
 		latestLimit.updateView();
 		
 		// Remove all tasks from the chart
-		Component[] placedTasks = layeredPane.getComponentsInLayer(TASK_LAYER);
+		Component[] placedTasks = layeredPane.getComponentsInLayer(2);
 		for(Component c : placedTasks)
 			layeredPane.remove(c);
 	}
@@ -100,9 +100,9 @@ public class ChartView implements Observer {
             
             for(Activity a : activities) {
                 task = new Task(null);
-                //size = new Dimension(view.cellWidth * a.getDateSpan(), view.cellHeight);
                 
-                /*task.setSize(size);
+                /*size = new Dimension(view.cellWidth * a.getDateSpan(), view.cellHeight);
+                task.setSize(size);
                 task.setPreferredSize(size);
                 task.setLocation(
                         view.getPositionFromDate(a.getStartDate()),
@@ -113,7 +113,7 @@ public class ChartView implements Observer {
                 task.addMouseMotionListener(chartController);
                 task.setVisible(true);
                 
-                layeredPane.add(task, new Integer(2));
+                layeredPane.add(task, TASK_LAYER);
 
                 earliestLimit.setLocation(
                         view.getPositionFromDate(a.getEarliestStartDate()), 0);

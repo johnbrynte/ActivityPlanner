@@ -28,9 +28,12 @@ public class ParkView implements Observer {
     private PlanningView view;
     
     public ParkController parkController;
+    
+    private Model model;
 
     public ParkView(Model model, PlanningView view) {
-            this.view = view;
+            this.view  = view;
+            this.model = model;
             
             model.addObserver(this);
 
@@ -59,21 +62,19 @@ public class ParkView implements Observer {
      * Updates the size taking into account the size of the scroll bar. 
      */
     public void updateSize() {
-		if (scrollPane.getHorizontalScrollBar().isVisible()) {
-			canvasSize.height = view.cellHeight
-					+ scrollPane.getHorizontalScrollBar().getBounds().height;
-		} else {
-			canvasSize.height = view.cellHeight;
-		}
+        if (scrollPane.getHorizontalScrollBar().isVisible()) {
+                canvasSize.height = view.cellHeight
+                                + scrollPane.getHorizontalScrollBar().getBounds().height;
+        } else {
+                canvasSize.height = view.cellHeight;
+        }
 
-		scrollPane.setMinimumSize(canvasSize);
-	}
+        scrollPane.setMinimumSize(canvasSize);
+    }
 
     @Override
     public void update(Observable o, Object arg)
     {
-        Model model = (Model) o;
-        
         Activity[] unscheduled = model.getUnscheduledActivities().getActivities();
         //System.out.println("Number of unscheduled activities: " + unscheduled.length);
         canvasSize = new Dimension(view.cellWidth * unscheduled.length, view.cellHeight);
@@ -97,7 +98,6 @@ public class ParkView implements Observer {
             task.setVisible(true);
             parkPanel.add(task);
             parkPanel.repaint();
-            //System.out.println("NEW unsch task: " + task.toString() + ". Size [" + task.getWidth() + "," + task.getHeight() + "] - location [" + task.getLocation().x + "," + task.getLocation().y + "]");
         }
         
     }

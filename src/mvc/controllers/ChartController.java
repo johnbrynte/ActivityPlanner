@@ -1,5 +1,6 @@
 package mvc.controllers;
 
+import java.awt.Rectangle;
 import mvc.views.PlanningView;
 import mvc.views.ChartView;
 import java.awt.event.MouseEvent;
@@ -23,20 +24,22 @@ public class ChartController implements ChangeListener, MouseInputListener {
 
     private PlanningView view;
     private ChartView cv;
-
     private DnDController dnd;
-    
     private Model model;
 
     // this variable differentiates drag and drop between the park and chart
     // views, or only inside the chart view. Communication means that there is
     // an inter-view communication.
     private boolean communication = false;
+    
+    private boolean dragTaskSet = false;
+    private Activity dragActivity;
 
     private int horizontalScroll;
     private int verticalScroll;
     private int chartCanvasHeight;
 
+    
     public ChartController(Model model, DnDController dnd, ChartView cv, PlanningView view) {
         this.dnd   = dnd;
         this.view  = view;
@@ -76,29 +79,35 @@ public class ChartController implements ChangeListener, MouseInputListener {
      * @param event the mouse event that caused the drop event.
      */
     public void dropEvent(MouseEvent event) {
-        int x = event.getComponent().getLocation().x + event.getX();
+        Activity activity = null;
+        boolean error = false;
+        
+        try {
+            activity = ((Task) event.getComponent()).getActivity();
+        } catch (java.lang.ClassCastException err) {
+            error = true;
+        }
+        
+        if (!error) {
+            int x = event.getComponent().getLocation().x + event.getX();
 
-        if(x > 0) {
-            if (communication) x += horizontalScroll;
+            if(x > 0) {
+                if (communication) x += horizontalScroll;
 
-            GregorianCalendar date = new GregorianCalendar();
-            date.setTimeInMillis(
-                    view.startDate.getTimeInMillis() + view.DAY_IN_MILLIS
-                    * ((long) x / view.cellWidth));
+                GregorianCalendar date = new GregorianCalendar();
+                date.setTimeInMillis(
+                        view.startDate.getTimeInMillis() + view.DAY_IN_MILLIS
+                        * ((long) x / view.cellWidth));
 
-            int y;
-            if (communication) y = (chartCanvasHeight + verticalScroll + event.getY()) / view.cellHeight;
-            else               y = (event.getComponent().getLocation().y + event.getY()) / view.cellHeight;
+                int y;
+                if (communication) y = (chartCanvasHeight + verticalScroll + event.getY()) / view.cellHeight;
+                else               y = (event.getComponent().getLocation().y + event.getY()) / view.cellHeight;
 
-            ActivityHolder[] productionLines = model.getProductionLines();
-            Activity activity;
+                ActivityHolder[] productionLines = model.getProductionLines();
 
-            //System.out.println("x index: " + (x / view.cellWidth));
-            //System.out.println("y index: " + y);
-
-            if(y >= 0 && y < productionLines.length) {
-                activity = ((Task) event.getComponent()).getActivity();
-                model.reschedule(activity, productionLines[y], date);
+                if(y >= 0 && y < productionLines.length) {
+                    model.reschedule(activity, productionLines[y], date);
+                }
             }
         }
     }
@@ -123,6 +132,8 @@ public class ChartController implements ChangeListener, MouseInputListener {
     public void mouseReleased(MouseEvent e)
     {
         dropEvent(e);
+        cv.updateDragTask(null);
+        dragTaskSet = false;
     }
 
     @Override
@@ -134,8 +145,45 @@ public class ChartController implements ChangeListener, MouseInputListener {
     @Override
     public void mouseDragged(MouseEvent e)
     {
-        //System.out.println("x: " + (e.getComponent().getLocation().x + e.getX()));
-        //System.out.println("y: " + ((int) ((chartCanvasHeight + e.getY()) / view.cellHeight)));
+        Activity activity = null;
+        boolean error = false;
+        
+        try {
+            activity = ((Task) e.getComponent()).getActivity();
+        } catch (java.lang.ClassCastException err) {
+            error = true;
+        }
+        
+        // for the moment, limited only to activities we bring from park view to
+        // chart view.
+        if (!error && communication) {
+            if (!dragTaskSet) {
+                dragActivity = new Activity("DnD", activity.getDateSpan(), activity.getEarliestStartDate(), activity.getLatestEndDate(), activity.getProductionLine());
+                dragTaskSet = true;
+            }
+
+            int x = e.getComponent().getLocation().x + e.getX();
+            if(x > 0) {
+                if (communication) x += horizontalScroll;
+
+                GregorianCalendar date = new GregorianCalendar();
+                date.setTimeInMillis(
+                        view.startDate.getTimeInMillis() + view.DAY_IN_MILLIS
+                        * ((long) x / view.cellWidth));
+
+                int y;
+                if (communication) y = (chartCanvasHeight + verticalScroll + e.getY()) / view.cellHeight;
+                else               y = (e.getComponent().getLocation().y + e.getY()) / view.cellHeight;
+
+                ActivityHolder[] productionLines = model.getProductionLines();
+
+                if(y >= 0 && y < productionLines.length) {
+                    dragActivity.setStartDate(date);
+                    dragActivity.setProductionLine(productionLines[y]);
+                    cv.updateDragTask(dragActivity);
+                }
+            }
+        }
     }
 
     @Override

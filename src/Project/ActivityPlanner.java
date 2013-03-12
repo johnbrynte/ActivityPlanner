@@ -26,13 +26,13 @@ public class ActivityPlanner
     private JFrame mainWindow;
     
     
-    public PlanningView pv;
-    public ActivityTableView tv;
+    public PlanningView planningView;
+    public ActivityTableView tableView;
     
-    private ChartController         cc;
-    private ParkController          pc;
-    private DnDController           dnd;
-    private ActivityTableController atc;
+    private ChartController         chartController;
+    private ParkController          parkController;
+    private DnDController           dndController;
+    private ActivityTableController tableController;
     
     private Model model;
     
@@ -44,8 +44,8 @@ public class ActivityPlanner
     
     private void loadGUI()
     {
-        pv  = new PlanningView(model);
-        tv  = new ActivityTableView(model);
+        planningView  = new PlanningView(model);
+        tableView  = new ActivityTableView(model);
 
         mainWindow = new JFrame();
         
@@ -56,23 +56,24 @@ public class ActivityPlanner
         //creation of left panel and its views
         jPanelRight = new JPanel();
         jPanelRight.setLayout(new java.awt.GridLayout(0, 1));
-        jPanelRight.add(pv.getComponent());
+        jPanelRight.add(planningView.getComponent());
         // to do
-        pv.setDateLimits(new GregorianCalendar(2013,0,1), new GregorianCalendar(2013,3,10));
+        planningView.setDateLimits(new GregorianCalendar(2013,0,1), new GregorianCalendar(2013,3,10));
         
-        jPanelRight.add(tv.getComponent());
+        jPanelRight.add(tableView.getComponent());
         
         mainWindow.getContentPane().add(jPanelRight, java.awt.BorderLayout.CENTER);
         mainWindow.pack();
         
-        dnd = new DnDController();
-        cc  = new ChartController(model, dnd, pv.chartView, pv);
-        pc  = new ParkController(dnd, pv.parkView);
-        pv.parkView.parkController   = pc;
-        pv.chartView.chartController = cc;
-        atc = new ActivityTableController(model, tv);
+        dndController    = new DnDController();
+        chartController  = new ChartController(model, dndController, planningView.chartView, planningView);
+        parkController   = new ParkController(dndController, planningView.parkView);
+        tableController  = new ActivityTableController(model, tableView);
         
-        dnd.setDnDSourceAndDestination(cc, pc);
+        planningView.parkView.parkController   = parkController;
+        planningView.chartView.chartController = chartController;
+        
+        dndController.setDnDSourceAndDestination(chartController, parkController);
         
         mainWindow.setVisible(true);
     }

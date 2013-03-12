@@ -64,7 +64,7 @@ public class Activity {
 	 * The method is only called from within the model to ensure that constrictions regarding
 	 * non-overlapping activities are honored
 	 */
-	void setStartDate(GregorianCalendar startDate)
+	public void setStartDate(GregorianCalendar startDate)
 	{
 		this.startDate=(GregorianCalendar)startDate.clone();
 	}
@@ -89,7 +89,7 @@ public class Activity {
 	 * The method is only called from within the model to ensure that constrictions regarding
 	 * non-overlapping activities are honoured
 	 */
-	void setProductionLine(ActivityHolder productionLine)
+	public void setProductionLine(ActivityHolder productionLine)
 	{
 		this.productionLine=productionLine;
 	}

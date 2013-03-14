@@ -1,6 +1,7 @@
 package mvc.views;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -105,6 +106,7 @@ public class Task extends JComponent
     public void paint(Graphics g)
     {
         boolean paintControl = (this.getWidth() > 0 && this.getHeight() > 0);
+        
         if (paintControl) {
             if (!this.transparent) {
                 // Print with the normal color

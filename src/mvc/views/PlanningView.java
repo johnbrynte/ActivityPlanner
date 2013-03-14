@@ -30,8 +30,8 @@ public class PlanningView implements Observer {
 	public ParkView parkView;
 	
 	public Dimension canvasSize = new Dimension();
-	public int cellWidth = 50;
-	public int cellHeight = 30;
+	public static int cellWidth = 50;
+	public static int cellHeight = 30;
     public int rows = 0;
 	
 	public GregorianCalendar startDate;

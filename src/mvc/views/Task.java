@@ -24,10 +24,14 @@ public class Task extends JComponent
     
     private static int tsize = 25;
     
-    private static final long MILIS_DAY = (1000 * 60 * 60 * 24);
+    boolean visibleInChartView;
     
-    public Task()
-    {}
+    private static final long DAY_IN_MILLIS = (1000 * 60 * 60 * 24);
+    
+    public Task(boolean visibleInChartView)
+    {
+        this.visibleInChartView = visibleInChartView;
+    }
     
     /**
      * Associates a certain activity in the Model to this component from witch
@@ -37,6 +41,8 @@ public class Task extends JComponent
     public void setActivity(Activity task)
     {
         this.task = task;
+        setSize(new Dimension(PlanningView.cellWidth * task.getDateSpan(),
+                                PlanningView.cellHeight));
     }
     
     public Activity getActivity() {
@@ -103,46 +109,34 @@ public class Task extends JComponent
         boolean paintControl = (this.getWidth() > 0 && this.getHeight() > 0);
         if (paintControl) {
             if (!this.transparent) {
-                // drawing the background
-                int dw = this.getWidth()/task.getDateSpan();
-                GregorianCalendar end = task.getEndDate();
+                // Print with the normal color
+                g.setColor(normal);
+                g.fillRect(0, 0, getWidth(), getHeight());
+                
+                if(visibleInChartView) {
+                    long dt;
+                    int x;
 
-                if (task.getEarliestStartDate().after(task.getStartDate())) {
-                    int diff1 = (int)( (task.getEarliestStartDate().getTimeInMillis() - task.getStartDate().getTimeInMillis())/MILIS_DAY);
+                    // Check if task is to early
+                    if(task.getStartDate().before(task.getEarliestStartDate())) {
 
-                    // paint with different color
-                    g.setColor(tooEarly);
-                    g.fillRect(0, 0, dw * diff1, this.getHeight() - 1);
+                        dt = task.getEarliestStartDate().getTimeInMillis()
+                                - task.getStartDate().getTimeInMillis();
+                        x = (int) (PlanningView.cellWidth * dt / DAY_IN_MILLIS);
 
-                    // check the remaining days
-                    if (end.after(task.getLatestEndDate())) {
-                        int diff2 = (int)((end.getTimeInMillis() - task.getLatestEndDate().getTimeInMillis())/MILIS_DAY);
+                        g.setColor(tooEarly);
+                        g.fillRect(0, 0, x, this.getHeight());
+                    }
+
+                    // Check if task is to late
+                    if(task.getEndDate().after(task.getLatestEndDate())) {
+
+                        dt = task.getEndDate().getTimeInMillis()
+                                - task.getLatestEndDate().getTimeInMillis();
+                        x = (int) (PlanningView.cellWidth * dt / DAY_IN_MILLIS);
 
                         g.setColor(tooLate);
-                        g.fillRect(dw * (task.getDateSpan() - diff2), 0, dw * diff2, this.getHeight() - 1);
-
-                        g.setColor(normal);
-                        g.fillRect(dw * diff1, 0, dw * (task.getDateSpan() - diff1 - diff2), this.getHeight() - 1);
-                    }
-                    else {
-                        g.setColor(normal);
-                        g.fillRect(dw * diff1, 0, dw * (task.getDateSpan() - diff1), this.getHeight() - 1);
-                    }
-                }
-                else {
-                    // check the remaining days
-                    if (end.after(task.getLatestEndDate())) {
-                        int diff2 = (int)((end.getTimeInMillis() - task.getLatestEndDate().getTimeInMillis())/MILIS_DAY);
-
-                        g.setColor(tooLate);
-                        g.fillRect(dw * (task.getDateSpan() - diff2), 0, dw * diff2, this.getHeight() - 1);
-
-                        g.setColor(normal);
-                        g.fillRect(0, 0, dw * (task.getDateSpan() - diff2), this.getHeight() - 1);
-                    }
-                    else {
-                        g.setColor(normal);
-                        g.fillRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
+                        g.fillRect(getWidth() - x, 0, x, this.getHeight());
                     }
                 }
 

@@ -3,11 +3,9 @@ package mvc.views;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Rectangle;
 import java.util.GregorianCalendar;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.JButton;
 
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
@@ -113,8 +111,9 @@ public class ChartView implements Observer {
             }
             
             for(Activity a : activities) {
-                task = new Task();
-                task.setBounds(view.getPositionFromDate(a.getStartDate()), view.cellHeight * i, view.cellWidth * a.getDateSpan(), view.cellHeight);
+                task = new Task(true);
+                task.setLocation(view.getPositionFromDate(a.getStartDate()),
+                                PlanningView.cellHeight * i);
                 task.setActivity(a);
                 task.addMouseListener(chartController);
                 task.addMouseMotionListener(chartController);
@@ -124,14 +123,16 @@ public class ChartView implements Observer {
 
                 earliestLimit.setLocation(
                         view.getPositionFromDate(a.getEarliestStartDate()), 0);
+                
                 latestLimit.setLocation(
                         view.getPositionFromDate(a.getLatestEndDate()), 0);
             }
         }
         
         if (dragTask != null) {
-            task = new Task();
-            task.setBounds(view.getPositionFromDate(dragTask.getStartDate()), view.cellHeight * dragProdLine, view.cellWidth * dragTask.getDateSpan(), view.cellHeight);
+            task = new Task(true);
+            task.setLocation(view.getPositionFromDate(dragTask.getStartDate()),
+                            PlanningView.cellHeight * dragProdLine);
             task.setContentTransparent(true);
             task.setVisible(true);
             layeredPane.add(task, DND_EFFECT_LAYER);

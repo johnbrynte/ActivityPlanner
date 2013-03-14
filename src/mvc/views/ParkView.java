@@ -84,11 +84,12 @@ public class ParkView implements Observer {
 			parkPanel.remove(c);
         
         Task task;
+        Dimension defaultSize = new Dimension(1,1); // Only to make it visible
         
         for(int i = 0; i < unscheduled.length; ++i) {
             Activity a = unscheduled[i];
-            task = new Task();
-            task.setPreferredSize(new Dimension(view.cellWidth, view.cellHeight));
+            task = new Task(false);
+            task.setPreferredSize(defaultSize);
             task.setActivity(a);
             task.addMouseListener(parkController);
             task.addMouseMotionListener(parkController);

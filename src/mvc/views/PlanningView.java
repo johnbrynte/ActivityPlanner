@@ -79,10 +79,8 @@ public class PlanningView implements Observer {
 
 		canvasSize.width = cellWidth * (daysBetween + 1);
 		
-        if(canvasSize.width > 0 && canvasSize.height > 0) {
-            timeLineView.updateView();
-            chartView.updateView();
-        }
+        timeLineView.updateView();
+        chartView.updateView();
 	}
 	
 	/**

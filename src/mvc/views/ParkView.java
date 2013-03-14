@@ -2,7 +2,7 @@ package mvc.views;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -36,7 +36,7 @@ public class ParkView implements Observer {
 
             parkPanel = new JPanel();
 
-            parkPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+            parkPanel.setLayout(new GridLayout(1, 0, 0, 0));
             
             canvasSize = new Dimension(view.cellWidth, view.cellHeight);
             parkPanel.setPreferredSize(canvasSize);
@@ -88,7 +88,7 @@ public class ParkView implements Observer {
         for(int i = 0; i < unscheduled.length; ++i) {
             Activity a = unscheduled[i];
             task = new Task();
-            task.setBounds(view.cellWidth * 2 * i, 0, view.cellWidth * 2, view.cellHeight);
+            task.setPreferredSize(new Dimension(view.cellWidth, view.cellHeight));
             task.setActivity(a);
             task.addMouseListener(parkController);
             task.addMouseMotionListener(parkController);
@@ -96,6 +96,7 @@ public class ParkView implements Observer {
             parkPanel.add(task);
         }
         
+        parkPanel.validate();
         parkPanel.repaint();
     }
 

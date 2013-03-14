@@ -122,7 +122,7 @@ public class Task extends JComponent
 
                         dt = task.getEarliestStartDate().getTimeInMillis()
                                 - task.getStartDate().getTimeInMillis();
-                        x = (int) (PlanningView.cellWidth * dt / DAY_IN_MILLIS);
+                        x = (int) (PlanningView.cellWidth * (dt / DAY_IN_MILLIS));
 
                         g.setColor(tooEarly);
                         g.fillRect(0, 0, x, this.getHeight());
@@ -133,7 +133,7 @@ public class Task extends JComponent
 
                         dt = task.getEndDate().getTimeInMillis()
                                 - task.getLatestEndDate().getTimeInMillis();
-                        x = (int) (PlanningView.cellWidth * dt / DAY_IN_MILLIS);
+                        x = (int) (PlanningView.cellWidth * ((dt / DAY_IN_MILLIS) + 1));
 
                         g.setColor(tooLate);
                         g.fillRect(getWidth() - x, 0, x, this.getHeight());

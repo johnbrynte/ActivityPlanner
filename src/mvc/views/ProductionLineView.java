@@ -5,15 +5,20 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+import javax.swing.table.DefaultTableModel;
 import mvc.model.ActivityHolder;
 import mvc.model.Model;
+import tableModels.ProductionLineTableModel;
 
 /**
  *
@@ -24,9 +29,13 @@ public class ProductionLineView implements Observer {
     private JPanel rootPanel;
     private JPanel productionLinePanel;
     private PlanningView view;
-    private JButton addButton;
-    private JButton deleteButton;
-    private JTextField textField;
+    
+    public JButton addButton;
+    public JButton deleteButton;
+    public JTextField textField;
+    public JTable table;
+    
+    private DefaultTableModel tableModel;
     
     private Dimension canvasSize = new Dimension(150, 0);
     
@@ -44,6 +53,7 @@ public class ProductionLineView implements Observer {
         
         Dimension controlSize = new Dimension(canvasSize.width, topHeight);
         
+        // Create control panel
         SpringLayout layout = new SpringLayout();
         JPanel controlPanel = new JPanel(layout);
         controlPanel.setPreferredSize(controlSize);
@@ -70,7 +80,7 @@ public class ProductionLineView implements Observer {
                 SpringLayout.EAST, controlPanel);
         controlPanel.add(deleteButton);
         
-        textField = new JTextField();
+        textField = new JTextField("Production line name...");
         layout.putConstraint(
                 SpringLayout.SOUTH, textField, 0,
                 SpringLayout.SOUTH, controlPanel);
@@ -82,10 +92,12 @@ public class ProductionLineView implements Observer {
                 SpringLayout.EAST, controlPanel);
         controlPanel.add(textField);
         
-        productionLinePanel = new JPanel();
-        productionLinePanel.setLayout(null);
-        productionLinePanel.setLocation(0, topHeight);
-        rootPanel.add(productionLinePanel, BorderLayout.CENTER);
+        // Create table
+        table = new JTable();
+        table.setRowHeight(view.cellHeight);
+        rootPanel.add(table, BorderLayout.CENTER);
+        tableModel = new ProductionLineTableModel();
+        table.setModel(tableModel);
     }
 
     public JPanel getComponent() {
@@ -96,24 +108,16 @@ public class ProductionLineView implements Observer {
     public void update(Observable o, Object arg) {
         Model model = (Model) o;
         
-        // Remove all tasks from the panel
-		Component[] tasks = productionLinePanel.getComponents();
-		for(Component c : tasks)
-			productionLinePanel.remove(c);
-        
         ActivityHolder[] productionLines = model.getProductionLines();
-        JLabel productionLine;
         
-        productionLinePanel.setSize(
-                productionLinePanel.getWidth(),
-                productionLines.length * view.cellHeight);
+        // Empty the table
+        while(table.getRowCount() > 0)
+            tableModel.removeRow(0);
         
         for(int i = 0; i < productionLines.length; i ++) {
-            productionLine = new JLabel(productionLines[i].getName());
-            productionLine.setSize(new Dimension(
-                    canvasSize.width, view.cellHeight));
-            productionLine.setLocation(5, view.cellHeight * i);
-            productionLinePanel.add(productionLine);
+            tableModel.addRow(new Object[]{
+                productionLines[i].getName()
+            });
         }
     }
     

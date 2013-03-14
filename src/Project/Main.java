@@ -12,14 +12,6 @@ public class Main
         
         // creating the GUI
         new ActivityPlanner(m);
-        
-        /*m.addActivity("Monstropolis", 5,
-                new GregorianCalendar(2013, 0, 1),
-                new GregorianCalendar(2013, 0, 10));*/
-        
-        m.addProductionLine("Monsters Inc.");
-        m.addProductionLine("Aperture Science");
-        m.addProductionLine("Skynet");
     }
     
 }

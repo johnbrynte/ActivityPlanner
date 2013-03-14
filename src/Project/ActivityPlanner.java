@@ -11,6 +11,7 @@ import mvc.controllers.ActivityTableController;
 import mvc.controllers.ChartController;
 import mvc.controllers.DnDController;
 import mvc.controllers.ParkController;
+import mvc.controllers.ProductionLineController;
 import mvc.views.ActivityTableView;
 import mvc.views.PlanningView;
 import mvc.model.Model;
@@ -29,10 +30,11 @@ public class ActivityPlanner
     public PlanningView planningView;
     public ActivityTableView tableView;
     
-    private ChartController         chartController;
-    private ParkController          parkController;
-    private DnDController           dndController;
-    private ActivityTableController tableController;
+    private ChartController          chartController;
+    private ParkController           parkController;
+    private DnDController            dndController;
+    private ActivityTableController  tableController;
+    private ProductionLineController plTableController;
     
     private Model model;
     
@@ -69,6 +71,7 @@ public class ActivityPlanner
         chartController  = new ChartController(model, dndController, planningView.chartView, planningView);
         parkController   = new ParkController(dndController, planningView.parkView);
         tableController  = new ActivityTableController(model, tableView);
+        plTableController = new ProductionLineController(model, planningView.productionLineView);
         
         planningView.parkView.parkController   = parkController;
         planningView.chartView.chartController = chartController;

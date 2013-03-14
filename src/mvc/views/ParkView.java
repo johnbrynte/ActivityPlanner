@@ -3,16 +3,13 @@ package mvc.views;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.GregorianCalendar;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import mvc.controllers.ParkController;
 import mvc.model.Activity;
-import mvc.model.ActivityHolder;
 import mvc.model.Model;
 
 /**

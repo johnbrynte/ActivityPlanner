@@ -122,10 +122,8 @@ public class PlanningView implements Observer {
         rows = model.getProductionLines().length;
         canvasSize.height = cellHeight * rows;
         
-        if(canvasSize.width > 0 && canvasSize.height > 0) {
-            timeLineView.updateView();
-            chartView.updateView();
-        }
+        timeLineView.updateView();
+        chartView.updateView();
     }
 	
 }

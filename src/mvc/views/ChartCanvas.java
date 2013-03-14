@@ -82,10 +82,15 @@ public class ChartCanvas extends JPanel {
 	 * Updates the size and redraws the chart canvas.
 	 */
 	public void updateView() {
-        imageBuffer = new BufferedImage(
-                view.canvasSize.width, view.canvasSize.height, BufferedImage.TYPE_INT_RGB);
-        setSize(view.canvasSize);
+        if(view.canvasSize.width > 0 && view.canvasSize.height > 0) {
+            imageBuffer = new BufferedImage(
+                    view.canvasSize.width, view.canvasSize.height, BufferedImage.TYPE_INT_RGB);
+            
+            setSize(view.canvasSize);
 
-        drawBorders();
+            drawBorders();
+        } else {
+            imageBuffer = null;
+        }
     }
 }

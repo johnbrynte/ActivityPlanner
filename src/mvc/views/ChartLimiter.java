@@ -38,16 +38,20 @@ public class ChartLimiter extends JComponent {
 	 * Updates the size and redraws the chart canvas.
 	 */
 	public void updateView() {
-		canvasSize.height = view.canvasSize.height;
-		
-		imageBuffer = new BufferedImage(
-				canvasSize.width, canvasSize.height, BufferedImage.TYPE_INT_RGB);
-		setSize(canvasSize);
-		
-		Graphics g = imageBuffer.getGraphics();
-		
-		g.setColor(color);
-		g.fillRect(0, 0, canvasSize.width, canvasSize.height);
+        if(view.canvasSize.width > 0 && view.canvasSize.height > 0) {
+            canvasSize.height = view.canvasSize.height;
+
+            imageBuffer = new BufferedImage(
+                    canvasSize.width, canvasSize.height, BufferedImage.TYPE_INT_RGB);
+            setSize(canvasSize);
+
+            Graphics g = imageBuffer.getGraphics();
+
+            g.setColor(color);
+            g.fillRect(0, 0, canvasSize.width, canvasSize.height);
+        } else {
+            imageBuffer = null;
+        }
 	}
 	
 }

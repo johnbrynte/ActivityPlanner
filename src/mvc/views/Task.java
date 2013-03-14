@@ -1,7 +1,6 @@
 package mvc.views;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -13,7 +12,6 @@ import mvc.model.Activity;
 public class Task extends JComponent
 {
     private Activity task;
-    private PlanningView view;
     private boolean  transparent = false;
     
     private static Color border      = null;
@@ -148,6 +146,17 @@ public class Task extends JComponent
                 Rectangle2D r = fm.getStringBounds(task.getCustomer(), g);
 
                 // adapting text size
+                // makes it bigger if it is possible
+                while (this.getWidth() > r.getWidth() && this.getHeight() > r.getHeight()) {
+                    ++tsize;
+                    font = new Font("Helvetica", Font.PLAIN, tsize);
+                    g.setFont(font);
+                    fm   = g.getFontMetrics();
+                    r    = fm.getStringBounds(task.getCustomer(), g);
+                }
+                
+                // adapting text size
+                // makes it smaller if it doesn't fit in the component bounds.
                 while (this.getWidth() <= r.getWidth() || this.getHeight() <= r.getHeight()) {
                     --tsize;
                     font = new Font("Helvetica", Font.PLAIN, tsize);

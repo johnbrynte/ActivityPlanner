@@ -1,7 +1,6 @@
 package mvc.views;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -13,7 +12,6 @@ import mvc.model.Activity;
 public class Task extends JComponent
 {
     private Activity task;
-    private PlanningView view;
     private boolean  transparent = false;
     
     private static Color border      = null;

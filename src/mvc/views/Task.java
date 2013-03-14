@@ -100,78 +100,80 @@ public class Task extends JComponent
     @Override
     public void paint(Graphics g)
     {
-        if (!this.transparent) {
-            // drawing the background
-            int dw = this.getWidth()/task.getDateSpan();
-            GregorianCalendar end = task.getEndDate();
-            
-            if (task.getEarliestStartDate().after(task.getStartDate())) {
-                int diff1 = (int)( (task.getEarliestStartDate().getTimeInMillis() - task.getStartDate().getTimeInMillis())/MILIS_DAY);
-                
-                // paint with different color
-                g.setColor(tooEarly);
-                g.fillRect(0, 0, dw * diff1, this.getHeight() - 1);
-                
-                // check the remaining days
-                if (end.after(task.getLatestEndDate())) {
-                    int diff2 = (int)((end.getTimeInMillis() - task.getLatestEndDate().getTimeInMillis())/MILIS_DAY);
-                    
-                    g.setColor(tooLate);
-                    g.fillRect(dw * (task.getDateSpan() - diff2), 0, dw * diff2, this.getHeight() - 1);
-                    
-                    g.setColor(normal);
-                    g.fillRect(dw * diff1, 0, dw * (task.getDateSpan() - diff1 - diff2), this.getHeight() - 1);
+        boolean paintControl = (this.getWidth() > 0 && this.getHeight() > 0);
+        if (paintControl) {
+            if (!this.transparent) {
+                // drawing the background
+                int dw = this.getWidth()/task.getDateSpan();
+                GregorianCalendar end = task.getEndDate();
+
+                if (task.getEarliestStartDate().after(task.getStartDate())) {
+                    int diff1 = (int)( (task.getEarliestStartDate().getTimeInMillis() - task.getStartDate().getTimeInMillis())/MILIS_DAY);
+
+                    // paint with different color
+                    g.setColor(tooEarly);
+                    g.fillRect(0, 0, dw * diff1, this.getHeight() - 1);
+
+                    // check the remaining days
+                    if (end.after(task.getLatestEndDate())) {
+                        int diff2 = (int)((end.getTimeInMillis() - task.getLatestEndDate().getTimeInMillis())/MILIS_DAY);
+
+                        g.setColor(tooLate);
+                        g.fillRect(dw * (task.getDateSpan() - diff2), 0, dw * diff2, this.getHeight() - 1);
+
+                        g.setColor(normal);
+                        g.fillRect(dw * diff1, 0, dw * (task.getDateSpan() - diff1 - diff2), this.getHeight() - 1);
+                    }
+                    else {
+                        g.setColor(normal);
+                        g.fillRect(dw * diff1, 0, dw * (task.getDateSpan() - diff1), this.getHeight() - 1);
+                    }
                 }
                 else {
-                    g.setColor(normal);
-                    g.fillRect(dw * diff1, 0, dw * (task.getDateSpan() - diff1), this.getHeight() - 1);
+                    // check the remaining days
+                    if (end.after(task.getLatestEndDate())) {
+                        int diff2 = (int)((end.getTimeInMillis() - task.getLatestEndDate().getTimeInMillis())/MILIS_DAY);
+
+                        g.setColor(tooLate);
+                        g.fillRect(dw * (task.getDateSpan() - diff2), 0, dw * diff2, this.getHeight() - 1);
+
+                        g.setColor(normal);
+                        g.fillRect(0, 0, dw * (task.getDateSpan() - diff2), this.getHeight() - 1);
+                    }
+                    else {
+                        g.setColor(normal);
+                        g.fillRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
+                    }
                 }
-            }
-            else {
-                // check the remaining days
-                if (end.after(task.getLatestEndDate())) {
-                    int diff2 = (int)((end.getTimeInMillis() - task.getLatestEndDate().getTimeInMillis())/MILIS_DAY);
-                    
-                    g.setColor(tooLate);
-                    g.fillRect(dw * (task.getDateSpan() - diff2), 0, dw * diff2, this.getHeight() - 1);
-                    
-                    g.setColor(normal);
-                    g.fillRect(0, 0, dw * (task.getDateSpan() - diff2), this.getHeight() - 1);
+
+                // getting font dimensions
+                g.setColor(textC);
+                Font font = new Font("Helvetica", Font.PLAIN, tsize);
+                g.setFont(font);
+                FontMetrics fm = g.getFontMetrics();
+                Rectangle2D r = fm.getStringBounds(task.getCustomer(), g);
+
+                // adapting text size
+                while (this.getWidth() <= r.getWidth() || this.getHeight() <= r.getHeight()) {
+                    --tsize;
+                    font = new Font("Helvetica", Font.PLAIN, tsize);
+                    g.setFont(font);
+                    fm   = g.getFontMetrics();
+                    r    = fm.getStringBounds(task.getCustomer(), g);
                 }
-                else {
-                    g.setColor(normal);
-                    g.fillRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
-                }
+
+                // drawing the text
+                int ix = (int)((this.getWidth() - r.getWidth())/2);
+                int iy = (int)((this.getHeight()/2) + (r.getHeight()/4));
+
+                g.drawString(task.getCustomer(), ix, iy);
             }
 
-            // getting font dimensions
-            g.setColor(textC);
-            Font font = new Font("Helvetica", Font.PLAIN, tsize);
-            g.setFont(font);
-            FontMetrics fm = g.getFontMetrics();
-            Rectangle2D r = fm.getStringBounds(task.getCustomer(), g);
-            
-            // adapting text size
-            while (this.getWidth() <= r.getWidth() || this.getHeight() <= r.getHeight()) {
-                --tsize;
-                font = new Font("Helvetica", Font.PLAIN, tsize);
-                g.setFont(font);
-                fm   = g.getFontMetrics();
-                r    = fm.getStringBounds(task.getCustomer(), g);
-            }
-            
-            // drawing the text
-            int ix = (int)((this.getWidth() - r.getWidth())/2);
-            int iy = (int)((this.getHeight()/2) + (r.getHeight()/4));
-            
-            g.drawString(task.getCustomer(), ix, iy);
+            // drawing the outer rectangle
+            if (border != null) { g.setColor(border);      }
+            else                { g.setColor(Color.black); }
+            g.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
         }
-        
-        // drawing the outer rectangle
-        if (border != null) { g.setColor(border);      }
-        else                { g.setColor(Color.black); }
-        g.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
-        
     }
 
     @Override

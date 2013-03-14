@@ -6,24 +6,22 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
-import java.util.GregorianCalendar;
 import javax.swing.JComponent;
 import mvc.model.Activity;
 
 public class Task extends JComponent
 {
     private Activity task;
-    private boolean  transparent = false;
+    private boolean transparent = false;
+    private boolean visibleInChartView;
     
-    private static Color border      = null;
+    private static Color border      = Color.BLACK;
     private static Color tooEarly    = Color.GRAY;
     private static Color tooLate     = Color.GRAY;
     private static Color normal      = Color.GREEN;
     private static Color textC       = Color.BLACK;
     
     private static int tsize = 25;
-    
-    boolean visibleInChartView;
     
     private static final long DAY_IN_MILLIS = (1000 * 60 * 60 * 24);
     
@@ -175,8 +173,7 @@ public class Task extends JComponent
             }
 
             // drawing the outer rectangle
-            if (border != null) { g.setColor(border);      }
-            else                { g.setColor(Color.black); }
+            g.setColor(border);
             g.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
         }
     }

@@ -154,6 +154,17 @@ public class Task extends JComponent
                 Rectangle2D r = fm.getStringBounds(task.getCustomer(), g);
 
                 // adapting text size
+                // makes it bigger if it is possible
+                while (this.getWidth() > r.getWidth() && this.getHeight() > r.getHeight()) {
+                    ++tsize;
+                    font = new Font("Helvetica", Font.PLAIN, tsize);
+                    g.setFont(font);
+                    fm   = g.getFontMetrics();
+                    r    = fm.getStringBounds(task.getCustomer(), g);
+                }
+                
+                // adapting text size
+                // makes it smaller if it doesn't fit in the component bounds.
                 while (this.getWidth() <= r.getWidth() || this.getHeight() <= r.getHeight()) {
                     --tsize;
                     font = new Font("Helvetica", Font.PLAIN, tsize);

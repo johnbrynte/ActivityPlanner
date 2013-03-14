@@ -1,12 +1,20 @@
 package mvc.views;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JPanel;
+import mvc.model.ActivityHolder;
+import mvc.model.Model;
 
 /**
  * The Chart Canvas draws the borders of the Chart View
@@ -17,10 +25,12 @@ public class ChartCanvas extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
+    private Model model;
 	private PlanningView view;
 	private BufferedImage imageBuffer;
 
-	public ChartCanvas(PlanningView view) {
+	public ChartCanvas(Model model, PlanningView view) {
+        this.model = model;
 		this.view = view;
 	}
 	
@@ -44,14 +54,18 @@ public class ChartCanvas extends JPanel {
 		int week = day.get(GregorianCalendar.WEEK_OF_YEAR);
 
 		g.setColor(Color.white);
-		g.fillRect(0, 0, view.canvasSize.width, view.canvasSize.height);
-		g.setColor(Color.lightGray);
+		g.fillRect(0, 0,
+                    view.canvasSize.width + ChartView.LEFT_OFFSET,
+                    view.canvasSize.height);
+        
+        ActivityHolder[] productionLines = model.getProductionLines();
 
 		// draw horizontal lines
-		for (int i = 0; i < view.rows; i++) {
-			g.drawLine(
-					0, i * view.cellHeight,
-					view.canvasSize.width, i * view.cellHeight);
+		for (int i = 0; i < productionLines.length; i++) {            
+            g.setColor(Color.lightGray);
+			g.drawLine(0, i * PlanningView.cellHeight,
+                        view.canvasSize.width + ChartView.LEFT_OFFSET,
+                        i * PlanningView.cellHeight);
 		}
 		
 		// draw vertical lines
@@ -63,16 +77,16 @@ public class ChartCanvas extends JPanel {
 				week = day.get(GregorianCalendar.WEEK_OF_YEAR);
 				g.setColor(Color.black);
 				
-				g.drawLine(
-						i * view.cellWidth + 1, 0,
-						i * view.cellWidth + 1, view.canvasSize.height);
+				g.drawLine(i * PlanningView.cellWidth + ChartView.LEFT_OFFSET + 1, 0,
+                            i * PlanningView.cellWidth + ChartView.LEFT_OFFSET + 1,
+                            view.canvasSize.height);
 			} else {
 				g.setColor(Color.lightGray);
 			}
 			
-			g.drawLine(
-					i * view.cellWidth, 0,
-					i * view.cellWidth, view.canvasSize.height);
+			g.drawLine(i * PlanningView.cellWidth + ChartView.LEFT_OFFSET, 0,
+                        i * PlanningView.cellWidth + ChartView.LEFT_OFFSET,
+                        view.canvasSize.height);
 		}
 		
 		repaint();
@@ -93,4 +107,5 @@ public class ChartCanvas extends JPanel {
             imageBuffer = null;
         }
     }
+
 }

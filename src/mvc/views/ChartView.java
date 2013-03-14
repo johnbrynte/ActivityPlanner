@@ -1,13 +1,16 @@
 package mvc.views;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.util.GregorianCalendar;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 
 import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import mvc.controllers.ChartController;
 import mvc.model.Activity;
@@ -21,10 +24,12 @@ import mvc.model.Model;
  */
 public class ChartView implements Observer {
 	
-    //private Integer CANVAS_LAYER     = new Integer(0);
-    private Integer TASK_LAYER       = new Integer(10);
-    private Integer DND_EFFECT_LAYER = new Integer(5);
-    private Integer DATE_LIMIT_LAYER = new Integer(20);
+    public static final int LEFT_OFFSET = 150;
+    
+    private Integer TASK_LAYER            = new Integer(10);
+    private Integer DND_EFFECT_LAYER      = new Integer(5);
+    private Integer DATE_LIMIT_LAYER      = new Integer(20);
+    private Integer PRODUCTION_LINE_LAYER = new Integer(30);
 
     private PlanningView view;
     private JLayeredPane layeredPane;
@@ -32,7 +37,8 @@ public class ChartView implements Observer {
     private JScrollPane scrollPane;
     private ChartLimiter earliestLimit;
     private ChartLimiter latestLimit;
-
+    
+    public ProductionLineView productionLineView;
     public ChartController chartController;
 
     private Model model;
@@ -41,20 +47,22 @@ public class ChartView implements Observer {
     public ChartView(Model model, PlanningView view) {
             this.view  = view;
             this.model = model;
-
-            chartCanvas = new ChartCanvas(view);
-
+            
             layeredPane = new JLayeredPane();
 
             scrollPane = new JScrollPane(layeredPane);
             scrollPane.setBorder(null);
 
+            chartCanvas = new ChartCanvas(model, view);
             layeredPane.add(chartCanvas, JLayeredPane.FRAME_CONTENT_LAYER);
+            
+            productionLineView = new ProductionLineView(model, view);
+            layeredPane.add(productionLineView.getComponent(), PRODUCTION_LINE_LAYER);
 
             earliestLimit = new ChartLimiter(view, new Color(0,0,255));
-            latestLimit = new ChartLimiter(view, new Color(255,0,0));
-
             layeredPane.add(earliestLimit, DATE_LIMIT_LAYER);
+            
+            latestLimit = new ChartLimiter(view, new Color(255,0,0));
             layeredPane.add(latestLimit, DATE_LIMIT_LAYER);
 
             model.addObserver(this);
@@ -101,7 +109,7 @@ public class ChartView implements Observer {
         Task task;
         int dragProdLine = 0;
 		
-	// Add the tasks from the model
+        // Add the tasks from the model
         for(int i = 0; i < productionLines.length; i ++) {
             activities = productionLines[i].getActivities();
             
@@ -147,5 +155,15 @@ public class ChartView implements Observer {
         dragTask = dragActivity;
         this.update(null, null);
     }
+
+    /**
+	 * Notifies this component that the horizontal scroll
+	 * of the Chart View has changed.
+	 * @param scrollX the current horizontal scroll of the Chart View.
+	 */
+	public void notifyScrollChange(int scrollX) {
+		productionLineView.getComponent().setLocation(
+                scrollX, productionLineView.getComponent().getLocation().y);
+	}
 
 }

@@ -63,6 +63,7 @@ public class ChartController implements ChangeListener, MouseInputListener {
             horizontalScroll = chartView.getViewport().getViewPosition().x;
 
             view.timeLineView.notifyScrollChange(horizontalScroll);
+            view.chartView.notifyScrollChange(horizontalScroll);
         }
         
         // Always update vertical scroll

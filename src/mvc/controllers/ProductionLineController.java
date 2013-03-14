@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JTable;
 import mvc.model.ActivityHolder;
 import mvc.model.Model;
+import mvc.views.ProductionLineControlView;
 import mvc.views.ProductionLineView;
 
 /**
@@ -14,18 +15,19 @@ import mvc.views.ProductionLineView;
 public class ProductionLineController {
     
     public ProductionLineController(final Model model,
-                                    final ProductionLineView view) {
+                                    final ProductionLineView view,
+                                    final ProductionLineControlView control) {
         
         final JTable table = view.table;
         
-        view.addButton.addActionListener(new ActionListener(){
+        control.addButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                model.addProductionLine(view.textField.getText());
+                model.addProductionLine(control.textField.getText());
             }
         });
         
-        view.deleteButton.addActionListener(new ActionListener(){
+        control.deleteButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 int rowIndex = table.getSelectedRow();

@@ -25,6 +25,9 @@ public class ChartLimiter extends JComponent {
 	public ChartLimiter(PlanningView view, Color color) {
 		this.view = view;
 		this.color = color;
+        
+        // Hide it at creation
+        this.setLocation(-canvasSize.width, 0);
 	}
 	
 	@Override

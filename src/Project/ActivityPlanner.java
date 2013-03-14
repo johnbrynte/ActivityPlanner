@@ -71,7 +71,9 @@ public class ActivityPlanner
         chartController  = new ChartController(model, dndController, planningView.chartView, planningView);
         parkController   = new ParkController(dndController, planningView.parkView);
         tableController  = new ActivityTableController(model, tableView);
-        plTableController = new ProductionLineController(model, planningView.productionLineView);
+        plTableController = new ProductionLineController(
+                model, planningView.chartView.productionLineView,
+                planningView.productionLineControlView);
         
         planningView.parkView.parkController   = parkController;
         planningView.chartView.chartController = chartController;

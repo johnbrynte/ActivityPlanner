@@ -1,10 +1,12 @@
 package mvc.views;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.BorderFactory;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -34,11 +36,11 @@ public class ParkView implements Observer {
             
             model.addObserver(this);
 
-            parkPanel = new JPanel();
-
-            parkPanel.setLayout(new GridLayout(1, 0, 0, 0));
+            parkPanel = new JPanel(new GridLayout(1, 0, 0, 0));
+            parkPanel.setBorder(BorderFactory.createLineBorder(Color.black));
             
-            canvasSize = new Dimension(view.cellWidth, view.cellHeight);
+            canvasSize = new Dimension(PlanningView.cellWidth,
+                                        PlanningView.cellHeight);
             parkPanel.setPreferredSize(canvasSize);
             
             scrollPane = new JScrollPane(parkPanel);

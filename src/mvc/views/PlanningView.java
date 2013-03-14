@@ -24,8 +24,8 @@ public class PlanningView implements Observer {
 	
 	private JPanel planningPanel;
 	
+    public ProductionLineControlView productionLineControlView;
 	public TimeLineView timeLineView;
-    public ProductionLineView productionLineView;
 	public ChartView chartView;
 	public ParkView parkView;
 	
@@ -41,29 +41,22 @@ public class PlanningView implements Observer {
 	public PlanningView(Model model) {
         model.addObserver(this);
         
-		planningPanel = new JPanel();
-		
-		planningPanel.setLayout(new BorderLayout());
-                
-        JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new BorderLayout());
-        rightPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-
+		planningPanel = new JPanel(new BorderLayout());
+        
+        JPanel topPanel = new JPanel(new BorderLayout());
+        planningPanel.add(topPanel, BorderLayout.NORTH);
+        
 		timeLineView = new TimeLineView(this);
-		rightPanel.add(timeLineView.getComponent(), BorderLayout.NORTH);
+		topPanel.add(timeLineView.getComponent(), BorderLayout.CENTER);
+        
+        productionLineControlView = new ProductionLineControlView(this);
+        topPanel.add(productionLineControlView.getComponent(), BorderLayout.WEST);
                 
 		chartView = new ChartView(model, this);
-		rightPanel.add(chartView.getComponent(), BorderLayout.CENTER);
+		planningPanel.add(chartView.getComponent(), BorderLayout.CENTER);
 		
 		parkView = new ParkView(model, this);
-		rightPanel.add(parkView.getComponent(), BorderLayout.SOUTH);
-                
-        planningPanel.add(rightPanel, BorderLayout.CENTER);
-
-        productionLineView = new ProductionLineView(model, this);
-        productionLineView.getComponent().setBorder(
-                BorderFactory.createLineBorder(Color.black));
-        planningPanel.add(productionLineView.getComponent(), BorderLayout.LINE_START);
+		planningPanel.add(parkView.getComponent(), BorderLayout.SOUTH);
 	}
 
 	/**

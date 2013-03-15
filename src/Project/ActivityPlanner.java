@@ -63,8 +63,13 @@ public class ActivityPlanner
         jPanelRight = new JPanel();
         jPanelRight.setLayout(new java.awt.GridLayout(0, 1));
         jPanelRight.add(planningView.getComponent());
-        // to do
-        planningView.setDateLimits(new GregorianCalendar(2013,0,1), new GregorianCalendar(2013,3,10));
+        
+        // Set the date limits inside the Chart View,
+        // now limited from todays date and one year ahead
+        GregorianCalendar start = new GregorianCalendar();
+        GregorianCalendar end = new GregorianCalendar();
+        end.add(GregorianCalendar.YEAR, 1);
+        planningView.setDateLimits(start, end);
         
         jPanelRight.add(tableView.getComponent());
         

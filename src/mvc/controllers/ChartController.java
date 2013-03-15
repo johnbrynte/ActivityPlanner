@@ -92,7 +92,7 @@ public class ChartController implements ChangeListener, MouseInputListener {
             int x = event.getComponent().getLocation().x + event.getX();
 
             if(x > 0) {
-                if (communication) x += horizontalScroll;
+                if (communication) x += horizontalScroll - ChartView.LEFT_OFFSET;
 
                 GregorianCalendar date = new GregorianCalendar();
                 date.setTimeInMillis(

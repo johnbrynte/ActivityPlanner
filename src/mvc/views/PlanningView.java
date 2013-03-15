@@ -82,9 +82,8 @@ public class PlanningView implements Observer {
 	 * @return an int with the translated x position.
 	 */
 	public int getPositionFromDate(GregorianCalendar date) {
-		return (int) (cellWidth
-				* ((date.getTimeInMillis() - startDate.getTimeInMillis())
-						/ DAY_IN_MILLIS));
+        long dt = date.getTimeInMillis() - startDate.getTimeInMillis();
+		return (int) (ChartView.LEFT_OFFSET + cellWidth * dt / DAY_IN_MILLIS);
 	}
 	
 	/**

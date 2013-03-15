@@ -141,10 +141,10 @@ public class ChartController implements ChangeListener, MouseInputListener {
     public void mouseReleased(MouseEvent e)
     {
         resetDnD();
+        dropEvent(e);
         if(e.getComponent() instanceof Task) {
             selectedTaskModel.setNewSelectedTask(((Task) e.getComponent()).getActivity());
         }
-        dropEvent(e);
     }
 
     @Override

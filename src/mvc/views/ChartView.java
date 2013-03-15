@@ -61,6 +61,7 @@ public class ChartView implements Observer {
             layeredPane.add(latestLimit, DATE_LIMIT_LAYER);
 
             model.addObserver(this);
+            
     }
 
     /**

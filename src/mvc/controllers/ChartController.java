@@ -14,6 +14,7 @@ import mvc.model.ActivityHolder;
 import mvc.model.Model;
 import mvc.views.ParkView;
 import mvc.views.Task;
+import selectedTaskModels.SelectedTaskModel;
 
 /**
  * The Chart Controller listens to the scroll events of the
@@ -26,6 +27,7 @@ public class ChartController implements ChangeListener, MouseInputListener {
     private ChartView cv;
     private DnDController dnd;
     private Model model;
+    private SelectedTaskModel selectedTaskModel;
 
     // this variable differentiates drag and drop between the park and chart
     // views, or only inside the chart view. Communication means that there is
@@ -40,11 +42,12 @@ public class ChartController implements ChangeListener, MouseInputListener {
     private int chartCanvasHeight;
 
     
-    public ChartController(Model model, DnDController dnd, ChartView cv, PlanningView view) {
+    public ChartController(Model model, SelectedTaskModel selectedTaskModel,DnDController dnd, ChartView cv, PlanningView view) {
         this.dnd   = dnd;
         this.view  = view;
         this.cv    = cv;
         this.model = model;
+        this.selectedTaskModel = selectedTaskModel;
         if (cv != null) {
             cv.getComponent().getViewport().addChangeListener(this);
             cv.getComponent().getViewport().addMouseListener(this);
@@ -132,7 +135,12 @@ public class ChartController implements ChangeListener, MouseInputListener {
     public void mouseClicked(MouseEvent e){}
 
     @Override
-    public void mousePressed(MouseEvent e){}
+    public void mousePressed(MouseEvent e){
+        if(e.getComponent() instanceof Task)
+            //when a task is clicked or dragged, it will be highlighted
+            selectedTaskModel.setNewSelectedTask((Task)e.getComponent());
+            
+    }
 
     @Override
     public void mouseReleased(MouseEvent e)

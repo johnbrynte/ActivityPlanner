@@ -4,18 +4,21 @@ import java.awt.event.MouseEvent;
 import javax.swing.event.MouseInputListener;
 import mvc.views.ParkView;
 import mvc.views.Task;
+import selectedTaskModels.SelectedTaskModel;
 
 public class ParkController implements MouseInputListener
 {
     private ParkView view;
     private DnDController dnd;
     private Task dragging;
+    private SelectedTaskModel selectedTaskModel;
     
-    public ParkController(DnDController d, ParkView v)
+    public ParkController(DnDController d, ParkView v, SelectedTaskModel selectedTaskModel)
     {
         this.dnd    = d;
         this.view   = v;
         view.parkController = this;
+        this.selectedTaskModel = selectedTaskModel;
     }
 
     @Override
@@ -27,6 +30,10 @@ public class ParkController implements MouseInputListener
     @Override
     public void mousePressed(MouseEvent e)
     {
+        if(e.getComponent() instanceof Task)
+            //when a task is clicked or dragged, it will be highlighted
+            selectedTaskModel.setNewSelectedTask((Task)e.getComponent());
+        
         // it is not necessary to get the component, but this is a test to
         // check if the task JComponent can be gathered from the event.
         // CANNOT be checked until the Parkview works with Tasks and the model.

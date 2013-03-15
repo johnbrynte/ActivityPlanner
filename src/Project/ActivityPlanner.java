@@ -15,6 +15,7 @@ import mvc.controllers.ProductionLineController;
 import mvc.views.ActivityTableView;
 import mvc.views.PlanningView;
 import mvc.model.Model;
+import selectedTaskModels.SelectedTaskModel;
 
 /**
  *
@@ -37,17 +38,19 @@ public class ActivityPlanner
     private ProductionLineController plTableController;
     
     private Model model;
+    private SelectedTaskModel selectedTaskModel;
     
     public ActivityPlanner(Model model)
     {
         this.model = model;
+        selectedTaskModel = new SelectedTaskModel();
         loadGUI();
     }
     
     private void loadGUI()
     {
-        planningView  = new PlanningView(model);
-        tableView  = new ActivityTableView(model);
+        planningView  = new PlanningView(model, selectedTaskModel);
+        tableView  = new ActivityTableView(model, selectedTaskModel);
 
         mainWindow = new JFrame();
         
@@ -68,8 +71,8 @@ public class ActivityPlanner
         mainWindow.pack();
         
         dndController    = new DnDController();
-        chartController  = new ChartController(model, dndController, planningView.chartView, planningView);
-        parkController   = new ParkController(dndController, planningView.parkView);
+        chartController  = new ChartController(model, selectedTaskModel, dndController, planningView.chartView, planningView);
+        parkController   = new ParkController(dndController, planningView.parkView, selectedTaskModel);
         tableController  = new ActivityTableController(model, tableView);
         plTableController = new ProductionLineController(
                 model, planningView.chartView.productionLineView,

@@ -13,6 +13,7 @@ import java.util.Observable;
 import mvc.model.Model;
 import tableModels.ActivityTableModel;
 import mvc.controllers.ActivityTableController;
+import selectedTaskModels.SelectedTaskModel;
 
 /**
  *
@@ -34,20 +35,23 @@ public class ActivityTableView implements Observer {
         
         // Model
         Model model;
+        SelectedTaskModel selectedTaskModel;
         ActivityTableController contrl;
 
     // Constructor
     @SuppressWarnings("LeakingThisInConstructor")
-    public ActivityTableView(Model model) {
+    public ActivityTableView(Model model, SelectedTaskModel selectedTaskModel) {
         
         // Sets the model
         this.model = model;
+        this.selectedTaskModel = selectedTaskModel;
         
         // Init the components
         initComponents();
         
         // Adds itself as a observer.
         model.addObserver(this);
+        selectedTaskModel.addObserver(this);
         
     }
     
@@ -179,5 +183,6 @@ public class ActivityTableView implements Observer {
             // model gets empty.
         }
         
+        //highlight the selected row !!! so when the selectedTask changes, it will be highlighted!!
     }
 }

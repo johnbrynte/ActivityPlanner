@@ -1,15 +1,14 @@
 package mvc.views;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.util.GregorianCalendar;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.BorderFactory;
 
 import javax.swing.JPanel;
 import mvc.model.Model;
+import selectedTaskModels.SelectedTaskModel;
 
 /**
  * The Planning View consists of three sub views:
@@ -38,8 +37,9 @@ public class PlanningView implements Observer {
 	public GregorianCalendar endDate;
 	public int daysBetween;
 
-	public PlanningView(Model model) {
+	public PlanningView(Model model, SelectedTaskModel selectedTaskModel) {
         model.addObserver(this);
+        selectedTaskModel.addObserver(this);
         
 		planningPanel = new JPanel(new BorderLayout());
         
@@ -107,11 +107,12 @@ public class PlanningView implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        Model model = (Model) o;
-        
-        rows = model.getProductionLines().length;
-        canvasSize.height = cellHeight * rows;
-        
+        if(o instanceof Model){
+            Model model = (Model) o;
+
+            rows = model.getProductionLines().length;
+            canvasSize.height = cellHeight * rows;
+        }
         timeLineView.updateView();
         chartView.updateView();
     }

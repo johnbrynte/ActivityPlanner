@@ -100,8 +100,9 @@ public class ActivityTableView implements Observer {
             // Dimension
             activityTable.setPreferredScrollableViewportSize(new Dimension(500,100));
             activityTable.setShowVerticalLines(true);
-            // Selection mode
+            // Selection mode & backgoung color.
             activityTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            activityTable.setSelectionBackground(Color.yellow);
             // Terminate edition on focusLost so we can save the data.
             activityTable.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
             // Row sorting.
@@ -110,26 +111,31 @@ public class ActivityTableView implements Observer {
             activityTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS); 
         ////////////////////////////////////////////////////////////////////////
         
-        // Creation of the cell renderer to center the cells.
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        // Creation of the cell renderers to center the cells.
+        DefaultTableCellRenderer whiteCenterRenderer = new DefaultTableCellRenderer();
+        whiteCenterRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        DefaultTableCellRenderer yellowCenterRenderer = new DefaultTableCellRenderer();
+        yellowCenterRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        yellowCenterRenderer.setBackground(Color.ORANGE);
         
+        ////////////////////////////////////////////////////////////////////////
         // Creation of the header and its properties.
         JTableHeader header = new JTableHeader();
         header = activityTable.getTableHeader();
         header.setReorderingAllowed(false);         // We forbid to reorder colums.
-        header.setDefaultRenderer(centerRenderer);  // Centered headers.
         header.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                                                     // Set cursor to show more
                                                     // explicitely that you can
                                                     // reorder rows by the columns.
+        ////////////////////////////////////////////////////////////////////////
 
         // Setting the size of the columns
         for (int i=0; i < activityTable.getColumnCount(); i++){
             
-            // Get the column
+            // Get the column and set its properties
             TableColumn col = activityTable.getColumnModel().getColumn(i);
-            col.setCellRenderer(centerRenderer); // Set center alignment.
+            if (i <= 3) col.setCellRenderer(whiteCenterRenderer);
+            else col.setCellRenderer(yellowCenterRenderer);
             switch(i){
                 case 0: col.setPreferredWidth(50); break;
                 case 1: col.setPreferredWidth(80); break;

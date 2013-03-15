@@ -127,17 +127,17 @@ public class ChartView implements Observer {
                 
                 if (a.equals(selectedTaskModel.selectedTask)) {
                     task.selected(true);
+                    
+                    earliestLimit.setLocation(
+                        view.getPositionFromDate(a.getEarliestStartDate()), 0);
+
+                    latestLimit.setLocation(
+                        view.getPositionFromDate(a.getLatestEndDate()), 0);
                 }
                 
                 task.setVisible(true);
 
                 layeredPane.add(task, TASK_LAYER);
-
-                earliestLimit.setLocation(
-                        view.getPositionFromDate(a.getEarliestStartDate()), 0);
-
-                latestLimit.setLocation(
-                        view.getPositionFromDate(a.getLatestEndDate()), 0);
             }
         }
 

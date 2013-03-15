@@ -199,6 +199,8 @@ public class ActivityTableView implements Observer {
             if (row >= 0) {
                 activityTable.setRowSelectionInterval(row, row);
             }
+            activityTable.repaint();
+            root.repaint();
         }
     }
 }

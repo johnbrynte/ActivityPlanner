@@ -20,12 +20,12 @@ public class Task extends JComponent
     private boolean visibleInChartView;
     private boolean isSelected = false;
     
-    private static Color selected      = Color.YELLOW;
-    private static Color border      = Color.BLACK;
-    private static Color tooEarly    = Color.BLUE;
-    private static Color tooLate     = Color.RED;
-    private static Color normal      = Color.GREEN;
-    private static Color textC       = Color.BLACK;
+    private static Color selected = Color.YELLOW;
+    private static Color border   = Color.BLACK;
+    private static Color tooEarly = Color.BLUE;
+    private static Color tooLate  = Color.RED;
+    private static Color normal   = Color.GREEN;
+    private static Color textC    = Color.BLACK;
     
     private static int tsize = 25;
     
@@ -134,44 +134,40 @@ public class Task extends JComponent
         
         if (paintControl) {
             if (!this.transparent) {
-                if(!this.isSelected){
-                    // Print with the normal color
-                    g.setColor(normal);
-                    g.fillRect(0, 0, getWidth(), getHeight());
+                // Print the "ground" color
+                if(this.isSelected) g.setColor(selected);
+                else                g.setColor(normal);
+                g.fillRect(0, 0, getWidth(), getHeight());
 
-                    if(visibleInChartView) {
+                if(visibleInChartView) {
 
-                        
-                        long dt;
-                        int x;
 
-                        // Check if task is to early
-                        if(task.getStartDate().before(task.getEarliestStartDate())) {
+                    long dt;
+                    int x;
 
-                            dt = task.getEarliestStartDate().getTimeInMillis()
-                                    - task.getStartDate().getTimeInMillis();
-                            x = (int) (PlanningView.cellWidth * (dt / DAY_IN_MILLIS));
+                    // Check if task is to early
+                    if(task.getStartDate().before(task.getEarliestStartDate())) {
 
-                            g.setColor(tooEarly);
-                            g.fillRect(0, 0, x, this.getHeight());
-                        }
+                        dt = task.getEarliestStartDate().getTimeInMillis()
+                                - task.getStartDate().getTimeInMillis();
+                        x = (int) (PlanningView.cellWidth * (dt / DAY_IN_MILLIS));
 
-                        // Check if task is to late
-                        if(task.getEndDate().after(task.getLatestEndDate())) {
-
-                            dt = task.getEndDate().getTimeInMillis()
-                                    - task.getLatestEndDate().getTimeInMillis();
-                            x = (int) (PlanningView.cellWidth * ((dt / DAY_IN_MILLIS)));
-
-                            g.setColor(tooLate);
-                            g.fillRect(getWidth() - x, 0, x, this.getHeight());
-                        }
+                        g.setColor(tooEarly);
+                        g.fillRect(0, 0, x, this.getHeight());
                     }
-                }else{
-                        //the task is selected so it will be highlighted
-                        g.setColor(selected);
-                        g.fillRect(0, 0, getWidth(), getHeight());
+
+                    // Check if task is to late
+                    if(task.getEndDate().after(task.getLatestEndDate())) {
+
+                        dt = task.getEndDate().getTimeInMillis()
+                                - task.getLatestEndDate().getTimeInMillis();
+                        x = (int) (PlanningView.cellWidth * ((dt / DAY_IN_MILLIS) + 1));
+
+                        g.setColor(tooLate);
+                        g.fillRect(getWidth() - x, 0, x, this.getHeight());
+                    }
                 }
+                
                 // getting font dimensions
                 g.setColor(textC);
                 Font font = new Font("Helvetica", Font.PLAIN, tsize);

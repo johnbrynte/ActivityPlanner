@@ -1,6 +1,7 @@
 package mvc.views;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JButton;
@@ -27,6 +28,7 @@ public class ProductionLineControlView {
         // Create control panel
         SpringLayout layout = new SpringLayout();
         controlPanel = new JPanel(layout);
+        controlPanel.setBackground(Color.white);
         controlPanel.setSize(controlSize);
         controlPanel.setPreferredSize(controlSize);
         

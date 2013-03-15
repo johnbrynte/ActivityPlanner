@@ -89,10 +89,10 @@ public class ChartController implements ChangeListener, MouseInputListener {
         }
         
         if (!error && activity != null) {
-            int x = event.getComponent().getLocation().x + event.getX();
+            int x = event.getComponent().getLocation().x + event.getX() - ChartView.LEFT_OFFSET;
 
             if(x > 0) {
-                if (communication) x += horizontalScroll - ChartView.LEFT_OFFSET;
+                if (communication) x += horizontalScroll;
 
                 GregorianCalendar date = new GregorianCalendar();
                 date.setTimeInMillis(
@@ -162,7 +162,6 @@ public class ChartController implements ChangeListener, MouseInputListener {
     
     private void doDnD(MouseEvent e)
     {
-        System.out.println("Communication: " + communication);
         if (communication) {
             Activity activity = null;
             boolean error = false;
@@ -183,9 +182,9 @@ public class ChartController implements ChangeListener, MouseInputListener {
                     dragTaskSet  = true;
                 }
 
-                int x = e.getComponent().getLocation().x + e.getX();
+                int x = e.getComponent().getLocation().x + e.getX() - ChartView.LEFT_OFFSET;
                 if(x > 0) {
-                    if (communication) x += horizontalScroll - ChartView.LEFT_OFFSET;
+                    if (communication) x += horizontalScroll;
 
                     GregorianCalendar date = new GregorianCalendar();
                     date.setTime(view.getDateFromPosition(x).getTime());

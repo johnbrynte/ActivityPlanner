@@ -19,7 +19,7 @@ import mvc.model.Model;
  */
 public class ChartView implements Observer {
 	
-    public static final int LEFT_OFFSET = 150;
+    public static final int LEFT_OFFSET = 170;
     
     private Integer TASK_LAYER            = new Integer(10);
     private Integer DND_EFFECT_LAYER      = new Integer(5);

@@ -43,7 +43,7 @@ public class ParkView implements Observer {
             rootPanel = new JPanel(new BorderLayout());
             rootPanel.setPreferredSize(canvasSize);
             
-            JLabel label = new JLabel("Unshceduled tasks: ");
+            JLabel label = new JLabel("Unscheduled tasks: ");
             Dimension labelSize = new Dimension(LEFT_OFFSET, PlanningView.cellHeight);
             label.setSize(labelSize);
             label.setPreferredSize(labelSize);

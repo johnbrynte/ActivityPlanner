@@ -2,7 +2,9 @@ package mvc.views;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
@@ -27,36 +29,53 @@ public class ProductionLineControlView {
         controlPanel = new JPanel(layout);
         controlPanel.setSize(controlSize);
         controlPanel.setPreferredSize(controlSize);
-
-        addButton = new JButton("Add");
+        
+        Dimension buttonSize = new Dimension(75, 20);
+        int margin = 3;
+        
+        JLabel label = new JLabel("Production lines");
+        label.setFont(new Font("Verdana", Font.BOLD, 14));
         layout.putConstraint(
-                SpringLayout.NORTH, addButton, 3,
+                SpringLayout.NORTH, label, margin,
                 SpringLayout.NORTH, controlPanel);
         layout.putConstraint(
-                SpringLayout.WEST, addButton, 5,
+                SpringLayout.WEST, label, margin,
+                SpringLayout.WEST, controlPanel);
+        controlPanel.add(label);
+        
+        textField = new JTextField("Production line name...");
+        layout.putConstraint(
+                SpringLayout.SOUTH, textField, - (buttonSize.height + margin * 2),
+                SpringLayout.SOUTH, controlPanel);
+        layout.putConstraint(
+                SpringLayout.WEST, textField, margin,
+                SpringLayout.WEST, controlPanel);
+        layout.putConstraint(
+                SpringLayout.EAST, textField, -margin,
+                SpringLayout.EAST, controlPanel);
+        controlPanel.add(textField);
+        
+        addButton = new JButton("Add");
+        addButton.setSize(buttonSize);
+        addButton.setPreferredSize(buttonSize);
+        layout.putConstraint(
+                SpringLayout.SOUTH, addButton, -margin,
+                SpringLayout.SOUTH, controlPanel);
+        layout.putConstraint(
+                SpringLayout.WEST, addButton, margin,
                 SpringLayout.WEST, controlPanel);
         controlPanel.add(addButton);
         
         deleteButton = new JButton("Delete");
+        deleteButton.setSize(buttonSize);
+        deleteButton.setPreferredSize(buttonSize);
         layout.putConstraint(
-                SpringLayout.NORTH, deleteButton, 3,
-                SpringLayout.NORTH, controlPanel);
-        layout.putConstraint(
-                SpringLayout.EAST, deleteButton, -5,
-                SpringLayout.EAST, controlPanel);
-        controlPanel.add(deleteButton);
-        
-        textField = new JTextField("Production line name...");
-        layout.putConstraint(
-                SpringLayout.SOUTH, textField, 0,
+                SpringLayout.SOUTH, deleteButton, -margin,
                 SpringLayout.SOUTH, controlPanel);
         layout.putConstraint(
-                SpringLayout.WEST, textField, 0,
-                SpringLayout.WEST, controlPanel);
-        layout.putConstraint(
-                SpringLayout.EAST, textField, 0,
+                SpringLayout.EAST, deleteButton, -margin,
                 SpringLayout.EAST, controlPanel);
-        controlPanel.add(textField);
+        controlPanel.add(deleteButton);
     }
     
     public JPanel getComponent() {

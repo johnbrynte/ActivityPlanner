@@ -196,10 +196,8 @@ public class ActivityTableView implements Observer {
         else {
             //highlight the selected row !!! so when the selectedTask changes, it will be highlighted!!
             int row = ((ActivityTableModel) activityTable.getModel()).getRowWithActivity(selectedTaskModel.selectedTask);
-            System.out.println("gonna highlight the row " + row);
             if (row >= 0) {
                 activityTable.setRowSelectionInterval(row, row);
-                //activityTable.addRowSelectionInterval(row, row);
             }
         }
     }

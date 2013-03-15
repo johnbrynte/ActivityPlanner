@@ -109,6 +109,11 @@ public class ParkView implements Observer {
             task.setActivity(a);
             task.addMouseListener(parkController);
             task.addMouseMotionListener(parkController);
+            
+            if (a.equals(selectedTaskModel.selectedTask)) {
+                task.selected(true);
+            }
+            
             task.setVisible(true);
             parkPanel.add(task);
         }

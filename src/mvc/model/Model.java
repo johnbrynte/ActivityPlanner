@@ -260,11 +260,10 @@ public class Model extends Observable
 	}
 	public synchronized void removeProductionLine(ActivityHolder productionLine)
 	{
-		Iterator<Activity> it = productionLine.getActivityArrayList().iterator();
-		while(it.hasNext())
-		{
-			productionLine.activityRemovalProcedure(it.next());
-		}
+        Activity[] activities;
+        while((activities = productionLine.getActivities()).length > 0) {
+            productionLine.activityRemovalProcedure(activities[0]);
+        }
 		productionLines.remove(productionLine);
 		notifyObservers();
 		

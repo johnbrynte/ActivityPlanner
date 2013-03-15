@@ -33,8 +33,7 @@ public class ProductionLineController {
                 int rowIndex = table.getSelectedRow();
                 
                 if(rowIndex >= 0) {
-                    ActivityHolder[] productionLines =
-                            model.getProductionLines();
+                    ActivityHolder[] productionLines = model.getProductionLines();
                     model.removeProductionLine(productionLines[rowIndex]);
                 }
             }

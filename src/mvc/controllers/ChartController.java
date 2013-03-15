@@ -1,6 +1,5 @@
 package mvc.controllers;
 
-import java.awt.Rectangle;
 import mvc.views.PlanningView;
 import mvc.views.ChartView;
 import java.awt.event.MouseEvent;
@@ -98,11 +97,11 @@ public class ChartController implements ChangeListener, MouseInputListener {
                 GregorianCalendar date = new GregorianCalendar();
                 date.setTimeInMillis(
                         view.startDate.getTimeInMillis() + view.DAY_IN_MILLIS
-                        * ((long) x / view.cellWidth));
+                        * ((long) x / PlanningView.cellWidth));
 
                 int y;
-                if (communication) y = (chartCanvasHeight + verticalScroll + event.getY()) / view.cellHeight;
-                else               y = (event.getComponent().getLocation().y + event.getY()) / view.cellHeight;
+                if (communication) y = (chartCanvasHeight + verticalScroll + event.getY()) / PlanningView.cellHeight;
+                else               y = (event.getComponent().getLocation().y + event.getY()) / PlanningView.cellHeight;
 
                 ActivityHolder[] productionLines = model.getProductionLines();
 
@@ -188,11 +187,11 @@ public class ChartController implements ChangeListener, MouseInputListener {
                     if (communication) x += horizontalScroll;
 
                     GregorianCalendar date = new GregorianCalendar();
-                    date.setTimeInMillis(view.startDate.getTimeInMillis() + view.DAY_IN_MILLIS * ((long) x / view.cellWidth));
+                    date.setTimeInMillis(view.startDate.getTimeInMillis() + view.DAY_IN_MILLIS * ((long) x / PlanningView.cellWidth));
 
                     int y;
-                    if (communication) y = (chartCanvasHeight + verticalScroll + e.getY()) / view.cellHeight;
-                    else               y = (e.getComponent().getLocation().y + e.getY()) / view.cellHeight;
+                    if (communication) y = (chartCanvasHeight + verticalScroll + e.getY()) / PlanningView.cellHeight;
+                    else               y = (e.getComponent().getLocation().y + e.getY()) / PlanningView.cellHeight;
 
                     ActivityHolder[] productionLines = model.getProductionLines();
 

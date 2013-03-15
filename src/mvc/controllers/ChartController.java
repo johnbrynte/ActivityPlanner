@@ -42,7 +42,7 @@ public class ChartController implements ChangeListener, MouseInputListener {
     private int chartCanvasHeight;
 
     
-    public ChartController(Model model, SelectedTaskModel selectedTaskModel,DnDController dnd, ChartView cv, PlanningView view) {
+    public ChartController(Model model, SelectedTaskModel selectedTaskModel, DnDController dnd, ChartView cv, PlanningView view) {
         this.dnd   = dnd;
         this.view  = view;
         this.cv    = cv;

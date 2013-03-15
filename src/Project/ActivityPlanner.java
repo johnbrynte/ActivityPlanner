@@ -51,6 +51,7 @@ public class ActivityPlanner
     {
         planningView  = new PlanningView(model, selectedTaskModel);
         tableView  = new ActivityTableView(model, selectedTaskModel);
+        
 
         mainWindow = new JFrame();
         
@@ -80,6 +81,13 @@ public class ActivityPlanner
         
         planningView.parkView.parkController   = parkController;
         planningView.chartView.chartController = chartController;
+        tableView.activityTableController = tableController;
+        
+        /*
+         * We add the Controller of the table as an observer of the table
+         * so it will be noticed when a row is selected
+         */
+        tableView.activityTable.getSelectionModel().addListSelectionListener(tableController);
         
         dndController.setDnDSourceAndDestination(chartController, parkController);
         

@@ -20,7 +20,7 @@ public class Task extends JComponent
     private boolean visibleInChartView;
     private boolean isSelected = false;
     
-    private static Color selected      = Color.CYAN;
+    private static Color selected      = Color.YELLOW;
     private static Color border      = Color.BLACK;
     private static Color tooEarly    = Color.BLUE;
     private static Color tooLate     = Color.RED;

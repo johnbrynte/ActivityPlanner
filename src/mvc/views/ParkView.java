@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import mvc.controllers.ParkController;
 import mvc.model.Activity;
 import mvc.model.Model;
+import selectedTaskModels.SelectedTaskModel;
 
 /**
  * The Park View shows all tasks that can be placed on the Chart View.
@@ -33,12 +34,15 @@ public class ParkView implements Observer {
     public ParkController parkController;
     
     private Model model;
+    private SelectedTaskModel selectedTaskModel;
 
-    public ParkView(Model model, PlanningView view) {
+    public ParkView(Model model, SelectedTaskModel selectedTaskModel,PlanningView view) {
             this.view  = view;
             this.model = model;
+            this.selectedTaskModel = selectedTaskModel;
             
             model.addObserver(this);
+            selectedTaskModel.addObserver(this);
             
             rootPanel = new JPanel(new BorderLayout());
             rootPanel.setPreferredSize(canvasSize);

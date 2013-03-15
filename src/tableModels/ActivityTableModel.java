@@ -208,4 +208,8 @@ public class ActivityTableModel extends AbstractTableModel {
         }
     }
     
+    public ArrayList<Object> getRow(int i){
+        return data.get(i);
+    }
+    
 }

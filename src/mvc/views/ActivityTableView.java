@@ -36,7 +36,7 @@ public class ActivityTableView implements Observer {
         // Model
         Model model;
         SelectedTaskModel selectedTaskModel;
-        ActivityTableController contrl;
+        public ActivityTableController activityTableController;
 
     // Constructor
     @SuppressWarnings("LeakingThisInConstructor")
@@ -151,6 +151,8 @@ public class ActivityTableView implements Observer {
         panelTable = new JScrollPane(activityTable);
         panelTable.add(activityTable.getTableHeader());
         
+        
+        
     }
 
     // Init Components                     
@@ -177,18 +179,20 @@ public class ActivityTableView implements Observer {
     // OBERSERVER IMPLEMENTATION: We redraw the table.
     public void update(Observable o, Object arg) {
         
-        // We refill the table with the data.
-        ((ActivityTableModel) activityTable.getModel()).setData(model);
-        
-        // We tell the table that the data has been changed. We can't use 
-        // fireTableRowsInserted since we don't know the exact index.
-        try{
-            ((AbstractTableModel) activityTable.getModel()).fireTableDataChanged();
-        } catch (IndexOutOfBoundsException ex){
-            // This exception rises when you delete the last activity and the
-            // model gets empty.
-        }
-        
-        //highlight the selected row !!! so when the selectedTask changes, it will be highlighted!!
+        if(o instanceof Model){
+            // We refill the table with the data.
+            ((ActivityTableModel) activityTable.getModel()).setData(model);
+
+            // We tell the table that the data has been changed. We can't use 
+            // fireTableRowsInserted since we don't know the exact index.
+            try{
+                ((AbstractTableModel) activityTable.getModel()).fireTableDataChanged();
+            } catch (IndexOutOfBoundsException ex){
+                // This exception rises when you delete the last activity and the
+                // model gets empty.
+            }
+        }else
+            //highlight the selected row !!! so when the selectedTask changes, it will be highlighted!!
+            System.out.println("The table should now highlight the row!");
     }
 }

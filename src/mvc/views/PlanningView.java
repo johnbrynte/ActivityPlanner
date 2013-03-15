@@ -52,10 +52,10 @@ public class PlanningView implements Observer {
         productionLineControlView = new ProductionLineControlView(this);
         topPanel.add(productionLineControlView.getComponent(), BorderLayout.WEST);
                 
-		chartView = new ChartView(model, this);
+		chartView = new ChartView(model, selectedTaskModel, this);
 		planningPanel.add(chartView.getComponent(), BorderLayout.CENTER);
 		
-		parkView = new ParkView(model, this);
+		parkView = new ParkView(model, selectedTaskModel, this);
 		planningPanel.add(parkView.getComponent(), BorderLayout.SOUTH);
 	}
 

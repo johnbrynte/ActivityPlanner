@@ -146,6 +146,29 @@ public class Activity {
 		if(latestEndDate!=null && getEndDate().after(latestEndDate))s+="\tTOO LATE";
 		System.out.println(s);
 	}
+        
+        @Override
+public boolean equals(Object obj) {
+    if (this == obj)
+        return true;
+    if (obj == null)
+        return false;
+    if (getClass() != obj.getClass())
+        return false;
+    Activity otherActivity = (Activity) obj;
+    if (!this.customer.equals(otherActivity.getCustomer()))
+        return false;
+    if (this.dateSpan != otherActivity.dateSpan)
+        return false;
+    if (!this.earliestStartDate.equals(otherActivity.earliestStartDate))
+        return false;
+    if (!this.latestEndDate.equals(otherActivity.earliestStartDate))
+        return false;
+    if (!this.productionLine.getName().equals(otherActivity.productionLine.getName()))
+        return false;
+    //compare also startDate??
+    return true;
+}
 	
 
 }

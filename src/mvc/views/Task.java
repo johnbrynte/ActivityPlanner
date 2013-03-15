@@ -6,6 +6,9 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import javax.swing.JComponent;
 import mvc.model.Activity;
 
@@ -24,6 +27,7 @@ public class Task extends JComponent
     private static int tsize = 25;
     
     private static final long DAY_IN_MILLIS = (1000 * 60 * 60 * 24);
+    private final DateFormat DATE_FORMAT = new SimpleDateFormat("d MMMM y", Locale.ENGLISH);
     
     public Task(boolean visibleInChartView)
     {
@@ -38,8 +42,27 @@ public class Task extends JComponent
     public void setActivity(Activity task)
     {
         this.task = task;
-        setSize(new Dimension(PlanningView.cellWidth * task.getDateSpan(),
+        
+        this.setSize(new Dimension(PlanningView.cellWidth * task.getDateSpan(),
                                 PlanningView.cellHeight));
+        
+        // Set the tool-tip text
+        StringBuilder sb = new StringBuilder();
+        sb.append("<html>");
+        sb.append("Customer: ");
+        sb.append(task.getCustomer());
+        sb.append("<br/>Duration: ");
+        sb.append(task.getDateSpan());
+        sb.append("<br/>Start date: ");
+        sb.append(DATE_FORMAT.format(task.getStartDate().getTime()));
+        sb.append("<br/>End date: ");
+        sb.append(DATE_FORMAT.format(task.getEndDate().getTime()));
+        sb.append("<br/>Earliest start date: ");
+        sb.append(DATE_FORMAT.format(task.getEarliestStartDate().getTime()));
+        sb.append("<br/>Latest end date: ");
+        sb.append(DATE_FORMAT.format(task.getLatestEndDate().getTime()));
+        sb.append("</html>");
+        this.setToolTipText(sb.toString());
     }
     
     public Activity getActivity() {

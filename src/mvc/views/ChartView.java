@@ -114,7 +114,7 @@ public class ChartView implements Observer {
             activities = productionLines[i].getActivities();
             
             // getting in which production line must the dnd effect auxiliar task go
-            if (dragTask != null && productionLines[i].getName().equals(dragTask.getProductionLine().getName())) {
+            if (dragTask != null && productionLines[i].equals(dragTask.getProductionLine())) {
                 dragProdLine = i;
             }
             
@@ -139,8 +139,9 @@ public class ChartView implements Observer {
         
         if (dragTask != null) {
             task = new Task(true);
-            task.setLocation(view.getPositionFromDate(dragTask.getStartDate()),
-                            PlanningView.cellHeight * dragProdLine);
+            task.setBounds(
+                    view.getPositionFromDate(dragTask.getStartDate()), PlanningView.cellHeight * dragProdLine,
+                    dragTask.getDateSpan() * PlanningView.cellWidth, PlanningView.cellHeight);
             task.setContentTransparent(true);
             task.setVisible(true);
             layeredPane.add(task, DND_EFFECT_LAYER);

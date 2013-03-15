@@ -1,16 +1,11 @@
 package mvc.views;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SpringLayout;
 import javax.swing.table.DefaultTableModel;
 import mvc.model.ActivityHolder;
 import mvc.model.Model;
@@ -21,24 +16,18 @@ import tableModels.ProductionLineTableModel;
  * @author John
  */
 public class ProductionLineView implements Observer {
-
-    private JPanel rootPanel;
-    private JPanel productionLinePanel;
-    private PlanningView view;
     
     public JTable table;
     
     private DefaultTableModel tableModel;
     private Dimension tableSize = new Dimension(ChartView.LEFT_OFFSET, 0);
     
-    ProductionLineView(Model model, PlanningView view) {
-        this.view = view;
-        
+    ProductionLineView(Model model) {
         model.addObserver(this);
         
         // Create table
         table = new JTable();
-        table.setRowHeight(view.cellHeight);
+        table.setRowHeight(PlanningView.cellHeight);
         tableModel = new ProductionLineTableModel();
         table.setModel(tableModel);
     }

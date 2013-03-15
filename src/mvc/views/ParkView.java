@@ -1,5 +1,6 @@
 package mvc.views;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -7,6 +8,7 @@ import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -21,9 +23,11 @@ import mvc.model.Model;
  */
 public class ParkView implements Observer {
 
+    public static int LEFT_OFFSET = 150;
+    
     private Dimension canvasSize;
     private JPanel parkPanel;
-    private JScrollPane scrollPane;
+    private JPanel rootPanel;
     private PlanningView view;
     
     public ParkController parkController;
@@ -35,17 +39,21 @@ public class ParkView implements Observer {
             this.model = model;
             
             model.addObserver(this);
-
-            parkPanel = new JPanel(new GridLayout(1, 0, 0, 0));
-            parkPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+            
+            rootPanel = new JPanel(new BorderLayout());
+            rootPanel.setPreferredSize(canvasSize);
+            
+            JLabel label = new JLabel("Unshceduled tasks: ");
+            Dimension labelSize = new Dimension(LEFT_OFFSET, PlanningView.cellHeight);
+            label.setSize(labelSize);
+            label.setPreferredSize(labelSize);
+            rootPanel.add(label, BorderLayout.WEST);
             
             canvasSize = new Dimension(PlanningView.cellWidth,
                                         PlanningView.cellHeight);
+            parkPanel = new JPanel(new GridLayout(1, 0, 0, 0));
             parkPanel.setPreferredSize(canvasSize);
-            
-            scrollPane = new JScrollPane(parkPanel);
-            scrollPane.setBorder(null);
-            scrollPane.setPreferredSize(canvasSize);
+            rootPanel.add(parkPanel, BorderLayout.CENTER);
     }
 
     /**
@@ -53,14 +61,15 @@ public class ParkView implements Observer {
      * 
      * @return this component.
      */
-    public JScrollPane getComponent() {
-            return scrollPane;
+    public JPanel getComponent() {
+            return rootPanel;
     }
 
     /**
      * Updates the size taking into account the size of the scroll bar. 
      */
     public void updateSize() {
+        /*
         if (scrollPane.getHorizontalScrollBar().isVisible()) {
                 canvasSize.height = view.cellHeight
                                 + scrollPane.getHorizontalScrollBar().getBounds().height;
@@ -69,6 +78,7 @@ public class ParkView implements Observer {
         }
 
         scrollPane.setMinimumSize(canvasSize);
+        */
     }
 
     @Override
@@ -76,7 +86,7 @@ public class ParkView implements Observer {
     {
         Activity[] unscheduled = model.getUnscheduledActivities().getActivities();
         //System.out.println("Number of unscheduled activities: " + unscheduled.length);
-        canvasSize = new Dimension(view.cellWidth * unscheduled.length, view.cellHeight);
+        canvasSize = new Dimension(PlanningView.cellWidth * unscheduled.length, PlanningView.cellHeight);
         
         updateSize();
         

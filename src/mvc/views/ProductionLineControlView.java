@@ -20,9 +20,7 @@ public class ProductionLineControlView {
     public JTextField textField;
     
     public ProductionLineControlView(PlanningView view) {
-        int topHeight = view.timeLineView.timeLinePanel.canvasSize.height;
-        
-        Dimension controlSize = new Dimension(ChartView.LEFT_OFFSET, topHeight);
+        Dimension controlSize = new Dimension(ChartView.LEFT_OFFSET, 0);
         
         // Create control panel
         SpringLayout layout = new SpringLayout();

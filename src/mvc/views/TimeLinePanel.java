@@ -28,9 +28,9 @@ public class TimeLinePanel extends JPanel {
 	
 	private final Dimension CLEAR_BOX = new Dimension(60, 14);
 	private final int TEXT_HEIGHT = 12;
-	private final int YEAR_Y = 12;
-	private final int MONTH_Y = 30;
-	private final int DATE_Y = 48;
+	private final int YEAR_Y = 30;
+	private final int MONTH_Y = 48;
+	private final int DATE_Y = 66;
 	private final int MARGIN_X = 4;
 	
 	private int scrollX;
@@ -38,7 +38,7 @@ public class TimeLinePanel extends JPanel {
 	private PlanningView view;
 	private BufferedImage imageBuffer;
         
-    public Dimension canvasSize = new Dimension(0, 52);
+    public Dimension canvasSize = new Dimension(0, 70);
 	
 	public TimeLinePanel(PlanningView view) {
 		this.view = view;

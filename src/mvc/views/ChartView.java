@@ -1,16 +1,11 @@
 package mvc.views;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
 
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import mvc.controllers.ChartController;
 import mvc.model.Activity;
@@ -56,7 +51,7 @@ public class ChartView implements Observer {
             chartCanvas = new ChartCanvas(model, view);
             layeredPane.add(chartCanvas, JLayeredPane.FRAME_CONTENT_LAYER);
             
-            productionLineView = new ProductionLineView(model, view);
+            productionLineView = new ProductionLineView(model);
             layeredPane.add(productionLineView.getComponent(), PRODUCTION_LINE_LAYER);
 
             earliestLimit = new ChartLimiter(view, new Color(0,0,255));
@@ -105,7 +100,6 @@ public class ChartView implements Observer {
         
         ActivityHolder[] productionLines = model.getProductionLines();
         Activity[] activities;
-        Dimension size;
         Task task;
         int dragProdLine = 0;
 		

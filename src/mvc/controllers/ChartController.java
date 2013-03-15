@@ -12,6 +12,7 @@ import javax.swing.event.MouseInputListener;
 import mvc.model.Activity;
 import mvc.model.ActivityHolder;
 import mvc.model.Model;
+import mvc.views.ParkView;
 import mvc.views.Task;
 
 /**
@@ -89,7 +90,9 @@ public class ChartController implements ChangeListener, MouseInputListener {
         }
         
         if (!error && activity != null) {
-            int x = event.getComponent().getLocation().x + event.getX() - ChartView.LEFT_OFFSET;
+            int x;
+            if(communication) x = event.getComponent().getLocation().x + ParkView.LEFT_OFFSET + event.getX() - ChartView.LEFT_OFFSET;
+            else              x = event.getComponent().getLocation().x + event.getX() - ChartView.LEFT_OFFSET;
 
             if(x > 0) {
                 if (communication) x += horizontalScroll;
@@ -182,7 +185,10 @@ public class ChartController implements ChangeListener, MouseInputListener {
                     dragTaskSet  = true;
                 }
 
-                int x = e.getComponent().getLocation().x + e.getX() - ChartView.LEFT_OFFSET;
+                int x;
+                if(communication) x = e.getComponent().getLocation().x + ParkView.LEFT_OFFSET + e.getX() - ChartView.LEFT_OFFSET;
+                else              x = e.getComponent().getLocation().x + e.getX() - ChartView.LEFT_OFFSET;
+                
                 if(x > 0) {
                     if (communication) x += horizontalScroll;
 

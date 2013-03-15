@@ -1,6 +1,7 @@
 package mvc.views;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -32,6 +33,7 @@ public class Task extends JComponent
     public Task(boolean visibleInChartView)
     {
         this.visibleInChartView = visibleInChartView;
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
     }
     
     /**

@@ -25,7 +25,6 @@ public class ChartController implements ChangeListener, MouseInputListener {
 
     private PlanningView view;
     private ChartView cv;
-    private DnDController dnd;
     private Model model;
     private SelectedTaskModel selectedTaskModel;
 
@@ -42,17 +41,18 @@ public class ChartController implements ChangeListener, MouseInputListener {
     private int chartCanvasHeight;
 
     
-    public ChartController(Model model, SelectedTaskModel selectedTaskModel, DnDController dnd, ChartView cv, PlanningView view) {
-        this.dnd   = dnd;
-        this.view  = view;
-        this.cv    = cv;
-        this.model = model;
+    public ChartController(Model model, SelectedTaskModel selectedTaskModel, ChartView cv, PlanningView view) {
+        this.view              = view;
+        this.cv                = cv;
+        this.model             = model;
         this.selectedTaskModel = selectedTaskModel;
+        
         if (cv != null) {
             cv.getComponent().getViewport().addChangeListener(this);
             cv.getComponent().getViewport().addMouseListener(this);
             cv.getComponent().getViewport().addMouseMotionListener(this);
         }
+        
         horizontalScroll  = 0;
         verticalScroll    = 0;
         chartCanvasHeight = cv.getComponent().getVisibleRect().height;
@@ -132,43 +132,38 @@ public class ChartController implements ChangeListener, MouseInputListener {
     }
 
     @Override
-    public void mouseClicked(MouseEvent e){}
+    public void mouseClicked(MouseEvent e) {}
 
     @Override
-    public void mousePressed(MouseEvent e){
-        if(e.getComponent() instanceof Task)
-            //when a task is clicked or dragged, it will be highlighted
-            selectedTaskModel.setNewSelectedTask((Task)e.getComponent());
-            
-    }
+    public void mousePressed(MouseEvent e) {}
 
     @Override
     public void mouseReleased(MouseEvent e)
     {
         resetDnD();
+        if(e.getComponent() instanceof Task) {
+            selectedTaskModel.setNewSelectedTask(((Task) e.getComponent()).getActivity());
+        }
         dropEvent(e);
     }
 
     @Override
-    public void mouseEntered(MouseEvent e){}
+    public void mouseEntered(MouseEvent e) {}
 
     @Override
-    public void mouseExited(MouseEvent e){}
+    public void mouseExited(MouseEvent e) {}
 
     @Override
-    public void mouseDragged(MouseEvent e)
-    {
-        doDnD(e);
-    }
+    public void mouseDragged(MouseEvent e) { doDnD(e); }
 
     @Override
-    public void mouseMoved(MouseEvent e){}
+    public void mouseMoved(MouseEvent e) {}
 
     private void resetDnD()
     {
         dragActivity = null;
         cv.updateDragTask(null);
-        dragTaskSet = false;
+        dragTaskSet  = false;
     }
     
     private void doDnD(MouseEvent e)

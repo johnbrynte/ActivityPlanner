@@ -6,7 +6,7 @@ public class ActivityHolder {
 	private String name;
 	private ArrayList<Activity> activities;
 	
-	ActivityHolder(Model model,String name)
+	public ActivityHolder(Model model,String name)
 	{
 		this.model=model;
 		this.name=name;

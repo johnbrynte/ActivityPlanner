@@ -211,5 +211,23 @@ public class ActivityTableModel extends AbstractTableModel {
     public ArrayList<Object> getRow(int i){
         return data.get(i);
     }
+
+    public Activity getRowActivity(int viewRow)
+    {
+        return model.searchActivity((String)data.get(viewRow).get(0));
+    }
+
+    public int getRowWithActivity(Activity task)
+    {
+        if (task != null) {
+            for (int i = 0; i < data.size(); ++i) {
+                ArrayList<Object> fila = data.get(i);
+                if (((String)fila.get(0)).equals(task.getCustomer())) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
     
 }

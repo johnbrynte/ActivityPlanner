@@ -40,17 +40,17 @@ public class ActivityPlanner
     private Model model;
     private SelectedTaskModel selectedTaskModel;
     
-    public ActivityPlanner(Model model)
+    public ActivityPlanner(Model model, SelectedTaskModel taskModel)
     {
-        this.model = model;
-        selectedTaskModel = new SelectedTaskModel();
+        this.model             = model;
+        this.selectedTaskModel = taskModel;
         loadGUI();
     }
     
     private void loadGUI()
     {
         planningView  = new PlanningView(model, selectedTaskModel);
-        tableView  = new ActivityTableView(model, selectedTaskModel);
+        tableView     = new ActivityTableView(model, selectedTaskModel);
         
 
         mainWindow = new JFrame();
@@ -71,17 +71,17 @@ public class ActivityPlanner
         mainWindow.getContentPane().add(jPanelRight, java.awt.BorderLayout.CENTER);
         mainWindow.pack();
         
-        dndController    = new DnDController();
-        chartController  = new ChartController(model, selectedTaskModel, dndController, planningView.chartView, planningView);
-        parkController   = new ParkController(dndController, planningView.parkView, selectedTaskModel);
-        tableController  = new ActivityTableController(model, tableView);
+        dndController     = new DnDController();
+        chartController   = new ChartController(model, selectedTaskModel, planningView.chartView, planningView);
+        parkController    = new ParkController(dndController, planningView.parkView, selectedTaskModel);
+        tableController   = new ActivityTableController(model, selectedTaskModel, tableView);
         plTableController = new ProductionLineController(
                 model, planningView.chartView.productionLineView,
                 planningView.productionLineControlView);
         
         planningView.parkView.parkController   = parkController;
         planningView.chartView.chartController = chartController;
-        tableView.activityTableController = tableController;
+        tableView.activityTableController      = tableController;
         
         /*
          * We add the Controller of the table as an observer of the table

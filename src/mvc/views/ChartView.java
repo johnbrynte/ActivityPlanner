@@ -91,61 +91,66 @@ public class ChartView implements Observer {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-        if(o instanceof Model){
-            // Remove all tasks from the pane
-            Component[] tasks = layeredPane.getComponentsInLayer(TASK_LAYER);
-            for(Component c : tasks)
-                    layeredPane.remove(c);
+    public void update(Observable o, Object arg)
+    {
+        // Remove all tasks from the pane
+        Component[] tasks = layeredPane.getComponentsInLayer(TASK_LAYER);
+        for(Component c : tasks)
+                layeredPane.remove(c);
 
-            // removing the dnd effect auxiliar task
-            tasks = layeredPane.getComponentsInLayer(DND_EFFECT_LAYER);
-            for(Component c : tasks)
-                    layeredPane.remove(c);
+        // removing the dnd effect auxiliar task
+        tasks = layeredPane.getComponentsInLayer(DND_EFFECT_LAYER);
+        for(Component c : tasks)
+                layeredPane.remove(c);
 
-            ActivityHolder[] productionLines = model.getProductionLines();
-            Activity[] activities;
-            Task task;
-            int dragProdLine = 0;
+        ActivityHolder[] productionLines = model.getProductionLines();
+        Activity[] activities;
+        Task task;
+        int dragProdLine = 0;
 
-            // Add the tasks from the model
-            for(int i = 0; i < productionLines.length; i ++) {
-                activities = productionLines[i].getActivities();
+        // Add the tasks from the model
+        for(int i = 0; i < productionLines.length; i ++) {
+            activities = productionLines[i].getActivities();
 
-                // getting in which production line must the dnd effect auxiliar task go
-                if (dragTask != null && productionLines[i].equals(dragTask.getProductionLine())) {
-                    dragProdLine = i;
-                }
-
-                for(Activity a : activities) {
-                    task = new Task(true);
-                    task.setLocation(view.getPositionFromDate(a.getStartDate()),
-                                    PlanningView.cellHeight * i);
-                    task.setActivity(a);
-                    task.addMouseListener(chartController);
-                    task.addMouseMotionListener(chartController);
-                    task.setVisible(true);
-
-                    layeredPane.add(task, TASK_LAYER);
-
-                    earliestLimit.setLocation(
-                            view.getPositionFromDate(a.getEarliestStartDate()), 0);
-
-                    latestLimit.setLocation(
-                            view.getPositionFromDate(a.getLatestEndDate()), 0);
-                }
+            // getting in which production line must the dnd effect auxiliar task go
+            if (dragTask != null && productionLines[i].equals(dragTask.getProductionLine())) {
+                dragProdLine = i;
             }
 
-            if (dragTask != null) {
+            for(Activity a : activities) {
                 task = new Task(true);
-                task.setBounds(
-                        view.getPositionFromDate(dragTask.getStartDate()), PlanningView.cellHeight * dragProdLine,
-                        dragTask.getDateSpan() * PlanningView.cellWidth, PlanningView.cellHeight);
-                task.setContentTransparent(true);
+                task.setLocation(view.getPositionFromDate(a.getStartDate()),
+                                PlanningView.cellHeight * i);
+                task.setActivity(a);
+                task.addMouseListener(chartController);
+                task.addMouseMotionListener(chartController);
+                
+                if (a.equals(selectedTaskModel.selectedTask)) {
+                    task.selected(true);
+                }
+                
                 task.setVisible(true);
-                layeredPane.add(task, DND_EFFECT_LAYER);
+
+                layeredPane.add(task, TASK_LAYER);
+
+                earliestLimit.setLocation(
+                        view.getPositionFromDate(a.getEarliestStartDate()), 0);
+
+                latestLimit.setLocation(
+                        view.getPositionFromDate(a.getLatestEndDate()), 0);
             }
         }
+
+        if (dragTask != null) {
+            task = new Task(true);
+            task.setBounds(
+                    view.getPositionFromDate(dragTask.getStartDate()), PlanningView.cellHeight * dragProdLine,
+                    dragTask.getDateSpan() * PlanningView.cellWidth, PlanningView.cellHeight);
+            task.setContentTransparent(true);
+            task.setVisible(true);
+            layeredPane.add(task, DND_EFFECT_LAYER);
+        }
+            
         layeredPane.repaint();
         chartCanvas.repaint();
     }

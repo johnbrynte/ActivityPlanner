@@ -174,12 +174,13 @@ public class ActivityTableView implements Observer {
         return root;
     }
 
-    
     @Override
-    // OBERSERVER IMPLEMENTATION: We redraw the table.
-    public void update(Observable o, Object arg) {
-        
-        if(o instanceof Model){
+    public void update(Observable o, Object arg)
+    {
+        // the behavior separation depending on the root observable is necessary
+        // because otherwise a infinite loop is generated:
+        // update -> selectRow -> update -> selectRow -> update -> ...........
+        if (o instanceof Model) {
             // We refill the table with the data.
             ((ActivityTableModel) activityTable.getModel()).setData(model);
 
@@ -191,8 +192,15 @@ public class ActivityTableView implements Observer {
                 // This exception rises when you delete the last activity and the
                 // model gets empty.
             }
-        }else
+        }
+        else {
             //highlight the selected row !!! so when the selectedTask changes, it will be highlighted!!
-            System.out.println("The table should now highlight the row!");
+            int row = ((ActivityTableModel) activityTable.getModel()).getRowWithActivity(selectedTaskModel.selectedTask);
+            System.out.println("gonna highlight the row " + row);
+            if (row >= 0) {
+                activityTable.setRowSelectionInterval(row, row);
+                //activityTable.addRowSelectionInterval(row, row);
+            }
+        }
     }
 }

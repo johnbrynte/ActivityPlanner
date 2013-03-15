@@ -115,6 +115,10 @@ public class ActivityTableView implements Observer {
         header = activityTable.getTableHeader();
         header.setReorderingAllowed(false);         // We forbid to reorder colums.
         header.setDefaultRenderer(centerRenderer);  // Centered headers.
+        header.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                                                    // Set cursor to show more
+                                                    // explicitely that you can
+                                                    // reorder rows by the columns.
 
         // Setting the size of the columns
         for (int i=0; i < activityTable.getColumnCount(); i++){

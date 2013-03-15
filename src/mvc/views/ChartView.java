@@ -160,18 +160,6 @@ public class ChartView implements Observer {
         dragTask = dragActivity;
         this.update(null, null);
     }
-    
-    /**
-     * Sets the earliest and latest date limits from the specified activity.
-     * @param a The source acitivity.
-     */
-    public void setDateLimitsFromActivity(Activity a) {
-        earliestLimit.setLocation(
-                view.getPositionFromDate(a.getEarliestStartDate()), 0);
-
-        latestLimit.setLocation(
-                view.getPositionFromDate(a.getLatestEndDate()), 0);
-    }
 
     /**
 	 * Notifies this component that the horizontal scroll

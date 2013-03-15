@@ -96,20 +96,22 @@ public class ActivityTableView implements Observer {
             // Dimension
             activityTable.setPreferredScrollableViewportSize(new Dimension(500,100));
             activityTable.setShowVerticalLines(true);
-            // Selection mode
+            // Selection mode & backgoung color.
             activityTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            activityTable.setSelectionBackground(Color.yellow);
             // Terminate edition on focusLost so we can save the data.
             activityTable.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
             // Row sorting.
             activityTable.setAutoCreateRowSorter(true);
             // Resize mode: the table will grow if we resize the window.
-            activityTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS); 
+            activityTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);         
         ////////////////////////////////////////////////////////////////////////
         
         // Creation of the cell renderer to center the cells.
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         
+        ////////////////////////////////////////////////////////////////////////
         // Creation of the header and its properties.
         JTableHeader header = new JTableHeader();
         header = activityTable.getTableHeader();
@@ -119,6 +121,7 @@ public class ActivityTableView implements Observer {
                                                     // Set cursor to show more
                                                     // explicitely that you can
                                                     // reorder rows by the columns.
+        ////////////////////////////////////////////////////////////////////////
 
         // Setting the size of the columns
         for (int i=0; i < activityTable.getColumnCount(); i++){

@@ -79,8 +79,6 @@ public class ActivityTableController implements ListSelectionListener{
                     // also a observer.
                     
                 }
-                
-                
             }
         });
         ////////////////////////////////////////////////////////////////////////
@@ -109,12 +107,9 @@ public class ActivityTableController implements ListSelectionListener{
     @Override
     public void valueChanged(ListSelectionEvent e)
     {
-        //System.out.println("Fila seleccionada!");
         int viewRow  = tableView.activityTable.getSelectedRow();
         Activity aux = ((ActivityTableModel) tableView.activityTable.getModel()).getRowActivity(viewRow);
-        if (aux == null) {
-            System.out.println("No activity found");
-        }
+        // if aux == null -> there will be no selected task
         selectedTaskModel.setNewSelectedTask(aux);
     }
     

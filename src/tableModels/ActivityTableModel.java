@@ -27,7 +27,10 @@ public class ActivityTableModel extends AbstractTableModel {
     public String getColumnName(int i) {
     // Post: Returns the column name for the given index.
 
-        return nomColum[i];
+        if (i < nomColum.length) {
+            return nomColum[i];
+        }
+        return null;
     }
 
     @Override
@@ -44,13 +47,17 @@ public class ActivityTableModel extends AbstractTableModel {
         return data.size();
     }
 
-    //retornamos el elemento indicado
-
     @Override
     public Object getValueAt(int row, int col) {
     // Post: Returns the data value of the table for the given index.
-
-        return data.get(row).get(col);
+        
+        Object ret;
+        try {
+            ret = data.get(row).get(col);
+        } catch (IndexOutOfBoundsException ex) {
+            ret = null;
+        }
+        return ret;
     }
 
     @Override
@@ -97,10 +104,8 @@ public class ActivityTableModel extends AbstractTableModel {
                         break;
                     default:
                         break;
-                }
-                
+                }              
             }
-
         }
     }
     
@@ -151,27 +156,26 @@ public class ActivityTableModel extends AbstractTableModel {
                 default:
                     break;
             }
-
         }
-        
-        
-        
     }
 
     @Override
-    public boolean isCellEditable (int row, int column){
-    // Post: Return a boolean value, depending if you can edit the value of a
-    //       cell or not.
+    public boolean isCellEditable (int row, int column)
+    {
+        // Post: Return a boolean value, depending if you can edit the value of a
+        //       cell or not.
 
-        if (column < 4) return true; // Only the first four columns are edible.
+        if (column < 4) { return true; } // Only the first four columns are edible.
         return false;
     }
 
     @Override
     public Class getColumnClass(int c) {
     // Post: Returns the class of the column given by the index.
-
-        return getValueAt(0, c).getClass();
+        if (!data.isEmpty()) {
+            return getValueAt(0, c).getClass();
+        }
+        return String.class;
     }
 
     public void setData(Model model){
@@ -208,13 +212,26 @@ public class ActivityTableModel extends AbstractTableModel {
         }
     }
     
-    public ArrayList<Object> getRow(int i){
-        return data.get(i);
+    public ArrayList<Object> getRow(int i)
+    {
+        ArrayList<Object> ret;
+        try {
+            ret = data.get(i);
+        } catch (IndexOutOfBoundsException ex) {
+            ret = null;
+        }
+        return ret;
     }
 
     public Activity getRowActivity(int viewRow)
     {
-        return model.searchActivity((String)data.get(viewRow).get(0));
+        String name;
+        try {
+            name = (String) data.get(viewRow).get(0);
+        } catch (IndexOutOfBoundsException ex) {
+            return null;
+        }
+        return model.searchActivity(name);
     }
 
     public int getRowWithActivity(Activity task)

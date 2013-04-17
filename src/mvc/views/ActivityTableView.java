@@ -186,12 +186,7 @@ public class ActivityTableView implements Observer {
 
             // We tell the table that the data has been changed. We can't use 
             // fireTableRowsInserted since we don't know the exact index.
-            try{
-                ((AbstractTableModel) activityTable.getModel()).fireTableDataChanged();
-            } catch (IndexOutOfBoundsException ex){
-                // This exception rises when you delete the last activity and the
-                // model gets empty.
-            }
+            ((ActivityTableModel) activityTable.getModel()).fireTableDataChanged();
         }
         else {
             //highlight the selected row !!! so when the selectedTask changes, it will be highlighted!!

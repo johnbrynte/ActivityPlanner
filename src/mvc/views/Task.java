@@ -135,12 +135,10 @@ public class Task extends JComponent
         if (paintControl) {
             if (!this.transparent) {
                 // Print the "ground" color
-                if(this.isSelected) g.setColor(selected);
-                else                g.setColor(normal);
+                g.setColor(normal);
                 g.fillRect(0, 0, getWidth(), getHeight());
 
                 if(visibleInChartView) {
-
 
                     long dt;
                     int x;
@@ -166,6 +164,11 @@ public class Task extends JComponent
                         g.setColor(tooLate);
                         g.fillRect(getWidth() - x, 0, x, this.getHeight());
                     }
+                }
+                
+                if(this.isSelected) {
+                    g.setColor(selected);
+                    g.fillRect(0, 0, getWidth(), getHeight());
                 }
                 
                 // getting font dimensions

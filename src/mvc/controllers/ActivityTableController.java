@@ -48,7 +48,17 @@ public class ActivityTableController implements ListSelectionListener{
                 // Customer: Cust_XX        DateSpan: 1
                 // EarlistStartDay: today   EarlistEndDay: one week after.
                 GregorianCalendar todaysDay = new GregorianCalendar();
+                todaysDay.set(
+                    todaysDay.get(GregorianCalendar.YEAR),
+                    todaysDay.get(GregorianCalendar.MONTH),
+                    todaysDay.get(GregorianCalendar.DATE), 0, 0, 0);
+                todaysDay.set(GregorianCalendar.MILLISECOND, 0);
                 GregorianCalendar nextWeekDay = new GregorianCalendar();
+                nextWeekDay.set(
+                    nextWeekDay.get(GregorianCalendar.YEAR),
+                    nextWeekDay.get(GregorianCalendar.MONTH),
+                    nextWeekDay.get(GregorianCalendar.DATE), 0, 0, 0);
+                nextWeekDay.set(GregorianCalendar.MILLISECOND, 0);
                 nextWeekDay.add(Calendar.DATE, 7);
                 
                 nameActivityCounter++;

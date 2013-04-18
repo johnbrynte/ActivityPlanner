@@ -10,6 +10,7 @@ import java.awt.geom.Rectangle2D;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import mvc.model.Activity;
 
@@ -159,16 +160,11 @@ public class Task extends JComponent
 
                         dt = task.getEndDate().getTimeInMillis()
                                 - task.getLatestEndDate().getTimeInMillis();
-                        x = (int) (PlanningView.cellWidth * ((dt / DAY_IN_MILLIS) + 1));
+                        x = (int) (PlanningView.cellWidth * (dt / DAY_IN_MILLIS));
 
                         g.setColor(tooLate);
                         g.fillRect(getWidth() - x, 0, x, this.getHeight());
                     }
-                }
-                
-                if(this.isSelected) {
-                    g.setColor(selected);
-                    g.fillRect(0, 0, getWidth(), getHeight());
                 }
                 
                 // getting font dimensions
@@ -206,7 +202,13 @@ public class Task extends JComponent
             }
 
             // drawing the outer rectangle
-            g.setColor(border);
+            if(this.isSelected) {
+                // draw a thicker yellow line if it is selected
+                g.setColor(selected);
+                g.drawRect(1, 1, this.getWidth() - 3, this.getHeight() - 3);
+            } else {
+                g.setColor(border);
+            }
             g.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
         }
     }

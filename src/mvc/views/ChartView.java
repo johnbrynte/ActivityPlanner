@@ -2,6 +2,8 @@ package mvc.views;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -116,6 +118,12 @@ public class ChartView implements Observer {
             if (dragTask != null && productionLines[i].equals(dragTask.getProductionLine())) {
                 dragProdLine = i;
             }
+            
+            // hide the limits if no task is selected
+            if (selectedTaskModel.selectedTask == null) {
+                earliestLimit.setVisible(false);
+                latestLimit.setVisible(false);
+            }
 
             for(Activity a : activities) {
                 task = new Task(true);
@@ -130,9 +138,11 @@ public class ChartView implements Observer {
                     
                     earliestLimit.setLocation(
                         view.getPositionFromDate(a.getEarliestStartDate()), 0);
+                    earliestLimit.setVisible(true);
 
                     latestLimit.setLocation(
                         view.getPositionFromDate(a.getLatestEndDate()), 0);
+                    latestLimit.setVisible(true);
                 }
                 
                 task.setVisible(true);

@@ -3,6 +3,7 @@ package mvc.controllers;
 import mvc.views.PlanningView;
 import mvc.views.ChartView;
 import java.awt.event.MouseEvent;
+import java.awt.Point;
 import java.util.GregorianCalendar;
 
 import javax.swing.JScrollPane;
@@ -39,6 +40,8 @@ public class ChartController implements ChangeListener, MouseInputListener {
     private int horizontalScroll;
     private int verticalScroll;
     private int chartCanvasHeight;
+    
+    private Point mouseStartPosition;
 
     
     public ChartController(Model model, SelectedTaskModel selectedTaskModel, ChartView cv, PlanningView view) {
@@ -94,8 +97,18 @@ public class ChartController implements ChangeListener, MouseInputListener {
         
         if (!error && activity != null) {
             int x;
-            if(communication) x = event.getComponent().getLocation().x + ParkView.LEFT_OFFSET + event.getX() - ChartView.LEFT_OFFSET;
-            else              x = event.getComponent().getLocation().x + event.getX() - ChartView.LEFT_OFFSET;
+            
+            if(communication) {
+                x = event.getComponent().getLocation().x + ParkView.LEFT_OFFSET + event.getX() - ChartView.LEFT_OFFSET;
+            } else {
+                if(mouseStartPosition != null) {
+                    // calculate the relative mouse position
+                    int dx = mouseStartPosition.x - ((int) (Math.floor(mouseStartPosition.x / PlanningView.cellWidth) * PlanningView.cellWidth));
+                    x = event.getComponent().getLocation().x + dx + event.getX() - mouseStartPosition.x - ChartView.LEFT_OFFSET;
+                } else {
+                    x = event.getComponent().getLocation().x + event.getX() - ChartView.LEFT_OFFSET;
+                }
+            }
 
             if(x > 0) {
                 if (communication) x += horizontalScroll;
@@ -135,7 +148,10 @@ public class ChartController implements ChangeListener, MouseInputListener {
     public void mouseClicked(MouseEvent e) {}
 
     @Override
-    public void mousePressed(MouseEvent e) {}
+    public void mousePressed(MouseEvent e) {
+        // save the mouse click starting position
+        mouseStartPosition = e.getPoint();
+    }
 
     @Override
     public void mouseReleased(MouseEvent e)
@@ -168,6 +184,7 @@ public class ChartController implements ChangeListener, MouseInputListener {
     
     private void doDnD(MouseEvent e)
     {
+        //System.out.println(e.getX() + ", " + e.getY());
         if (communication) {
             Activity activity = null;
             boolean error = false;
@@ -187,10 +204,13 @@ public class ChartController implements ChangeListener, MouseInputListener {
 
                     dragTaskSet  = true;
                 }
-
+                
                 int x;
-                if(communication) x = e.getComponent().getLocation().x + ParkView.LEFT_OFFSET + e.getX() - ChartView.LEFT_OFFSET;
-                else              x = e.getComponent().getLocation().x + e.getX() - ChartView.LEFT_OFFSET;
+                if(communication) {
+                    x = e.getComponent().getLocation().x + ParkView.LEFT_OFFSET + e.getX() - ChartView.LEFT_OFFSET;
+                } else {  
+                    x = e.getComponent().getLocation().x + e.getX() - ChartView.LEFT_OFFSET;
+                }
                 
                 if(x > 0) {
                     if (communication) x += horizontalScroll;
